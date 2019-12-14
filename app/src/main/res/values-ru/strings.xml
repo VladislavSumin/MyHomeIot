@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyHomeIot</string>
+    <string name="welcome">Добро пожаловать</string>
+    <string name="frw_accept_pivacy_policy_text">Я принемаю политику конфиденциальности</string>
+    <string name="next">Далее</string>
+</resources>

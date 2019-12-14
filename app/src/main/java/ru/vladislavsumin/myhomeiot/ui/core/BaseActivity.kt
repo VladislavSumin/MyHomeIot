@@ -9,13 +9,27 @@ import androidx.annotation.UiThread
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import moxy.MvpAppCompatActivity
+import ru.vladislavsumin.myhomeiot.app.Injector
+import ru.vladislavsumin.myhomeiot.domain.privacy.PrivacyPolicyInterractor
+import ru.vladislavsumin.myhomeiot.ui.frw.FrwActivity
+import javax.inject.Inject
 
 abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
     private val disposables = CompositeDisposable()
 
+    @Inject
+    lateinit var mPrivacyPolicyInterractor: PrivacyPolicyInterractor
+
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Injector.inject(this)
+
+        if (!mPrivacyPolicyInterractor.isPrivacyPolicyAccepted() && this !is FrwActivity) {
+            startActivity(FrwActivity.getLaunchIntent(this))
+            finish()
+        }
     }
 
     @UiThread
