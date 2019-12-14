@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <TextView
+        style="?uiCoreTextHuge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
@@ -28,11 +29,11 @@
 
     <Button
         android:id="@+id/activity_frw_next_btn"
+        style="?uiCoreButtonDefault"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp25"
         android:enabled="false"
-        android:minWidth="200dp"
         android:text="@string/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
