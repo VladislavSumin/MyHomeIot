@@ -4,6 +4,7 @@ import dagger.Component
 import ru.vladislavsumin.myhomeiot.domain.DomainModule
 import ru.vladislavsumin.myhomeiot.strorage.StorageModule
 import ru.vladislavsumin.myhomeiot.ui.core.BaseActivity
+import ru.vladislavsumin.myhomeiot.ui.frw.FrwPresenter
 import javax.inject.Singleton
 
 
@@ -18,4 +19,6 @@ import javax.inject.Singleton
 @Singleton
 interface AppComponent {
     fun inject(activity: BaseActivity)
+
+    fun inject(presenter: FrwPresenter)
 }
