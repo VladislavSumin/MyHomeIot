@@ -13,18 +13,18 @@ androidExtensions {
 }
 
 android {
-    //TODO вынести все переменные в конфиг
+    val pVersionCode: String by project
+    val pVersionName: String by project
+
     compileSdkVersion(29)
     defaultConfig {
         applicationId = "ru.vladislavsumin.myhome"
         minSdkVersion(21)
         targetSdkVersion(29)
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = pVersionCode.toInt()
+        versionName = pVersionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
-//    dataBinding { isEnabled = true }
 
     signingConfigs {
         create("shared") {
@@ -37,9 +37,8 @@ android {
 
     buildTypes {
         getByName("release") {
-            //TODO rename to release pure
             isMinifyEnabled = true
-            isDebuggable = true
+            isDebuggable = false
             signingConfig = signingConfigs.getByName("shared")
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
