@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Style.UiCore.Button" />
+    <style name="Style.UiCore.Button">
+        <item name="android:paddingTop">@dimen/dp10</item>
+        <item name="android:paddingBottom">@dimen/dp10</item>
+        <item name="android:paddingStart">@dimen/dp16</item>
+        <item name="android:paddingEnd">@dimen/dp16</item>
 
-    <style name="Style.UiCore.Button.ColoredBackground" />
+        <item name="android:minHeight">@dimen/dp0</item>
+        <item name="android:minWidth">@dimen/dp0</item>
 
-    <style name="Style.UiCore.Button.ColoredText" />
+        <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:background">@drawable/button_background</item>
+    </style>
 
-    <style name="Style.UiCore.Button.Flat" />
+
+    <!-- Вот эта фигня не работает, что делать? -->
+    <!--<item name="uiCoreNormalButtonColor">@color/uiCoreBlack</item>-->
+    <style name="Style.UiCore.Button.Default">
+    </style>
+
+    <!--    <style name="Style.UiCore.Button.ColoredText" />-->
+
+    <!--    <style name="Style.UiCore.Button.Flat" />-->
 </resources>

@@ -5,20 +5,40 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/uiCoreGreen</item>
         <item name="colorPrimaryDark">@color/uiCoreGreenDark</item>
-        <item name="colorAccent">@color/uiCoreGreenDark</item>
+        <item name="colorAccent">@color/uiCoreGreen</item>
     </style>
 
 
     <style name="Theme.UiCore.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="uiCoreTextPrimaryColor">@color/uiCoreBlack</item>
 
+        <item name="uiCoreNormalButtonColor">@color/uiCoreGreen</item>
+
+        <item name="uiCoreButtonSecondColor">@color/uiCoreWhite</item>
+        <item name="uiCoreDisabledButtonBackgroundColor">@color/uiCoreGrayAlpha50</item>
+        <item name="uiCoreDisabledButtonTextColor">@color/uiCoreGrayDark</item>
+
+        <item name="uiCoreRippleAlpha">@color/uiCoreAlphaLight</item>
+
         <item name="uiCoreTextHuge">@style/Style.UiCore.Text.Huge</item>
+
+        <item name="uiCoreButtonDefault">@style/Style.UiCore.Button.Default</item>
     </style>
 
     <style name="Theme.UiCore.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="uiCoreTextPrimaryColor">@color/uiCoreWhite</item>
 
+        <item name="uiCoreNormalButtonColor">@color/uiCoreGreenNight</item>
+
+        <item name="uiCoreButtonSecondColor">@color/uiCoreWhite</item>
+        <item name="uiCoreDisabledButtonBackgroundColor">@color/uiCoreGrayAlpha50</item>
+        <item name="uiCoreDisabledButtonTextColor">@color/uiCoreGrayDark</item>
+
+        <item name="uiCoreRippleAlpha">@color/uiCoreAlphaDark</item>
+
         <item name="uiCoreTextHuge">@style/Style.UiCore.Text.Huge</item>
+
+        <item name="uiCoreButtonDefault">@style/Style.UiCore.Button.Default</item>
     </style>
 
     <style name="Theme.UiCore.DayNight" parent="Theme.UiCore.Light" />

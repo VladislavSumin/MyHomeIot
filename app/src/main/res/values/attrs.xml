@@ -4,9 +4,15 @@
 
     <attr name="uiCoreNormalButtonColor" format="color" />
 
-    <attr name="uiCoreButtonBackgroundColor" format="color" />
+    <attr name="uiCoreButtonSecondColor" format="color" />
     <attr name="uiCoreDisabledButtonBackgroundColor" format="color" />
     <attr name="uiCoreDisabledButtonTextColor" format="color" />
+
+    <attr name="uiCoreRippleAlpha" format="color" />
+
+    <attr name="uiKitInternalEnabledButtonTextColor" format="reference"/>
+
+    <attr name="uiCoreButtonDefault" format="reference"/>
 
     <attr name="uiCoreTextHuge" format="reference" />
 </resources>
