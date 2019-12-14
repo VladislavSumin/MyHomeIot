@@ -18,7 +18,7 @@ android {
 
     compileSdkVersion(29)
     defaultConfig {
-        applicationId = "ru.vladislavsumin.myhome"
+        applicationId = "ru.vladislavsumin.myhomeiot"
         minSdkVersion(21)
         targetSdkVersion(29)
         versionCode = pVersionCode.toInt()
