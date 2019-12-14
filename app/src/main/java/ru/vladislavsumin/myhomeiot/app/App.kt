@@ -4,12 +4,23 @@ import android.app.Application
 import android.util.Log
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
+import ru.vladislavsumin.myhomeiot.domain.firebase.FirebaseInterractor
+import javax.inject.Inject
 
 class App : Application() {
+    @Inject
+    lateinit var mFirebaseInterractor: FirebaseInterractor
+
     override fun onCreate() {
         super.onCreate()
         setupRxJava()
         initDagger()
+        Injector.inject(this)
+        autoRun()
+    }
+
+    private fun autoRun() {
+        mFirebaseInterractor.start()
     }
 
     private fun setupRxJava() {

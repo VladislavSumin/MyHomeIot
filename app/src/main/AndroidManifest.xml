@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ru.vladislavsumin.myhomeiot">
 
+
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -22,6 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:authorities="${applicationId}.firebaseinitprovider"
+            tools:node="remove"
+            android:exported="false" />
 
     </application>
 </manifest>
