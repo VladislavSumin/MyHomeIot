@@ -91,6 +91,7 @@ dependencies {
 //        implementation(retrofit)
 //        implementation(retrofitAdapterRxJava)
 //        implementation(retrofitConverterGson)
+        implementation("com.google.firebase:firebase-analytics:17.2.0")
 
         //leakcanary
 //        debugImplementation("com.squareup.leakcanary:leakcanary-android:2.0-alpha-3")
@@ -122,4 +123,8 @@ dependencies {
         implementation(roomRxJava)
 //    testImplementation("androidx.room:room-testing:2.1.0-alpha04")
     }
+}
+
+apply{
+    plugin("com.google.gms.google-services")
 }
