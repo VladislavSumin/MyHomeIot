@@ -18,6 +18,8 @@ import javax.inject.Singleton
 )
 @Singleton
 interface AppComponent {
+    fun inject(app: App)
+
     fun inject(activity: BaseActivity)
 
     fun inject(presenter: FrwPresenter)
