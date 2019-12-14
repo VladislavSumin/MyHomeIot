@@ -3,7 +3,9 @@ package ru.vladislavsumin.myhomeiot.domain.firebase.impl
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
+import com.crashlytics.android.Crashlytics
 import com.google.firebase.FirebaseApp
+import io.fabric.sdk.android.Fabric
 import ru.vladislavsumin.myhomeiot.domain.firebase.FirebaseInterractor
 import ru.vladislavsumin.myhomeiot.domain.privacy.PrivacyPolicyInterractor
 import ru.vladislavsumin.myhomeiot.utils.observeOnIo
@@ -24,11 +26,13 @@ class FirebaseInterractorImpl(
             .firstOrError()
             .ignoreElement()
             .observeOnIo()
-            .subscribe(this::init)
+            .subscribe {
+                initFirebaseApp()
+                initCrashlytics()
+            }
     }
 
-
-    private fun init() {
+    private fun initFirebaseApp() {
         Log.i(TAG, "Initializing FirebaseApp")
         val initializeApp = FirebaseApp.initializeApp(mContext)
         if (initializeApp != null) {
@@ -37,4 +41,11 @@ class FirebaseInterractorImpl(
             Log.e(TAG, "FirebaseApp initialization unsuccessful")
         }
     }
+
+    private fun initCrashlytics() {
+        Log.i(TAG, "Initializing Crashlytics")
+        Fabric.with(mContext, Crashlytics())
+        Log.i(TAG, "Crashlytics initialization end")
+    }
+
 }

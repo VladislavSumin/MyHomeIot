@@ -6,11 +6,13 @@ buildscript {
         google()
         jcenter()
         maven(url = "https://kotlin.bintray.com/kotlinx/")
+        maven(url = "https://maven.fabric.io/public")
     }
     dependencies {
         classpath("com.android.tools.build:gradle:3.5.3")
         classpath(kotlin("gradle-plugin", version = "1.3.61"))
         classpath("com.google.gms:google-services:4.3.3")
+        classpath("io.fabric.tools:gradle:1.31.2")
     }
 }
 
