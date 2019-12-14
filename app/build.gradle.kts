@@ -58,6 +58,8 @@ android {
     }
 }
 
+
+
 dependencies {
     Dependencies.apply {
         //        implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
@@ -93,7 +95,7 @@ dependencies {
         //leakcanary
 //        debugImplementation("com.squareup.leakcanary:leakcanary-android:2.0-alpha-3")
 
-        testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
+        testImplementation("junit:junit:4.12")
         testImplementation("org.mockito:mockito-core:3.2.0")
 
         androidTestImplementation("androidx.test:runner:1.2.0")
