@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Style.UiCore.Text" >
+        <item name="android:textColor">?uiCoreTextPrimaryColor</item>
+    </style>
+
+    <style name="Style.UiCore.Text.Huge">
+        <item name="android:textSize">@dimen/sp30</item>
+    </style>
+</resources>

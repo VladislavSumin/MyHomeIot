@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Style.UiCore.Button" />
+
+    <style name="Style.UiCore.Button.ColoredBackground" />
+
+    <style name="Style.UiCore.Button.ColoredText" />
+
+    <style name="Style.UiCore.Button.Flat" />
+</resources>

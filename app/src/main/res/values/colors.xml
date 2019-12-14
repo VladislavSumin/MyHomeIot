@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="uiCoreWhite">#FFFFFF</color>
+    <color name="uiCoreBlack">#000000</color>
+
+    <color name="uiCoreGreen">#006D5C</color>
+    <color name="uiCoreGreenDark">#005448</color>
+
+    <color name="uiCoreGray">#CCCCCC</color>
+    <color name="uiCoreGrayAlpha50">#80CCCCCC</color>
+
+<!--    <color name="uiCore_dark_gray">#999999</color>-->
+<!--    <color name="uiCore_dark_gray_text">#666666</color>-->
+<!--    <color name="uiCore_light_gray_text">#8d8d93</color>-->
+<!--    <color name="uiCore_black">#333333</color>-->
+<!--    <color name="uiCore_base_green_night">#00A88E</color>-->
+<!--    <color name="uiCore_contrast_green">#009982</color>-->
+<!--    <color name="uiCore_rest_red">#ED2939</color>-->
+<!--    <color name="uiCore_active_red">#DA1F2E</color>-->
+<!--    <color name="uiCore_rest_orange">#FFAA00</color>-->
+<!--    <color name="uiCore_active_orange">#E9980A</color>-->
+<!--    <color name="uiCore_background_disabled_dark">#3D3D40</color>-->
 </resources>

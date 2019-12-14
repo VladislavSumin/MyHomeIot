@@ -1,11 +1,28 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.UiCore.DayNight">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/uiCoreGreen</item>
+        <item name="colorPrimaryDark">@color/uiCoreGreenDark</item>
+        <item name="colorAccent">@color/uiCoreGreenDark</item>
     </style>
+
+
+    <style name="Theme.UiCore.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="uiCoreTextPrimaryColor">@color/uiCoreBlack</item>
+
+        <item name="uiCoreTextHuge">@style/Style.UiCore.Text.Huge</item>
+    </style>
+
+    <style name="Theme.UiCore.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="uiCoreTextPrimaryColor">@color/uiCoreWhite</item>
+
+        <item name="uiCoreTextHuge">@style/Style.UiCore.Text.Huge</item>
+    </style>
+
+    <style name="Theme.UiCore.DayNight" parent="Theme.UiCore.Light" />
+
+    <style name="Style.UiCore" parent="" />
 
 </resources>

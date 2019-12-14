@@ -2,4 +2,6 @@
 <resources>
     <dimen name="dp16">16dp</dimen>
     <dimen name="dp25">25dp</dimen>
+
+    <dimen name="sp30">30sp</dimen>
 </resources>

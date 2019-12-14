@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="uiCoreTextPrimaryColor" format="color" />
+
+    <attr name="uiCoreNormalButtonColor" format="color" />
+
+    <attr name="uiCoreButtonBackgroundColor" format="color" />
+    <attr name="uiCoreDisabledButtonBackgroundColor" format="color" />
+    <attr name="uiCoreDisabledButtonTextColor" format="color" />
+
+    <attr name="uiCoreTextHuge" format="reference" />
+</resources>
