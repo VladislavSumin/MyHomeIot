@@ -1,6 +1,7 @@
 package ru.vladislavsumin.myhomeiot.app
 
 import dagger.Component
+import ru.vladislavsumin.myhomeiot.database.DatabaseModule
 import ru.vladislavsumin.myhomeiot.domain.DomainModule
 import ru.vladislavsumin.myhomeiot.strorage.StorageModule
 import ru.vladislavsumin.myhomeiot.ui.core.BaseActivity
@@ -12,6 +13,7 @@ import javax.inject.Singleton
     modules = [
         AppModule::class,
         AndroidServiceModule::class,
+        DatabaseModule::class,
         DomainModule::class,
         StorageModule::class
     ]
