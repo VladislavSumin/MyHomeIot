@@ -3,4 +3,17 @@
     <string name="welcome">Welcome</string>
     <string name="next">Next</string>
     <string name="frw_accept_pivacy_policy_text">I accept the privacy policy</string>
+
+
+    <string name="lamp_ip_address">Lamp ip address</string>
+    <string name="lamp_port">Lamp port</string>
+    <string name="default_port_8888" translatable="false">8888</string>
+    <string name="check_connection">Check connection</string>
+
+    <string name="check_connection_status_checking">Checking connection…</string>
+    <string name="check_connection_status_failed">Connection check failed</string>
+    <string name="check_connection_status_incorrect_data">Incorrect data, please check ip and port</string>
+    <string name="check_connection_status_success">Connection check success</string>
+    <string name="add">Add</string>
+    <string name="name">Name</string>
 </resources>

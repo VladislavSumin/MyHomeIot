@@ -24,6 +24,11 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.lamp.control.GyverLampControlActivity" />
+        <activity
+            android:name=".ui.lamp.manage.AddGyverLampActivity"
+            android:windowSoftInputMode="adjustResize" />
+
         <!-- Disable Google Analytics aka FirebaseApp -->
         <provider
             android:name="com.google.firebase.provider.FirebaseInitProvider"
