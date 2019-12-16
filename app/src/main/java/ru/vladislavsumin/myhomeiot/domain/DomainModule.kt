@@ -83,7 +83,10 @@ class DomainModule {
 
     @Provides
     @Singleton
-    fun provideGyverLampConnectionFactory(): GyverLampConnectionFactory {
-        return GyverLampConnectionFactoryImpl()
+    fun provideGyverLampConnectionFactory(
+        socketProvider: SocketProvider,
+        gyverLampProtocol: GyverLampProtocol
+    ): GyverLampConnectionFactory {
+        return GyverLampConnectionFactoryImpl(socketProvider, gyverLampProtocol)
     }
 }

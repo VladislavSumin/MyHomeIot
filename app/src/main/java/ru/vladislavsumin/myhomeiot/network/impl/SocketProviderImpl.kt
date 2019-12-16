@@ -4,7 +4,7 @@ import ru.vladislavsumin.myhomeiot.network.SocketProvider
 import java.net.DatagramSocket
 
 class SocketProviderImpl : SocketProvider {
-    override fun getDatagramSocket(): DatagramSocket {
+    override fun createDatagramSocket(): DatagramSocket {
         return DatagramSocket()
     }
 }

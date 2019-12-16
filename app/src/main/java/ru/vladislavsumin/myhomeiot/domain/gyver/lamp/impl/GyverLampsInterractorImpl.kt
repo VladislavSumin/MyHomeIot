@@ -63,7 +63,7 @@ class GyverLampsInterractorImpl(
 
     override fun checkConnection(host: InetAddress, port: Int, timeout: Int): Completable {
         return Completable.create { emitter ->
-            mSocketProvider.getDatagramSocket().use { socket ->
+            mSocketProvider.createDatagramSocket().use { socket ->
                 // Send hello package
                 val helloPacket = mGyverLampProtocol.getRequest().toDatagramPacket()
                 helloPacket.address = host

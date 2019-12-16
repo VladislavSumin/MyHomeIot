@@ -21,8 +21,12 @@ class NetworkConnectivityManagerImpl(
     private val mNetworkConnectedObservable: Observable<Boolean> =
         createNetworkConnectedObservable()
             .distinctUntilChanged()
-            .doOnSubscribe { Log.d(TAG, "start monitoring network") }
-            .doOnNext { Log.d(TAG, "connection state: $it") }
+            .doOnSubscribe {
+                Log.d("AAAA CASE B", "onSubscribe()")
+                Log.d(TAG, "start monitoring network") }
+            .doOnNext {
+                Log.d("AAAA CASE B", "onNext()")
+                Log.d(TAG, "connection state: $it") }
             .doOnDispose { Log.d(TAG, "stop monitoring network") }
             .replay(1)
             .refCount()

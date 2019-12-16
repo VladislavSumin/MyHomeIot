@@ -1,5 +1,6 @@
 package ru.vladislavsumin.myhomeiot.domain.gyver.lamp.impl
 
+import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampInterractor
@@ -9,6 +10,7 @@ import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnect
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
 import ru.vladislavsumin.myhomeiot.network.NetworkConnectivityManager
 import ru.vladislavsumin.myhomeiot.utils.subscribeOnIo
+import ru.vladislavsumin.myhomeiot.utils.tag
 
 class GyverLampInterractorImpl(
     gyverLampId: Long,
@@ -16,6 +18,9 @@ class GyverLampInterractorImpl(
     mNetworkConnectivityManager: NetworkConnectivityManager,
     mGyverLampConnectionFactory: GyverLampConnectionFactory
 ) : GyverLampInterractor {
+    companion object {
+        private val TAG = tag<GyverLampInterractor>()
+    }
 
     private val mConnectionObservable: Observable<GyverLampConnection> =
         Observables
@@ -24,17 +29,19 @@ class GyverLampInterractorImpl(
                 mGyverLampManager.observeLamp(gyverLampId).toObservable(),
                 mNetworkConnectivityManager.observeNetworkConnected()
             ) { entity, connectivityStatus ->
+                Log.d("AAAA CASE С", "MAPING")
                 Pair(entity, connectivityStatus)
             }
             .switchMap { (gyverLampEntity, connectivityStatus) ->
-                //TODO
+
                 if (connectivityStatus) {
-                    Observable.just(mGyverLampConnectionFactory.create())
+                    Observable.just(mGyverLampConnectionFactory.create(gyverLampEntity))
                 } else {
                     Observable.just(mGyverLampConnectionFactory.createNetworkUnavailableSate())
                 }
             }
             .subscribeOnIo()
+            .startWith(mGyverLampConnectionFactory.createLoadingSate())
             .replay(1)
             .refCount()
 
