@@ -4,4 +4,13 @@
     <string name="welcome">Добро пожаловать</string>
     <string name="frw_accept_pivacy_policy_text">Я принимаю политику конфиденциальности</string>
     <string name="next">Далее</string>
+    <string name="add">Добавить</string>
+    <string name="check_connection">Проверить соединение</string>
+    <string name="check_connection_status_checking">Проверка соединения</string>
+    <string name="check_connection_status_failed">Не удалось соединиться</string>
+    <string name="check_connection_status_incorrect_data">Не корректные данные, пожалуйста проверьте ip адрес и порт</string>
+    <string name="check_connection_status_success">Соединение успешно</string>
+    <string name="lamp_ip_address">Ip адрес лампы</string>
+    <string name="lamp_port">Порт лампы</string>
+    <string name="name">Имя</string>
 </resources>
