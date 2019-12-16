@@ -3,6 +3,7 @@ package ru.vladislavsumin.myhomeiot.app
 import dagger.Component
 import ru.vladislavsumin.myhomeiot.database.DatabaseModule
 import ru.vladislavsumin.myhomeiot.domain.DomainModule
+import ru.vladislavsumin.myhomeiot.network.NetworkModule
 import ru.vladislavsumin.myhomeiot.strorage.StorageModule
 import ru.vladislavsumin.myhomeiot.ui.core.BaseActivity
 import ru.vladislavsumin.myhomeiot.ui.frw.FrwPresenter
@@ -15,6 +16,7 @@ import javax.inject.Singleton
         AndroidServiceModule::class,
         DatabaseModule::class,
         DomainModule::class,
+        NetworkModule::class,
         StorageModule::class
     ]
 )
