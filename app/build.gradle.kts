@@ -14,7 +14,8 @@ androidExtensions {
 
 android {
     val pVersionCode: String by project
-    val pVersionName: String by project
+    val pVersionNamePrefix: String by project
+    val pBuildAgent: String by project
 
     compileSdkVersion(29)
     defaultConfig {
@@ -22,7 +23,7 @@ android {
         minSdkVersion(21)
         targetSdkVersion(29)
         versionCode = pVersionCode.toInt()
-        versionName = pVersionName
+        versionName = "$pVersionNamePrefix.$pVersionCode-$pBuildAgent"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -37,6 +38,7 @@ android {
 
     buildTypes {
         getByName("release") {
+            versionNameSuffix = "-release"
             isMinifyEnabled = true
             isDebuggable = false
             signingConfig = signingConfigs.getByName("shared")
@@ -44,6 +46,7 @@ android {
         }
 
         getByName("debug") {
+            versionNameSuffix = "-debug"
             signingConfig = signingConfigs.getByName("shared")
         }
     }
@@ -128,7 +131,7 @@ dependencies {
     }
 }
 
-apply{
+apply {
     plugin("com.google.gms.google-services")
     plugin("io.fabric")
 }
