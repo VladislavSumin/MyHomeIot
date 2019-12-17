@@ -12,20 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/activity_gyver_lamp_control_on_off"
-            android:tint="@color/button_text_color"
-            android:background="@drawable/button_lamp_background"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="@dimen/default_margin"
-            android:padding="6dp"
-            android:scaleType="fitXY"
-            app:fabSize="normal"
-            android:src="@drawable/ic_power"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/activity_gyver_lamp_control_state"
@@ -45,6 +31,54 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="status" />
 
+        <SeekBar
+            android:id="@+id/activity_gyver_lamp_control_scale"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_speed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <SeekBar
+            android:id="@+id/activity_gyver_lamp_control_speed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_brightness"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <SeekBar
+            android:id="@+id/activity_gyver_lamp_control_brightness"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_on_off"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:elevation="5dp"
+            android:id="@+id/activity_gyver_lamp_control_on_off"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:background="@drawable/button_lamp_background"
+            android:padding="6dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_power"
+            android:tint="@color/button_text_color"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
