@@ -52,23 +52,19 @@ class GyverLampInterractorImpl(
             .switchMap { it.observeConnection() }
     }
 
-    //TODO убрать дублирующий код
+    override fun observeChangeEnabledState(setEnabled: Boolean): Single<GyverLampState> {
+        return if (setEnabled) observeTurnOn() else observeTurnOff()
+    }
+
     override fun observeTurnOff(): Single<GyverLampState> {
-        return mConnectionObservable
-            .map { Pair(it, it.observeConnectionStatus()) }
-            .flatMapSingle { pair ->
-                pair.second
-                    .filter { it != GyverLampConnectionState.LOADING }
-                    .firstOrError()
-                    .map { pair.first }
-            }
-            .firstOrError()
-            .flatMap {
-                it.addRequest(mGyverLampProtocol.getOffRequest())
-            }
+        return observeRequest(mGyverLampProtocol.getOffRequest())
     }
 
     override fun observeTurnOn(): Single<GyverLampState> {
+        return observeRequest(mGyverLampProtocol.getOnRequest())
+    }
+
+    private fun observeRequest(request: String): Single<GyverLampState> {
         return mConnectionObservable
             .map { Pair(it, it.observeConnectionStatus()) }
             .flatMapSingle { pair ->
@@ -79,7 +75,7 @@ class GyverLampInterractorImpl(
             }
             .firstOrError()
             .flatMap {
-                it.addRequest(mGyverLampProtocol.getOnRequest())
+                it.addRequest(request)
             }
     }
 }

@@ -14,6 +14,8 @@ import javax.inject.Inject
 class GyverLampControlPresenter(private val mGyverLampId: Long) :
     BasePresenter<GyverLampControlView>() {
 
+    //TODO сделать один ViewState!
+
     @Inject
     lateinit var mGyverLampsInterractor: GyverLampsInterractor
 
