@@ -1,5 +1,6 @@
 package ru.vladislavsumin.myhomeiot.ui.lamp.control
 
+import io.reactivex.disposables.Disposable
 import moxy.InjectViewState
 import ru.vladislavsumin.myhomeiot.app.Injector
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampInterractor
@@ -22,6 +23,9 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
     private lateinit var mGyverLampInterractor: GyverLampInterractor
 
     private var mGyverLampState: GyverLampState? = null
+    private var mChangeBrightnessDisposable: Disposable? = null
+    private var mChangeScaleDisposable: Disposable? = null
+    private var mChangeSpeedDisposable: Disposable? = null
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -55,5 +59,39 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
                     .autoDispose()
             }
         }
+    }
+
+    override fun onDestroy() {
+        mChangeBrightnessDisposable?.dispose()
+        mChangeScaleDisposable?.dispose()
+        mChangeSpeedDisposable?.dispose()
+        super.onDestroy()
+    }
+
+    fun onChangeBrightness(brightness: Int) {
+        val lampState = mGyverLampState ?: return
+        if (lampState.brightness == brightness) return
+
+        mChangeBrightnessDisposable?.dispose()
+        mChangeBrightnessDisposable = mGyverLampInterractor.observeChangeBrightness(brightness)
+            .subscribe({}, {})
+    }
+
+    fun onChangeScale(scale: Int) {
+        val lampState = mGyverLampState ?: return
+        if (lampState.scale == scale) return
+
+        mChangeScaleDisposable?.dispose()
+        mChangeScaleDisposable = mGyverLampInterractor.observeChangeScale(scale)
+            .subscribe({}, {})
+    }
+
+    fun onChangeSpeed(speed: Int) {
+        val lampState = mGyverLampState ?: return
+        if (lampState.speed == speed) return
+
+        mChangeSpeedDisposable?.dispose()
+        mChangeSpeedDisposable = mGyverLampInterractor.observeChangeSpeed(speed)
+            .subscribe({}, {})
     }
 }

@@ -1,5 +1,6 @@
 package ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.impl
 
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnection
@@ -11,7 +12,7 @@ class GyverLampConnectionStateNetworkUnavailableImpl : GyverLampConnectionAbstra
         return Observable.just(Pair(GyverLampConnectionState.NETWORK_UNAVAILABLE, null))
     }
 
-    override fun addRequest(request: String): Single<GyverLampState> {
-        return Single.error(GyverLampConnection.CannotConnectException())
+    override fun addRequest(request: String): Completable {
+        return Completable.error(GyverLampConnection.CannotConnectException())
     }
 }
