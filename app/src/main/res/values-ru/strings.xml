@@ -13,4 +13,5 @@
     <string name="lamp_ip_address">Ip адрес лампы</string>
     <string name="lamp_port">Порт лампы</string>
     <string name="name">Имя</string>
+    <string name="app_version">Версия: %s</string>
 </resources>

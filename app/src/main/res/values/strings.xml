@@ -3,7 +3,7 @@
     <string name="welcome">Welcome</string>
     <string name="next">Next</string>
     <string name="frw_accept_pivacy_policy_text">I accept the privacy policy</string>
-
+    <string name="app_version">Version: %s</string>
 
     <string name="lamp_ip_address">Lamp ip address</string>
     <string name="lamp_port">Lamp port</string>

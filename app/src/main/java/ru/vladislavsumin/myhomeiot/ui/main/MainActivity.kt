@@ -16,6 +16,7 @@ import moxy.presenter.InjectPresenter
 import ru.vladislavsumin.myhomeiot.ui.lamp.manage.AddGyverLampActivity
 import ru.vladislavsumin.myhomeiot.ui.lamp.control.GyverLampControlActivity
 import ru.vladislavsumin.myhomeiot.R
+import ru.vladislavsumin.myhomeiot.app.AppConfig
 import ru.vladislavsumin.myhomeiot.database.entity.GyverLampEntity
 import ru.vladislavsumin.myhomeiot.ui.core.ToolbarActivity
 
@@ -40,6 +41,8 @@ class MainActivity : ToolbarActivity(), MainActivityView {
 
     override fun setupUi() {
         super.setupUi()
+        val app_version = getString(R.string.app_version).format(AppConfig.VERSION_NAME)
+        activity_main_app_version_name.text = app_version
         mAdapter = Adapter()
         activity_main_lamps_list.adapter = mAdapter
         val layoutManager = LinearLayoutManager(this)
