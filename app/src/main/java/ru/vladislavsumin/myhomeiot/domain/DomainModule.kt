@@ -72,18 +72,23 @@ class DomainModule {
     fun provideGyverLampInterractorFactory(
         gyverLampManager: GyverLampManager,
         connectivityManager: NetworkConnectivityManager,
-        gyverLampConnectionFactory: GyverLampConnectionFactory
+        gyverLampConnectionFactory: GyverLampConnectionFactory,
+        gyverLampProtocol: GyverLampProtocol
     ): GyverLampInterractorFactory {
         return GyverLampInterractorFactoryImpl(
             gyverLampManager,
             connectivityManager,
-            gyverLampConnectionFactory
+            gyverLampConnectionFactory,
+            gyverLampProtocol
         )
     }
 
     @Provides
     @Singleton
-    fun provideGyverLampConnectionFactory(): GyverLampConnectionFactory {
-        return GyverLampConnectionFactoryImpl()
+    fun provideGyverLampConnectionFactory(
+        socketProvider: SocketProvider,
+        gyverLampProtocol: GyverLampProtocol
+    ): GyverLampConnectionFactory {
+        return GyverLampConnectionFactoryImpl(socketProvider, gyverLampProtocol)
     }
 }

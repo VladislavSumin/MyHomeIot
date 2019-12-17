@@ -1,5 +1,6 @@
 package ru.vladislavsumin.myhomeiot.domain.gyver.lamp.impl
 
+import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampManager
@@ -25,9 +26,16 @@ class GyverLampManagerImpl(
     override fun observeLamp(id: Long): Flowable<GyverLampEntity> {
         return mGyverLampDao
             .observerById(id)
-            .doOnNext{
-                println()
+            .doOnSubscribe {
+                Log.d("AAAA CASE A", "onSubscribe()")
+            }
+            .doOnNext {
+                Log.d("AAAA CASE A", "onNext()")
+
             }
             .subscribeOnIo()
+            .doOnSubscribe {
+                Log.d("AAAA CASE A", "onSubscribe before change thread()")
+            }
     }
 }

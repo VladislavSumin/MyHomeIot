@@ -8,6 +8,7 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import ru.vladislavsumin.myhomeiot.R
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
+import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampState
 import ru.vladislavsumin.myhomeiot.ui.core.ToolbarActivity
 
 class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
@@ -40,7 +41,22 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
         setContentView(LAYOUT)
     }
 
-    override fun showGyverLampState(connectionState: GyverLampConnectionState) {
+    override fun setupUx() {
+        super.setupUx()
+        activity_gyver_lamp_control_on_off.setOnClickListener { mPresenter.onClickOnOffButton() }
+    }
+
+    override fun showGyverLampConnectionState(connectionState: GyverLampConnectionState) {
         activity_gyver_lamp_control_status.text = connectionState.toString()
+    }
+
+    override fun showGyverLampState(state: GyverLampState?) {
+        activity_gyver_lamp_control_state.text = state?.toString()
+
+        if (state != null) {
+            activity_gyver_lamp_control_on_off.isEnabled = true
+        } else {
+            activity_gyver_lamp_control_on_off.isEnabled = false
+        }
     }
 }

@@ -5,6 +5,7 @@ import ru.vladislavsumin.myhomeiot.app.Injector
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampInterractor
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampsInterractor
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
+import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampState
 import ru.vladislavsumin.myhomeiot.ui.core.BasePresenter
 import ru.vladislavsumin.myhomeiot.utils.observeOnMainThread
 import javax.inject.Inject
@@ -13,10 +14,14 @@ import javax.inject.Inject
 class GyverLampControlPresenter(private val mGyverLampId: Long) :
     BasePresenter<GyverLampControlView>() {
 
+    //TODO сделать один ViewState!
+
     @Inject
     lateinit var mGyverLampsInterractor: GyverLampsInterractor
 
-    lateinit var mGyverLampInterractor: GyverLampInterractor
+    private lateinit var mGyverLampInterractor: GyverLampInterractor
+
+    private var mGyverLampState: GyverLampState? = null
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -30,7 +35,25 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
             .autoDispose()
     }
 
-    private fun onGyverLampStateChange(connectionState: GyverLampConnectionState) {
-        viewState.showGyverLampState(connectionState)
+    private fun onGyverLampStateChange(state: Pair<GyverLampConnectionState, GyverLampState?>) {
+        mGyverLampState = state.second
+        viewState.showGyverLampConnectionState(state.first)
+        viewState.showGyverLampState(state.second)
+    }
+
+    fun onClickOnOffButton() {
+        //TODO add error handling!
+        val lampState = mGyverLampState
+        if (lampState != null) {
+            if (lampState.isOn) {
+                mGyverLampInterractor.observeTurnOff()
+                    .subscribe()
+                    .autoDispose()
+            } else {
+                mGyverLampInterractor.observeTurnOn()
+                    .subscribe()
+                    .autoDispose()
+            }
+        }
     }
 }
