@@ -31,12 +31,13 @@ class GyverLampConnectionStateImpl(
 
         private const val DEFAULT_RECEIVE_PACKAGE_SIZE = 1000
         private const val DEFAULT_TIMEOUT = 4000
+        //TODO не плохо бы это реализовать, а то если нет сети будет активное ожидание
         private const val DEFAULT_RECONNECT_TIMEOUT = 4000L
         private const val PING_INTERVAL = 1500L
     }
 
     private var mLastPingCheck = 0L
-    private val mMessageQueue: Queue<Pair<SingleEmitter<GyverLampState>, DatagramPacket>> =
+    private val mMessageQueue: Queue<Pair<SingleEmitter<GyverLampState>, String>> =
         ArrayDeque()
     @Volatile
     private var mIsRunning = false
@@ -57,9 +58,7 @@ class GyverLampConnectionStateImpl(
                 mLastPingCheck = 0
             }
             Log.d(TAG, "onSubscribe()")
-
             emitter.setCancellable(this::onDispose)
-
             connectionLoop(emitter)
         }
             .subscribeOn(Schedulers.newThread())
@@ -84,11 +83,13 @@ class GyverLampConnectionStateImpl(
 
             if (request.first == null || !request.first!!.isDisposed) {
                 try {
-                    val datagramPacket = request.second
-                    datagramPacket.address = InetAddress.getByName(mGyverLampEntity.host)
-                    datagramPacket.port = mGyverLampEntity.port
+                    //TODO надо добавить повторную отправку UDP как никак
+                    //TODO Еще бы адаптивную задержку сделать
+                    request.second.toDatagramPacket(mPacket)
+                    mPacket.address = InetAddress.getByName(mGyverLampEntity.host)
+                    mPacket.port = mGyverLampEntity.port
                     Log.d(TAG, "socket work")
-                    mSocket.send(datagramPacket)
+                    mSocket.send(mPacket)
 
                     mSocket.receive(mPacket)
                     //TODO check received ip
@@ -102,7 +103,7 @@ class GyverLampConnectionStateImpl(
                     emitter.onNext(
                         Pair(
                             GyverLampConnectionState.CONNECTED,
-                            null //TODO add response parse
+                            parseResponse(mPacket)
                         )
                     )
                 } catch (e: Exception) {
@@ -119,38 +120,36 @@ class GyverLampConnectionStateImpl(
     }
 
     private fun getRequest(emitter: ObservableEmitter<*>):
-            Pair<SingleEmitter<GyverLampState>?, DatagramPacket>? {
+            Pair<SingleEmitter<GyverLampState>?, String>? {
         mLock.withLock {
-            return if (!mIsRunning || emitter.isDisposed) {
-                null
-            } else if (mMessageQueue.isNotEmpty()) {
-                mMessageQueue.poll()!!
-            } else if (System.currentTimeMillis() - mLastPingCheck > PING_INTERVAL) {
-                getPingRequest()
-            } else {
-                while (mIsRunning && !emitter.isDisposed && mMessageQueue.isEmpty() &&
-                    mLastPingCheck + PING_INTERVAL >= System.currentTimeMillis()
-                ) {
-                    mQueueNotEmpty.await(
-                        PING_INTERVAL - (System.currentTimeMillis() - mLastPingCheck),
-                        TimeUnit.MILLISECONDS
-                    )
-                    Log.d(TAG, "QueryLoop()")
-                }
+            //Wait loop
+            while (mIsRunning && !emitter.isDisposed && mMessageQueue.isEmpty() &&
+                (System.currentTimeMillis() - mLastPingCheck < PING_INTERVAL)
+            ) {
+                Log.d(TAG, "QueryLoop()")
 
-                if (!mIsRunning || emitter.isDisposed)
-                    null
-                else if (mMessageQueue.isNotEmpty()) {
-                    mMessageQueue.poll()!!
-                } else {
-                    getPingRequest()
-                }
+                mQueueNotEmpty.await(
+                    mLastPingCheck + PING_INTERVAL - System.currentTimeMillis(),
+                    TimeUnit.MILLISECONDS
+                )
             }
+
+            if (!mIsRunning || emitter.isDisposed) return null
+            if (mMessageQueue.isNotEmpty()) return mMessageQueue.poll()
+
+            return getPingRequest()
         }
     }
 
-    private fun getPingRequest(): Pair<SingleEmitter<GyverLampState>?, DatagramPacket> {
-        return Pair(null, mGyverLampProtocol.getRequest().toDatagramPacket())
+    private fun parseResponse(packet: DatagramPacket): GyverLampState? {
+        val data = packet.getStringData()
+        Log.d(TAG, "Receive data: $data")
+
+        return null
+    }
+
+    private fun getPingRequest(): Pair<SingleEmitter<GyverLampState>?, String> {
+        return Pair(null, mGyverLampProtocol.getRequest())
     }
 
     private fun setupSocket(emitter: ObservableEmitter<*>) {
@@ -162,69 +161,17 @@ class GyverLampConnectionStateImpl(
         }
     }
 
-    //
-//    private val mConnectionObservable: Observable<Pair<GyverLampConnectionState, Unit?>> =
-//        createConnectionObservable()
-//            .subscribeOnIo()
-//            .startWith(Pair(GyverLampConnectionState.DISCONNECTED, null))
-//            .replay(1)
-//            .refCount()
-//
-//    private fun createConnectionObservable(): Observable<Pair<GyverLampConnectionState, Unit?>> {
-//        return Observable.create { emitter ->
-//            val latch = CountDownLatch(1)
-//            emitter.setCancellable { latch.countDown() }
-//
-//            while (!emitter.isDisposed) {
-//                try {
-//                    mSocket = mSocketProvider.createDatagramSocket()
-//                    mSocket.soTimeout = DEFAULT_TIMEOUT
-//                    connectionLoop(emitter)
-//                } catch (e: SocketTimeoutException) {
-//                    emitter.onNext(Pair(GyverLampConnectionState.DISCONNECTED, null))
-//                } finally {
-//                    mSocket.close()
-//                }
-//                sleep(System.currentTimeMillis() + DEFAULT_RECONNECT_TIMEOUT, emitter)
-//            }
-//        }
-//    }
-//
-//    private fun connectionLoop(emitter: ObservableEmitter<Pair<GyverLampConnectionState, Unit?>>) {
-//        while (!emitter.isDisposed) {
-//            val millis = System.currentTimeMillis()
-//            if (millis - mLastPingCheck > PING_INTERVAL) {
-//                val packet = mGyverLampProtocol.getRequest().toDatagramPacket()
-//                packet.port = mGyverLampEntity.port
-//                packet.address = InetAddress.getByName(mGyverLampEntity.host)
-//                mSocket.send(packet)
-//            } else {
-//                sleep(PING_INTERVAL + mLastPingCheck, emitter)
-//                continue
-//            }
-//            mSocket.receive(mPacket)
-//            mLastPingCheck = System.currentTimeMillis()
-//            emitter.onNext(Pair(GyverLampConnectionState.CONNECTED, null))
-//        }
-//    }
-//
     override fun observeConnectionStatus(): Observable<GyverLampConnectionState> {
-//        return TODO()
         return mConnectionObservable.map { it.first }
     }
 
-    private fun String.toDatagramPacket(): DatagramPacket {
-        return mGyverLampProtocol.stringToDatagramPacket(this)
+    private fun DatagramPacket.getStringData(): String {
+        return mGyverLampProtocol.datagramPacketToString(this)
     }
-//
-//    private fun sleep(until: Long, emitter: ObservableEmitter<*>) {
-//        while (System.currentTimeMillis() < until)
-//            try {
-//                Thread.sleep(until - System.currentTimeMillis())
-//            } catch (e: InterruptedException) {
-//                if (emitter.isDisposed) return
-//            }
-//    }
+
+    private fun String.toDatagramPacket(packet: DatagramPacket? = null): DatagramPacket {
+        return mGyverLampProtocol.stringToDatagramPacket(this, packet)
+    }
 
     private class AlreadyRunningException : RuntimeException()
 }

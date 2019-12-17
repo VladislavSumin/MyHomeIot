@@ -28,4 +28,11 @@ class GyverLampProtocolImpl : GyverLampProtocol {
         dataBytes[dataBytes.size - 1] = 0
         return DatagramPacket(dataBytes, dataBytes.size)
     }
+
+    override fun datagramPacketToString(datagramPacket: DatagramPacket): String {
+        val data = datagramPacket.data
+        val indexOf = data.indexOf(0) //find end of string
+        if (indexOf == -1) throw GyverLampProtocol.BadPacketException()
+        return String(data, 0, indexOf, StandardCharsets.US_ASCII)
+    }
 }
