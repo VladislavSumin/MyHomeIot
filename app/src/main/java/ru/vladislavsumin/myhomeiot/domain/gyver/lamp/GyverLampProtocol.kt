@@ -18,6 +18,7 @@ interface GyverLampProtocol {
     fun getCurrentStateRequest(): String
     fun getOnRequest(): String
     fun getOffRequest(): String
+    fun getBrightnessRequest(brightness: Int): String
 
     @Throws(BadResponseException::class)
     fun parseCurrentStateResponse(response: String, previousState: GyverLampState?): GyverLampState?

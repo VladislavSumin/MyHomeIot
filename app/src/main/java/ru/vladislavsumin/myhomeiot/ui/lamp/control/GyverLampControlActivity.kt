@@ -3,6 +3,7 @@ package ru.vladislavsumin.myhomeiot.ui.lamp.control
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.SeekBar
 import kotlinx.android.synthetic.main.activity_gyver_lamp_control.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
@@ -39,7 +40,14 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(LAYOUT)
+        setupUi()
         setupUx()
+    }
+
+    private fun setupUi() {
+        activity_gyver_lamp_control_scale.max = 100
+        activity_gyver_lamp_control_speed.max = 100
+        activity_gyver_lamp_control_brightness.max = 255
     }
 
     private fun setupUx() {
@@ -48,6 +56,18 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
 
     override fun showGyverLampConnectionState(connectionState: GyverLampConnectionState) {
         activity_gyver_lamp_control_status.text = connectionState.toString()
+        activity_gyver_lamp_control_brightness.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                mPresenter.onChangeBrightness(progress)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
     }
 
     override fun showGyverLampState(state: GyverLampState?) {
@@ -55,8 +75,19 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
 
         if (state != null) {
             activity_gyver_lamp_control_on_off.isEnabled = true
+            activity_gyver_lamp_control_scale.isEnabled = true
+            activity_gyver_lamp_control_speed.isEnabled = true
+            activity_gyver_lamp_control_brightness.isEnabled = true
+
+            activity_gyver_lamp_control_scale.progress = state.scale
+            activity_gyver_lamp_control_speed.progress = state.speed
+            activity_gyver_lamp_control_brightness.progress = state.brightness
+
         } else {
             activity_gyver_lamp_control_on_off.isEnabled = false
+            activity_gyver_lamp_control_scale.isEnabled = false
+            activity_gyver_lamp_control_speed.isEnabled = false
+            activity_gyver_lamp_control_brightness.isEnabled = false
         }
     }
 }

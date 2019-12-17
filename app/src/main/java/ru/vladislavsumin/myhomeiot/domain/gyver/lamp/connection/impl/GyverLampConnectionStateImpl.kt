@@ -87,12 +87,13 @@ class GyverLampConnectionStateImpl(
                 try {
                     //TODO надо добавить повторную отправку UDP как никак
                     //TODO Еще бы адаптивную задержку сделать
-                    request.second.toDatagramPacket(mPacket)
-                    mPacket.address = InetAddress.getByName(mGyverLampEntity.host)
-                    mPacket.port = mGyverLampEntity.port
+                    val requestPacket = request.second.toDatagramPacket()
+                    requestPacket.address = InetAddress.getByName(mGyverLampEntity.host)
+                    requestPacket.port = mGyverLampEntity.port
                     Log.d(TAG, "socket work")
-                    mSocket.send(mPacket)
+                    mSocket.send(requestPacket)
 
+                    mPacket.data.clear()
                     mSocket.receive(mPacket)
                     //TODO check received ip
 
@@ -100,6 +101,7 @@ class GyverLampConnectionStateImpl(
 
                     mLock.withLock {
                         if (mIsRunning && !emitter.isDisposed) {
+                            mLastResponse = response
                             mLastPingCheck = if (response != null) {
                                 System.currentTimeMillis()
                             } else {
@@ -217,6 +219,12 @@ class GyverLampConnectionStateImpl(
 
     private fun String.toDatagramPacket(packet: DatagramPacket? = null): DatagramPacket {
         return mGyverLampProtocol.stringToDatagramPacket(this, packet)
+    }
+
+    private fun ByteArray.clear() {
+        for (i in 0 until size) {
+            this[i] = 0
+        }
     }
 
     private class AlreadyRunningException : RuntimeException()

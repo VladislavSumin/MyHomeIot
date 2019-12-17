@@ -1,5 +1,6 @@
 package ru.vladislavsumin.myhomeiot.ui.lamp.control
 
+import io.reactivex.disposables.Disposable
 import moxy.InjectViewState
 import ru.vladislavsumin.myhomeiot.app.Injector
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampInterractor
@@ -22,6 +23,7 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
     private lateinit var mGyverLampInterractor: GyverLampInterractor
 
     private var mGyverLampState: GyverLampState? = null
+    private var mChangeBrightnessDisposable: Disposable? = null
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -55,5 +57,20 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
                     .autoDispose()
             }
         }
+    }
+
+    fun onChangeBrightness(brightness: Int) {
+
+        val lampState = mGyverLampState ?: return
+        if (lampState.brightness == brightness) return
+
+        mChangeBrightnessDisposable?.dispose()
+        mChangeBrightnessDisposable = mGyverLampInterractor.observeChangeBrightness(brightness)
+            .subscribe({}, {})
+    }
+
+    override fun onDestroy() {
+        mChangeBrightnessDisposable?.dispose()
+        super.onDestroy()
     }
 }

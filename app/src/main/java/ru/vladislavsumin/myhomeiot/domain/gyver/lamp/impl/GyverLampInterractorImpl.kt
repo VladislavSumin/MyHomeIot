@@ -65,6 +65,10 @@ class GyverLampInterractorImpl(
         return observeRequest(mGyverLampProtocol.getOnRequest())
     }
 
+    override fun observeChangeBrightness(brightness: Int): Completable {
+        return observeRequest(mGyverLampProtocol.getBrightnessRequest(brightness))
+    }
+
     private fun observeRequest(request: String): Completable {
         return mConnectionObservable
             .map { Pair(it, it.observeConnectionStatus()) }

@@ -23,11 +23,13 @@ class GyverLampProtocolImpl : GyverLampProtocol {
     override fun getCurrentStateRequest(): String = "GET"
     override fun getOnRequest(): String = "P_ON"
     override fun getOffRequest(): String = "P_OFF"
+    override fun getBrightnessRequest(brightness: Int): String = "BRI%03d".format(brightness)
 
     override fun parseCurrentStateResponse(
         response: String,
         previousState: GyverLampState?
     ): GyverLampState? {
+        //TODO это должно зависить от запроса
         if (response.startsWith("CURR")) return parseCurrent(response)
         if (response.startsWith("BRI")) return parseBrightness(response, previousState)
         throw GyverLampProtocol.BadResponseException()
