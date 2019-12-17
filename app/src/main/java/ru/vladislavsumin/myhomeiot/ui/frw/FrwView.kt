@@ -11,4 +11,7 @@ interface FrwView : BaseView {
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun setNextButtonEnabled(isEnabled: Boolean)
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun openPrivacyPolicyScreen()
 }

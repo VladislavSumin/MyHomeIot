@@ -12,6 +12,7 @@ import moxy.MvpAppCompatActivity
 import ru.vladislavsumin.myhomeiot.app.Injector
 import ru.vladislavsumin.myhomeiot.domain.privacy.PrivacyPolicyInterractor
 import ru.vladislavsumin.myhomeiot.ui.frw.FrwActivity
+import ru.vladislavsumin.myhomeiot.ui.frw.privacy.PrivacyPolicyActivity
 import javax.inject.Inject
 
 abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
@@ -26,7 +27,10 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
 
         Injector.inject(this)
 
-        if (!mPrivacyPolicyInterractor.isPrivacyPolicyAccepted() && this !is FrwActivity) {
+        if (!mPrivacyPolicyInterractor.isPrivacyPolicyAccepted() &&
+            this !is FrwActivity &&
+            this !is PrivacyPolicyActivity
+        ) {
             startActivity(FrwActivity.getLaunchIntent(this))
             finish()
         }
