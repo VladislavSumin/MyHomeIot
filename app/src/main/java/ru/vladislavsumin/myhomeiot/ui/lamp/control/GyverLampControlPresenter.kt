@@ -5,6 +5,7 @@ import ru.vladislavsumin.myhomeiot.app.Injector
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampInterractor
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampsInterractor
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
+import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampState
 import ru.vladislavsumin.myhomeiot.ui.core.BasePresenter
 import ru.vladislavsumin.myhomeiot.utils.observeOnMainThread
 import javax.inject.Inject
@@ -30,7 +31,8 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
             .autoDispose()
     }
 
-    private fun onGyverLampStateChange(connectionState: GyverLampConnectionState) {
-        viewState.showGyverLampState(connectionState)
+    private fun onGyverLampStateChange(state: Pair<GyverLampConnectionState, GyverLampState?>) {
+        viewState.showGyverLampConnectionState(state.first)
+        viewState.showGyverLampState(state.second)
     }
 }

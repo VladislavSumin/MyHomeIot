@@ -23,7 +23,7 @@ class GyverLampConnectionStateImpl(
     private val mSocketProvider: SocketProvider,
     private val mGyverLampProtocol: GyverLampProtocol,
     private val mGyverLampEntity: GyverLampEntity
-) : GyverLampConnection {
+) : GyverLampConnectionAbstract() {
 
     companion object {
         private val TAG = tag<GyverLampConnectionStateImpl>()
@@ -164,8 +164,8 @@ class GyverLampConnectionStateImpl(
         }
     }
 
-    override fun observeConnectionStatus(): Observable<GyverLampConnectionState> {
-        return mConnectionObservable.map { it.first }
+    override fun observeConnection(): Observable<Pair<GyverLampConnectionState, GyverLampState?>> {
+        return mConnectionObservable
     }
 
     private fun DatagramPacket.getStringData(): String {

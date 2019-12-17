@@ -8,6 +8,7 @@ import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampManager
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnection
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionFactory
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
+import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampState
 import ru.vladislavsumin.myhomeiot.network.NetworkConnectivityManager
 import ru.vladislavsumin.myhomeiot.utils.subscribeOnIo
 import ru.vladislavsumin.myhomeiot.utils.tag
@@ -29,7 +30,6 @@ class GyverLampInterractorImpl(
                 mGyverLampManager.observeLamp(gyverLampId).toObservable(),
                 mNetworkConnectivityManager.observeNetworkConnected()
             ) { entity, connectivityStatus ->
-                Log.d("AAAA CASE С", "MAPING")
                 Pair(entity, connectivityStatus)
             }
             .switchMap { (gyverLampEntity, connectivityStatus) ->
@@ -45,8 +45,8 @@ class GyverLampInterractorImpl(
             .replay(1)
             .refCount()
 
-    override fun observeConnectionState(): Observable<GyverLampConnectionState> {
+    override fun observeConnectionState(): Observable<Pair<GyverLampConnectionState, GyverLampState?>> {
         return mConnectionObservable
-            .switchMap { it.observeConnectionStatus() }
+            .switchMap { it.observeConnection() }
     }
 }

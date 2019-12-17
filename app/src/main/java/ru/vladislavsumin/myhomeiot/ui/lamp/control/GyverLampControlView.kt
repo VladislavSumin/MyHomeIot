@@ -3,9 +3,13 @@ package ru.vladislavsumin.myhomeiot.ui.lamp.control
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
+import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampState
 import ru.vladislavsumin.myhomeiot.ui.core.BaseView
 
 interface GyverLampControlView : BaseView {
     @StateStrategyType(AddToEndSingleStrategy::class)
-    fun showGyverLampState(connectionState: GyverLampConnectionState)
+    fun showGyverLampConnectionState(connectionState: GyverLampConnectionState)
+
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun showGyverLampState(state: GyverLampState?)
 }
