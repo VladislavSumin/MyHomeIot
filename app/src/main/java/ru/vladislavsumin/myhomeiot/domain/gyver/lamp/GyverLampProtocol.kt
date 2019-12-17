@@ -19,6 +19,8 @@ interface GyverLampProtocol {
     fun getOnRequest(): String
     fun getOffRequest(): String
     fun getBrightnessRequest(brightness: Int): String
+    fun getScaleRequest(scale: Int): String
+    fun getSpeedRequest(speed: Int): String
 
     @Throws(BadResponseException::class)
     fun parseCurrentStateResponse(response: String, previousState: GyverLampState?): GyverLampState?
@@ -28,6 +30,8 @@ interface GyverLampProtocol {
 
     @Throws(BadPacketException::class)
     fun datagramPacketToString(datagramPacket: DatagramPacket): String
+
+
 
     class BadPacketException : Exception()
     class BadResponseException : Exception()

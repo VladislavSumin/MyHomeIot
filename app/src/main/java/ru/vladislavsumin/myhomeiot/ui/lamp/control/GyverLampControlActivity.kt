@@ -56,10 +56,38 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
 
     override fun showGyverLampConnectionState(connectionState: GyverLampConnectionState) {
         activity_gyver_lamp_control_status.text = connectionState.toString()
+
+        //TODO rewrite
         activity_gyver_lamp_control_brightness.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 mPresenter.onChangeBrightness(progress)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
+
+        activity_gyver_lamp_control_scale.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                mPresenter.onChangeScale(progress)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
+
+        activity_gyver_lamp_control_speed.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                mPresenter.onChangeSpeed(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {

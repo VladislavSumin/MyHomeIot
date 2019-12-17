@@ -24,6 +24,8 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
 
     private var mGyverLampState: GyverLampState? = null
     private var mChangeBrightnessDisposable: Disposable? = null
+    private var mChangeScaleDisposable: Disposable? = null
+    private var mChangeSpeedDisposable: Disposable? = null
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -59,8 +61,14 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
         }
     }
 
-    fun onChangeBrightness(brightness: Int) {
+    override fun onDestroy() {
+        mChangeBrightnessDisposable?.dispose()
+        mChangeScaleDisposable?.dispose()
+        mChangeSpeedDisposable?.dispose()
+        super.onDestroy()
+    }
 
+    fun onChangeBrightness(brightness: Int) {
         val lampState = mGyverLampState ?: return
         if (lampState.brightness == brightness) return
 
@@ -69,8 +77,21 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
             .subscribe({}, {})
     }
 
-    override fun onDestroy() {
-        mChangeBrightnessDisposable?.dispose()
-        super.onDestroy()
+    fun onChangeScale(scale: Int) {
+        val lampState = mGyverLampState ?: return
+        if (lampState.scale == scale) return
+
+        mChangeScaleDisposable?.dispose()
+        mChangeScaleDisposable = mGyverLampInterractor.observeChangeScale(scale)
+            .subscribe({}, {})
+    }
+
+    fun onChangeSpeed(speed: Int) {
+        val lampState = mGyverLampState ?: return
+        if (lampState.speed == speed) return
+
+        mChangeSpeedDisposable?.dispose()
+        mChangeSpeedDisposable = mGyverLampInterractor.observeChangeSpeed(speed)
+            .subscribe({}, {})
     }
 }
