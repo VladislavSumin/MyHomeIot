@@ -3,6 +3,7 @@ package ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.impl
 import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
+import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import io.reactivex.schedulers.Schedulers
 import ru.vladislavsumin.myhomeiot.database.entity.GyverLampEntity
@@ -11,6 +12,7 @@ import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnect
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampState
 import ru.vladislavsumin.myhomeiot.network.SocketProvider
+import ru.vladislavsumin.myhomeiot.utils.subscribeOnIo
 import ru.vladislavsumin.myhomeiot.utils.tag
 import java.lang.Exception
 import java.net.*
@@ -71,8 +73,10 @@ class GyverLampConnectionStateImpl(
             mIsRunning = false
             mSocket.close()
             Log.d(TAG, "onDispose() close port")
-            mQueueNotEmpty.signal()
+//            mQueueNotEmpty.signal()
+            clearQuery()
         }
+
     }
 
     private fun connectionLoop(emitter: ObservableEmitter<Pair<GyverLampConnectionState, GyverLampState?>>) {
@@ -99,13 +103,26 @@ class GyverLampConnectionStateImpl(
                     }
 
                     Log.d(TAG, "socket end work")
+
+                    val response = parseResponse(mPacket)
+
+                    request.first?.apply {
+                        if (!isDisposed) onSuccess(response)
+                    }
+
                     emitter.onNext(
                         Pair(
                             GyverLampConnectionState.CONNECTED,
-                            parseResponse(mPacket)
+                            response
                         )
                     )
                 } catch (e: Exception) {
+                    request.first?.apply {
+                        if (!isDisposed) onError(GyverLampConnection.CannotConnectException())
+                    }
+
+                    clearQuery()
+
                     when (e) {
                         is SocketException,
                         is SocketTimeoutException -> {
@@ -122,6 +139,17 @@ class GyverLampConnectionStateImpl(
             }
         }
         Log.d(TAG, "Connection closed")
+    }
+
+    private fun clearQuery() {
+        mLock.withLock {
+            mMessageQueue.forEach {
+                if (!it.first.isDisposed)
+                    it.first.onError(GyverLampConnection.CannotConnectException())
+            }
+            mMessageQueue.clear()
+            mQueueNotEmpty.signal()
+        }
     }
 
     private fun getRequest(emitter: ObservableEmitter<*>):
@@ -146,7 +174,7 @@ class GyverLampConnectionStateImpl(
         }
     }
 
-    private fun parseResponse(packet: DatagramPacket): GyverLampState? {
+    private fun parseResponse(packet: DatagramPacket): GyverLampState {
         val data = packet.getStringData()
         return mGyverLampProtocol.parseCurrentStateResponse(data)
     }
@@ -162,6 +190,16 @@ class GyverLampConnectionStateImpl(
                 mSocket.soTimeout = DEFAULT_TIMEOUT
             }
         }
+    }
+
+    override fun addRequest(request: String): Single<GyverLampState> {
+        return Single.create<GyverLampState> { emitter ->
+            mLock.withLock {
+                mMessageQueue.offer(Pair(emitter, request))
+                mQueueNotEmpty.signal()
+            }
+            emitter.setDisposable(mConnectionObservable.subscribe())
+        }.subscribeOnIo()
     }
 
     override fun observeConnection(): Observable<Pair<GyverLampConnectionState, GyverLampState?>> {

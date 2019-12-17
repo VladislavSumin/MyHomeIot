@@ -16,9 +16,9 @@ class GyverLampProtocolImpl : GyverLampProtocol {
             )
     }
 
-    override fun getCurrentStateRequest(): String {
-        return "GET"
-    }
+    override fun getCurrentStateRequest(): String = "GET"
+    override fun getOnRequest(): String = "P_ON"
+    override fun getOffRequest(): String = "P_OFF"
 
     override fun parseCurrentStateResponse(response: String): GyverLampState {
         val matcher = CURRENT_STATE_REGEXP.matcher(response)
@@ -28,7 +28,7 @@ class GyverLampProtocolImpl : GyverLampProtocol {
             brightness = matcher.group(2)!!.toInt(),
             speed = matcher.group(3)!!.toInt(),
             scale = matcher.group(4)!!.toInt(),
-            isOn = matcher.group(5)!!.toBoolean()
+            isOn = matcher.group(5)!!.toInt() != 0
         )
     }
 

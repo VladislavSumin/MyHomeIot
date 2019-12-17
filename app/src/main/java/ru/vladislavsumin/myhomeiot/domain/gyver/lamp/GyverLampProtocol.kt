@@ -16,6 +16,8 @@ import java.net.DatagramPacket
  */
 interface GyverLampProtocol {
     fun getCurrentStateRequest(): String
+    fun getOnRequest(): String
+    fun getOffRequest(): String
 
     @Throws(BadResponseException::class)
     fun parseCurrentStateResponse(response: String): GyverLampState

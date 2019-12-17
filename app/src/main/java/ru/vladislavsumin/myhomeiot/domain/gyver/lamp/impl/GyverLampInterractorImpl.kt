@@ -1,10 +1,11 @@
 package ru.vladislavsumin.myhomeiot.domain.gyver.lamp.impl
 
-import android.util.Log
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.rxkotlin.Observables
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampInterractor
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampManager
+import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampProtocol
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnection
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionFactory
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
@@ -17,7 +18,8 @@ class GyverLampInterractorImpl(
     gyverLampId: Long,
     mGyverLampManager: GyverLampManager,
     mNetworkConnectivityManager: NetworkConnectivityManager,
-    mGyverLampConnectionFactory: GyverLampConnectionFactory
+    mGyverLampConnectionFactory: GyverLampConnectionFactory,
+    private val mGyverLampProtocol: GyverLampProtocol
 ) : GyverLampInterractor {
     companion object {
         private val TAG = tag<GyverLampInterractor>()
@@ -48,5 +50,36 @@ class GyverLampInterractorImpl(
     override fun observeConnectionState(): Observable<Pair<GyverLampConnectionState, GyverLampState?>> {
         return mConnectionObservable
             .switchMap { it.observeConnection() }
+    }
+
+    //TODO убрать дублирующий код
+    override fun observeTurnOff(): Single<GyverLampState> {
+        return mConnectionObservable
+            .map { Pair(it, it.observeConnectionStatus()) }
+            .flatMapSingle { pair ->
+                pair.second
+                    .filter { it != GyverLampConnectionState.LOADING }
+                    .firstOrError()
+                    .map { pair.first }
+            }
+            .firstOrError()
+            .flatMap {
+                it.addRequest(mGyverLampProtocol.getOffRequest())
+            }
+    }
+
+    override fun observeTurnOn(): Single<GyverLampState> {
+        return mConnectionObservable
+            .map { Pair(it, it.observeConnectionStatus()) }
+            .flatMapSingle { pair ->
+                pair.second
+                    .filter { it != GyverLampConnectionState.LOADING }
+                    .firstOrError()
+                    .map { pair.first }
+            }
+            .firstOrError()
+            .flatMap {
+                it.addRequest(mGyverLampProtocol.getOnRequest())
+            }
     }
 }

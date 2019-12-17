@@ -41,11 +41,22 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
         setContentView(LAYOUT)
     }
 
+    override fun setupUx() {
+        super.setupUx()
+        activity_gyver_lamp_control_on_off.setOnClickListener { mPresenter.onClickOnOffButton() }
+    }
+
     override fun showGyverLampConnectionState(connectionState: GyverLampConnectionState) {
         activity_gyver_lamp_control_status.text = connectionState.toString()
     }
 
     override fun showGyverLampState(state: GyverLampState?) {
         activity_gyver_lamp_control_state.text = state?.toString()
+
+        if (state != null) {
+            activity_gyver_lamp_control_on_off.isEnabled = true
+        } else {
+            activity_gyver_lamp_control_on_off.isEnabled = false
+        }
     }
 }

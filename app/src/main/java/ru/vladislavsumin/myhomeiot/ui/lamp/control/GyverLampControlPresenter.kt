@@ -17,7 +17,9 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
     @Inject
     lateinit var mGyverLampsInterractor: GyverLampsInterractor
 
-    lateinit var mGyverLampInterractor: GyverLampInterractor
+    private lateinit var mGyverLampInterractor: GyverLampInterractor
+
+    private var mGyverLampState: GyverLampState? = null
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -32,7 +34,23 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
     }
 
     private fun onGyverLampStateChange(state: Pair<GyverLampConnectionState, GyverLampState?>) {
+        mGyverLampState = state.second
         viewState.showGyverLampConnectionState(state.first)
         viewState.showGyverLampState(state.second)
+    }
+
+    fun onClickOnOffButton() {
+        val lampState = mGyverLampState
+        if (lampState != null) {
+            if (lampState.isOn) {
+                mGyverLampInterractor.observeTurnOff()
+                    .subscribe()
+                    .autoDispose()
+            } else {
+                mGyverLampInterractor.observeTurnOn()
+                    .subscribe()
+                    .autoDispose()
+            }
+        }
     }
 }
