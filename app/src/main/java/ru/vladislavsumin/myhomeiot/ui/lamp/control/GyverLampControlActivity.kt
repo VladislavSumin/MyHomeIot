@@ -39,10 +39,10 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(LAYOUT)
+        setupUx()
     }
 
-    override fun setupUx() {
-        super.setupUx()
+    private fun setupUx() {
         activity_gyver_lamp_control_on_off.setOnClickListener { mPresenter.onClickOnOffButton() }
     }
 

@@ -20,7 +20,7 @@ interface GyverLampProtocol {
     fun getOffRequest(): String
 
     @Throws(BadResponseException::class)
-    fun parseCurrentStateResponse(response: String): GyverLampState
+    fun parseCurrentStateResponse(response: String, previousState: GyverLampState?): GyverLampState?
 
 
     fun stringToDatagramPacket(data: String, datagramPacket: DatagramPacket? = null): DatagramPacket

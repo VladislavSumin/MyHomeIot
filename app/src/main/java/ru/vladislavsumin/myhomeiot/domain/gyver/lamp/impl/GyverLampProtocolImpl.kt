@@ -14,13 +14,33 @@ class GyverLampProtocolImpl : GyverLampProtocol {
 //                "^CURR (?<mode>[0-2]?[0-9]{1,2}) (?<brightness>[0-2]?[0-9]{1,2}) (?<speed>[0-2]?[0-9]{1,2}) (?<scale>[0-2]?[0-9]{1,2}) (?<onFlag>[0-1]*)\$"
                 "^CURR ([0-2]?[0-9]{1,2}) ([0-2]?[0-9]{1,2}) ([0-2]?[0-9]{1,2}) ([0-2]?[0-9]{1,2}) ([0-1]*)\$"
             )
+        private val BRIGHTNESS_STATE_REGEXP =
+            Pattern.compile(
+                "^BRI([0-2]?[0-9]{1,2})\$"
+            )
     }
 
     override fun getCurrentStateRequest(): String = "GET"
     override fun getOnRequest(): String = "P_ON"
     override fun getOffRequest(): String = "P_OFF"
 
-    override fun parseCurrentStateResponse(response: String): GyverLampState {
+    override fun parseCurrentStateResponse(
+        response: String,
+        previousState: GyverLampState?
+    ): GyverLampState? {
+        if (response.startsWith("CURR")) return parseCurrent(response)
+        if (response.startsWith("BRI")) return parseBrightness(response, previousState)
+        throw GyverLampProtocol.BadResponseException()
+    }
+
+    private fun parseBrightness(response: String, previousState: GyverLampState?): GyverLampState? {
+        previousState ?: return null
+        val matcher = BRIGHTNESS_STATE_REGEXP.matcher(response)
+        if (!matcher.matches()) throw GyverLampProtocol.BadResponseException()
+        return previousState.copy(brightness = matcher.group(1)!!.toInt())
+    }
+
+    private fun parseCurrent(response: String): GyverLampState {
         val matcher = CURRENT_STATE_REGEXP.matcher(response)
         if (!matcher.matches()) throw GyverLampProtocol.BadResponseException()
         return GyverLampState(

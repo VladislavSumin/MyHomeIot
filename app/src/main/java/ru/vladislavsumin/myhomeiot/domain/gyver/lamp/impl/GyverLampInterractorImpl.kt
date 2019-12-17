@@ -1,5 +1,6 @@
 package ru.vladislavsumin.myhomeiot.domain.gyver.lamp.impl
 
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.Observables
@@ -52,19 +53,19 @@ class GyverLampInterractorImpl(
             .switchMap { it.observeConnection() }
     }
 
-    override fun observeChangeEnabledState(setEnabled: Boolean): Single<GyverLampState> {
+    override fun observeChangeEnabledState(setEnabled: Boolean): Completable {
         return if (setEnabled) observeTurnOn() else observeTurnOff()
     }
 
-    override fun observeTurnOff(): Single<GyverLampState> {
+    override fun observeTurnOff(): Completable {
         return observeRequest(mGyverLampProtocol.getOffRequest())
     }
 
-    override fun observeTurnOn(): Single<GyverLampState> {
+    override fun observeTurnOn(): Completable {
         return observeRequest(mGyverLampProtocol.getOnRequest())
     }
 
-    private fun observeRequest(request: String): Single<GyverLampState> {
+    private fun observeRequest(request: String): Completable {
         return mConnectionObservable
             .map { Pair(it, it.observeConnectionStatus()) }
             .flatMapSingle { pair ->
@@ -74,7 +75,7 @@ class GyverLampInterractorImpl(
                     .map { pair.first }
             }
             .firstOrError()
-            .flatMap {
+            .flatMapCompletable {
                 it.addRequest(request)
             }
     }

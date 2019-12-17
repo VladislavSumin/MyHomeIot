@@ -42,16 +42,6 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
         disposables.add(this)
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-
-        setupUi()
-        setupUx()
-    }
-
-    protected open fun setupUi() {}
-    protected open fun setupUx() {}
-
     override fun onDestroy() {
         disposables.dispose()
         super.onDestroy()

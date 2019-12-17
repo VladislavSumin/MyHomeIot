@@ -1,10 +1,8 @@
 package ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.impl
 
 import android.util.Log
+import io.reactivex.*
 import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.Single
-import io.reactivex.SingleEmitter
 import io.reactivex.schedulers.Schedulers
 import ru.vladislavsumin.myhomeiot.database.entity.GyverLampEntity
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampProtocol
@@ -38,12 +36,13 @@ class GyverLampConnectionStateImpl(
     }
 
     private var mLastPingCheck = 0L
-    private val mMessageQueue: Queue<Pair<SingleEmitter<GyverLampState>, String>> =
+    private val mMessageQueue: Queue<Pair<CompletableEmitter, String>> =
         ArrayDeque()
     @Volatile
     private var mIsRunning = false
     private val mLock = ReentrantLock()
     private val mQueueNotEmpty = mLock.newCondition()
+    private var mLastResponse: GyverLampState? = null
 
     private lateinit var mSocket: DatagramSocket
     private val mPacket = DatagramPacket(
@@ -97,17 +96,23 @@ class GyverLampConnectionStateImpl(
                     mSocket.receive(mPacket)
                     //TODO check received ip
 
+                    val response = parseResponse(mPacket)
+
                     mLock.withLock {
-                        if (mIsRunning && !emitter.isDisposed)
-                            mLastPingCheck = System.currentTimeMillis()
+                        if (mIsRunning && !emitter.isDisposed) {
+                            mLastPingCheck = if (response != null) {
+                                System.currentTimeMillis()
+                            } else {
+                                0
+                            }
+                        }
                     }
 
                     Log.d(TAG, "socket end work")
 
-                    val response = parseResponse(mPacket)
 
                     request.first?.apply {
-                        if (!isDisposed) onSuccess(response)
+                        if (!isDisposed) onComplete()
                     }
 
                     emitter.onNext(
@@ -153,7 +158,7 @@ class GyverLampConnectionStateImpl(
     }
 
     private fun getRequest(emitter: ObservableEmitter<*>):
-            Pair<SingleEmitter<GyverLampState>?, String>? {
+            Pair<CompletableEmitter?, String>? {
         mLock.withLock {
             //Wait loop
             while (mIsRunning && !emitter.isDisposed && mMessageQueue.isEmpty() &&
@@ -174,12 +179,12 @@ class GyverLampConnectionStateImpl(
         }
     }
 
-    private fun parseResponse(packet: DatagramPacket): GyverLampState {
+    private fun parseResponse(packet: DatagramPacket): GyverLampState? {
         val data = packet.getStringData()
-        return mGyverLampProtocol.parseCurrentStateResponse(data)
+        return mGyverLampProtocol.parseCurrentStateResponse(data, mLastResponse)
     }
 
-    private fun getPingRequest(): Pair<SingleEmitter<GyverLampState>?, String> {
+    private fun getPingRequest(): Pair<CompletableEmitter?, String> {
         return Pair(null, mGyverLampProtocol.getCurrentStateRequest())
     }
 
@@ -192,8 +197,8 @@ class GyverLampConnectionStateImpl(
         }
     }
 
-    override fun addRequest(request: String): Single<GyverLampState> {
-        return Single.create<GyverLampState> { emitter ->
+    override fun addRequest(request: String): Completable {
+        return Completable.create { emitter ->
             mLock.withLock {
                 mMessageQueue.offer(Pair(emitter, request))
                 mQueueNotEmpty.signal()
