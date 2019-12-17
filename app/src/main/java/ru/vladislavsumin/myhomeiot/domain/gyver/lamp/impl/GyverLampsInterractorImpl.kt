@@ -65,7 +65,7 @@ class GyverLampsInterractorImpl(
         return Completable.create { emitter ->
             mSocketProvider.createDatagramSocket().use { socket ->
                 // Send hello package
-                val helloPacket = mGyverLampProtocol.getRequest().toDatagramPacket()
+                val helloPacket = mGyverLampProtocol.getCurrentStateRequest().toDatagramPacket()
                 helloPacket.address = host
                 helloPacket.port = port
                 socket.send(helloPacket)

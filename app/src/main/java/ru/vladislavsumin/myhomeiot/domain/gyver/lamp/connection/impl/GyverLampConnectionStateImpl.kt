@@ -12,9 +12,8 @@ import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnect
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampState
 import ru.vladislavsumin.myhomeiot.network.SocketProvider
 import ru.vladislavsumin.myhomeiot.utils.tag
-import java.net.DatagramPacket
-import java.net.DatagramSocket
-import java.net.InetAddress
+import java.lang.Exception
+import java.net.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
@@ -107,12 +106,18 @@ class GyverLampConnectionStateImpl(
                         )
                     )
                 } catch (e: Exception) {
-                    Log.d(TAG, "socket error")
-                    mSocket.close()
-                    if (!emitter.isDisposed) {
-                        emitter.onNext(Pair(GyverLampConnectionState.DISCONNECTED, null))
+                    when (e) {
+                        is SocketException,
+                        is SocketTimeoutException -> {
+                            Log.d(TAG, "socket error")
+                            mSocket.close()
+                            if (!emitter.isDisposed) {
+                                emitter.onNext(Pair(GyverLampConnectionState.DISCONNECTED, null))
+                            }
+                            setupSocket(emitter)
+                        }
+                        else -> throw e
                     }
-                    setupSocket(emitter)
                 }
             }
         }
@@ -143,13 +148,11 @@ class GyverLampConnectionStateImpl(
 
     private fun parseResponse(packet: DatagramPacket): GyverLampState? {
         val data = packet.getStringData()
-        Log.d(TAG, "Receive data: $data")
-
-        return null
+        return mGyverLampProtocol.parseCurrentStateResponse(data)
     }
 
     private fun getPingRequest(): Pair<SingleEmitter<GyverLampState>?, String> {
-        return Pair(null, mGyverLampProtocol.getRequest())
+        return Pair(null, mGyverLampProtocol.getCurrentStateRequest())
     }
 
     private fun setupSocket(emitter: ObservableEmitter<*>) {
