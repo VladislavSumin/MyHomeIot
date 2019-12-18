@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.activity_frw.*
 import moxy.presenter.InjectPresenter
 import ru.vladislavsumin.myhomeiot.R
 import ru.vladislavsumin.myhomeiot.ui.core.BaseActivity
+import ru.vladislavsumin.myhomeiot.ui.frw.privacy.PrivacyPolicyActivity
 import ru.vladislavsumin.myhomeiot.ui.main.MainActivity
 
 class FrwActivity : BaseActivity(), FrwView {
@@ -28,6 +29,7 @@ class FrwActivity : BaseActivity(), FrwView {
             mPresenter.onClickPrivacyPolicyCheckbox(isAccepted)
         }
         activity_frw_next_btn.setOnClickListener { mPresenter.onClickNextButton() }
+        activity_frw_tmp_btn.setOnClickListener { mPresenter.onClickReadPrivacyPolicy() }
     }
 
     override fun goToMainScreen() {
@@ -37,5 +39,9 @@ class FrwActivity : BaseActivity(), FrwView {
 
     override fun setNextButtonEnabled(isEnabled: Boolean) {
         activity_frw_next_btn.isEnabled = isEnabled
+    }
+
+    override fun openPrivacyPolicyScreen() {
+        startActivity(PrivacyPolicyActivity.getLaunchIntent(this))
     }
 }

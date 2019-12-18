@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyHomeIot</string>
+    <string name="app_name">My Home Iot</string>
     <string name="welcome">Welcome</string>
     <string name="next">Next</string>
     <string name="frw_accept_pivacy_policy_text">I accept the privacy policy</string>

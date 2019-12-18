@@ -28,6 +28,10 @@ class FrwPresenter : BasePresenter<FrwView>() {
         }
     }
 
+    fun onClickReadPrivacyPolicy(){
+        viewState.openPrivacyPolicyScreen()
+    }
+
     fun onClickPrivacyPolicyCheckbox(accepted: Boolean) {
         mIsPrivacyPolicyAccepted = accepted
         viewState.setNextButtonEnabled(accepted)
