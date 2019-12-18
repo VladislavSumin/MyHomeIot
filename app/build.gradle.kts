@@ -17,6 +17,9 @@ android {
     val pVersionNamePrefix: String by project
     val pBuildAgent: String by project
 
+    val pUseUploadSignature: String by project
+
+
     compileSdkVersion(29)
     defaultConfig {
         applicationId = "ru.vladislavsumin.myhomeiot"
@@ -34,6 +37,21 @@ android {
             keyAlias = "shared"
             keyPassword = "Qwerty!@"
         }
+
+        if (pUseUploadSignature.toBoolean()) {
+            val pUploadSignaturePath: String by project
+            val pUploadSignaturePassword: String by project
+            val pUploadSignatureKeyName: String by project
+            val pUploadSignatureKeyPassword: String by project
+
+            create("upload") {
+                storeFile = file(pUploadSignaturePath)
+                storePassword = pUploadSignaturePassword
+                keyAlias = pUploadSignatureKeyName
+                keyPassword = pUploadSignatureKeyPassword
+            }
+        }
+
     }
 
     buildTypes {
@@ -41,7 +59,7 @@ android {
             versionNameSuffix = "-release"
             isMinifyEnabled = true
             isDebuggable = false
-            signingConfig = signingConfigs.getByName("shared")
+            if (pUseUploadSignature.toBoolean()) signingConfig = signingConfigs.getByName("upload")
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
 
