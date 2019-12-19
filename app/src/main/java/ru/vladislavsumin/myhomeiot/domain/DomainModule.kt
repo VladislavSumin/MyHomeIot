@@ -28,9 +28,10 @@ class DomainModule {
     @Provides
     @Singleton
     fun providePrivacyPolicyInterractor(
+        context: Context,
         privacyPolicyStorage: PrivacyPolicyStorage
     ): PrivacyPolicyInterractor {
-        return PrivacyPolicyInterractorImpl(privacyPolicyStorage)
+        return PrivacyPolicyInterractorImpl(context, privacyPolicyStorage)
     }
 
     @Provides

@@ -28,8 +28,8 @@ class FrwPresenter : BasePresenter<FrwView>() {
         }
     }
 
-    fun onClickReadPrivacyPolicy(){
-        viewState.openPrivacyPolicyScreen()
+    fun onClickReadPrivacyPolicy() {
+        viewState.openPrivacyPolicyScreen(mPrivacyPolicyInterractor.getPrivacyPolicyUri())
     }
 
     fun onClickPrivacyPolicyCheckbox(accepted: Boolean) {
