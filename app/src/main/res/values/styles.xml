@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.UiCore.DayNight">
+    <style name="AppTheme" parent="Theme.UiCore.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/uiCoreGreen</item>
         <item name="colorPrimaryDark">@color/uiCoreGreenDark</item>
