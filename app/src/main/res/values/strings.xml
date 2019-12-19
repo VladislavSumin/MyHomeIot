@@ -3,6 +3,7 @@
     <string name="welcome">Welcome!</string>
     <string name="next">Next</string>
     <string name="frw_accept_privacy_policy_text">I accept the #link0(privacy policy)</string>
+    <string name="privacy_policy_link">#link0(Privacy policy)</string>
     <string name="frw_accept_privacy_policy_link">https://sites.google.com/view/myhomeiot/</string>
     <string name="app_version">Version: %s</string>
 

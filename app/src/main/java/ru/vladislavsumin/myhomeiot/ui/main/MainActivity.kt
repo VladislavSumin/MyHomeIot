@@ -2,6 +2,7 @@ package ru.vladislavsumin.myhomeiot.ui.main
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import ru.vladislavsumin.myhomeiot.R
 import ru.vladislavsumin.myhomeiot.app.AppConfig
 import ru.vladislavsumin.myhomeiot.database.entity.GyverLampEntity
 import ru.vladislavsumin.myhomeiot.ui.core.ToolbarActivity
+import ru.vladislavsumin.myhomeiot.ui.utils.setClickableLinkListener
 
 class MainActivity : ToolbarActivity(), MainActivityView {
     companion object {
@@ -58,6 +60,9 @@ class MainActivity : ToolbarActivity(), MainActivityView {
     }
 
     private fun setupUx() {
+        activity_main_privacy_policy.setClickableLinkListener {
+            mPresenter.onClickReadPrivacyPolicy()
+        }
         activity_main_fab.setOnClickListener {
             startActivity(AddGyverLampActivity.getLaunchIntent(this))
         }
@@ -65,6 +70,11 @@ class MainActivity : ToolbarActivity(), MainActivityView {
 
     override fun setGyverLamsList(list: List<GyverLampEntity>) {
         mAdapter.mLamps = list
+    }
+
+    override fun showPrivacyPolicyScreen(privacyPolicyUri: Uri) {
+        val browserIntent = Intent(Intent.ACTION_VIEW, privacyPolicyUri)
+        startActivity(browserIntent)
     }
 
     class Adapter : RecyclerView.Adapter<GyverLampViewHolder>() {
