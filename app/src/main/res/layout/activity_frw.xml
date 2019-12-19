@@ -4,17 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <Button
-        android:id="@+id/activity_frw_tmp_btn"
-        android:text="Read pp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-
     <TextView
         style="?uiCoreTextHuge"
         android:layout_width="wrap_content"
@@ -32,7 +21,7 @@
         android:layout_marginStart="@dimen/dp16"
         android:layout_marginEnd="@dimen/dp16"
         android:layout_marginBottom="@dimen/dp16"
-        android:text="@string/frw_accept_pivacy_policy_text"
+        android:text="@string/frw_accept_privacy_policy_text"
         app:layout_constraintBottom_toTopOf="@id/activity_frw_next_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

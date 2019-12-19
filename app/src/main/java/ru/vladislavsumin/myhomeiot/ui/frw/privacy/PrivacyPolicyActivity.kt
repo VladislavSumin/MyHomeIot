@@ -10,11 +10,13 @@ import kotlinx.android.synthetic.main.activity_privacy_policy.*
 import ru.vladislavsumin.myhomeiot.R
 import ru.vladislavsumin.myhomeiot.ui.core.ToolbarActivity
 
+@Deprecated("Use url redirect")
 class PrivacyPolicyActivity : ToolbarActivity() {
     companion object {
         private const val LAYOUT = R.layout.activity_privacy_policy
 
         fun getLaunchIntent(context: Context): Intent {
+            @Suppress("DEPRECATION")
             return Intent(context, PrivacyPolicyActivity::class.java)
         }
     }
@@ -34,6 +36,7 @@ class PrivacyPolicyActivity : ToolbarActivity() {
                 Html.FROM_HTML_MODE_COMPACT
             )
         } else {
+            @Suppress("DEPRECATION")
             activity_privacy_policy_text.text = Html.fromHtml(privacyPolicyText)
         }
         activity_privacy_policy_text.movementMethod = LinkMovementMethod.getInstance()
