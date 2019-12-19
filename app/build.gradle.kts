@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import ru.vladislavsumin.build.Dependencies
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 
 plugins {
     id("com.android.application")
@@ -16,11 +17,10 @@ android {
     val pVersionCode: String by project
     val pVersionNamePrefix: String by project
     val pBuildAgent: String by project
-
     val pUseUploadSignature: String by project
 
-
     compileSdkVersion(29)
+
     defaultConfig {
         applicationId = "ru.vladislavsumin.myhomeiot"
         minSdkVersion(21)
@@ -51,7 +51,6 @@ android {
                 keyPassword = pUploadSignatureKeyPassword
             }
         }
-
     }
 
     buildTypes {
@@ -79,7 +78,16 @@ android {
     }
 }
 
-
+// Change apk name
+afterEvaluate {
+    android.applicationVariants.forEach { applicationVariant ->
+        applicationVariant.outputs.forEach {
+            it as BaseVariantOutputImpl
+            it.outputFileName =
+                "MyHomeIot-${android.defaultConfig.versionName}-${applicationVariant.name}.apk"
+        }
+    }
+}
 
 dependencies {
     Dependencies.apply {
@@ -149,6 +157,7 @@ dependencies {
     }
 }
 
+// Add Firebase analytics and Crashlytics plugins
 apply {
     plugin("com.google.gms.google-services")
     plugin("io.fabric")
