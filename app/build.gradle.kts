@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import ru.vladislavsumin.build.Dependencies
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 
 plugins {
     id("com.android.application")
@@ -16,8 +17,10 @@ android {
     val pVersionCode: String by project
     val pVersionNamePrefix: String by project
     val pBuildAgent: String by project
+    val pUseUploadSignature: String by project
 
     compileSdkVersion(29)
+
     defaultConfig {
         applicationId = "ru.vladislavsumin.myhomeiot"
         minSdkVersion(21)
@@ -34,6 +37,20 @@ android {
             keyAlias = "shared"
             keyPassword = "Qwerty!@"
         }
+
+        if (pUseUploadSignature.toBoolean()) {
+            val pUploadSignaturePath: String by project
+            val pUploadSignaturePassword: String by project
+            val pUploadSignatureKeyName: String by project
+            val pUploadSignatureKeyPassword: String by project
+
+            create("upload") {
+                storeFile = file(pUploadSignaturePath)
+                storePassword = pUploadSignaturePassword
+                keyAlias = pUploadSignatureKeyName
+                keyPassword = pUploadSignatureKeyPassword
+            }
+        }
     }
 
     buildTypes {
@@ -41,7 +58,7 @@ android {
             versionNameSuffix = "-release"
             isMinifyEnabled = true
             isDebuggable = false
-            signingConfig = signingConfigs.getByName("shared")
+            if (pUseUploadSignature.toBoolean()) signingConfig = signingConfigs.getByName("upload")
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
 
@@ -61,7 +78,16 @@ android {
     }
 }
 
-
+// Change apk name
+afterEvaluate {
+    android.applicationVariants.forEach { applicationVariant ->
+        applicationVariant.outputs.forEach {
+            it as BaseVariantOutputImpl
+            it.outputFileName =
+                "MyHomeIot-${android.defaultConfig.versionName}-${applicationVariant.name}.apk"
+        }
+    }
+}
 
 dependencies {
     Dependencies.apply {
@@ -131,6 +157,7 @@ dependencies {
     }
 }
 
+// Add Firebase analytics and Crashlytics plugins
 apply {
     plugin("com.google.gms.google-services")
     plugin("io.fabric")
