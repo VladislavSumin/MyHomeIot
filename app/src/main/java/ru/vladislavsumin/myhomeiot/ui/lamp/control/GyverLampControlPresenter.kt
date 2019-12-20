@@ -6,7 +6,7 @@ import ru.vladislavsumin.myhomeiot.app.Injector
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampInterractor
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampsInterractor
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
-import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampState
+import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampState
 import ru.vladislavsumin.myhomeiot.ui.core.BasePresenter
 import ru.vladislavsumin.myhomeiot.utils.observeOnMainThread
 import javax.inject.Inject

@@ -8,7 +8,7 @@ import ru.vladislavsumin.myhomeiot.database.entity.GyverLampEntity
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampProtocol
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnection
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
-import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampState
+import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampState
 import ru.vladislavsumin.myhomeiot.network.SocketProvider
 import ru.vladislavsumin.myhomeiot.utils.subscribeOnIo
 import ru.vladislavsumin.myhomeiot.utils.tag

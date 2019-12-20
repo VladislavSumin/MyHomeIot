@@ -9,7 +9,7 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import ru.vladislavsumin.myhomeiot.R
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
-import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampState
+import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampState
 import ru.vladislavsumin.myhomeiot.ui.core.ToolbarActivity
 
 class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {

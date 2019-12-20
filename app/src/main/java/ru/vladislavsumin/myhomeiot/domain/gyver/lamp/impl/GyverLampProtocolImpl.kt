@@ -1,7 +1,7 @@
 package ru.vladislavsumin.myhomeiot.domain.gyver.lamp.impl
 
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampProtocol
-import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampState
+import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampState
 import java.lang.IllegalArgumentException
 import java.net.DatagramPacket
 import java.nio.charset.StandardCharsets

@@ -1,6 +1,5 @@
 package ru.vladislavsumin.myhomeiot.domain.gyver.lamp
 
-import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampState
 import java.lang.Exception
 import java.net.DatagramPacket
 

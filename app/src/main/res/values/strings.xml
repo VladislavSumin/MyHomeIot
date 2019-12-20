@@ -18,4 +18,25 @@
     <string name="check_connection_status_success">Connection check success</string>
     <string name="add">Add</string>
     <string name="name">Name</string>
+
+    <string-array name="gyver_lamp_modes">
+        <item>sparklesRoutine</item>
+        <item>fireRoutine</item>
+        <item>rainbowVertical</item>
+        <item>rainbowHorizontal</item>
+        <item>colorsRoutine</item>
+        <item>madnessNoise</item>
+        <item>cloudNoise</item>
+        <item>lavaNoise</item>
+        <item>plasmaNoise</item>
+        <item>rainbowNoise</item>
+        <item>rainbowStripeNoise</item>
+        <item>zebraNoise</item>
+        <item>forestNoise</item>
+        <item>oceanNoise</item>
+        <item>colorRoutine</item>
+        <item>snowRoutine</item>
+        <item>matrixRoutine</item>
+        <item>lightersRoutine</item>
+    </string-array>
 </resources>
