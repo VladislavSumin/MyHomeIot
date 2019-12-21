@@ -3,11 +3,20 @@ package ru.vladislavsumin.myhomeiot.ui.lamp.control
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.SeekBar
+import android.widget.TextView
+import androidx.annotation.UiThread
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_gyver_lamp_control.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import ru.vladislavsumin.myhomeiot.R
+import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampMode
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampState
 import ru.vladislavsumin.myhomeiot.ui.core.ToolbarActivity
@@ -26,6 +35,8 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
 
     @InjectPresenter
     lateinit var mPresenter: GyverLampControlPresenter
+
+    private lateinit var mAdapter: Adapter
 
     @ProvidePresenter
     fun providePresenter(): GyverLampControlPresenter {
@@ -48,6 +59,17 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
         activity_gyver_lamp_control_scale.max = 100
         activity_gyver_lamp_control_speed.max = 100
         activity_gyver_lamp_control_brightness.max = 255
+
+        mAdapter = Adapter()
+        activity_gyver_lamp_control_modes.adapter = mAdapter
+        val layoutManager = GridLayoutManager(this, 2)
+        activity_gyver_lamp_control_modes.layoutManager = layoutManager
+        activity_gyver_lamp_control_modes.addItemDecoration(
+            DividerItemDecoration(this, RecyclerView.HORIZONTAL)
+        )
+        activity_gyver_lamp_control_modes.addItemDecoration(
+            DividerItemDecoration(this, RecyclerView.VERTICAL)
+        )
     }
 
     private fun setupUx() {
@@ -116,6 +138,49 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
             activity_gyver_lamp_control_scale.isEnabled = false
             activity_gyver_lamp_control_speed.isEnabled = false
             activity_gyver_lamp_control_brightness.isEnabled = false
+        }
+    }
+
+
+    private class Adapter : RecyclerView.Adapter<ModsViewHolder>() {
+        var mMods: List<GyverLampMode> = GyverLampMode.values().toList()
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModsViewHolder {
+            return ModsViewHolder.getInstance(parent)
+        }
+
+        override fun getItemCount(): Int = mMods.size
+
+        override fun onBindViewHolder(holder: ModsViewHolder, position: Int) {
+            holder.bind(mMods[position])
+        }
+    }
+
+    class ModsViewHolder private constructor(view: View) :
+        RecyclerView.ViewHolder(view) {
+        companion object {
+
+            private const val LAYOUT = R.layout.list_mode_element
+
+            fun getInstance(parent: ViewGroup): ModsViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val view = layoutInflater.inflate(LAYOUT, parent, false)
+                return ModsViewHolder(view)
+            }
+        }
+
+        private val name: TextView = view.findViewById(R.id.list_mode_element_name)
+        private lateinit var mItem: GyverLampMode
+
+        init {
+            view.setOnClickListener {
+                //TODO
+            }
+        }
+
+        fun bind(item: GyverLampMode) {
+            mItem = item
+            name.text = item.name
         }
     }
 }
