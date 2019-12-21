@@ -13,4 +13,5 @@ interface GyverLampInterractor {
     fun observeChangeBrightness(brightness: Int): Completable
     fun observeChangeScale(scale: Int): Completable
     fun observeChangeSpeed(speed: Int): Completable
+    fun observeChangeMode(mode: GyverLampMode): Completable
 }

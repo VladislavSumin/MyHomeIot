@@ -1,5 +1,6 @@
 package ru.vladislavsumin.myhomeiot.domain.gyver.lamp.impl
 
+import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampMode
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampProtocol
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampState
 import java.lang.IllegalArgumentException
@@ -37,12 +38,13 @@ class GyverLampProtocolImpl : GyverLampProtocol {
     override fun getBrightnessRequest(brightness: Int): String = "BRI%03d".format(brightness)
     override fun getScaleRequest(scale: Int): String = "SCA%03d".format(scale)
     override fun getSpeedRequest(speed: Int): String = "SPD%03d".format(speed)
+    override fun getModeRequest(mode: GyverLampMode): String = "EFF%03d".format(mode.id)
 
     override fun parseCurrentStateResponse(
         response: String,
         previousState: GyverLampState?
     ): GyverLampState? {
-        //TODO это должно зависить от запроса
+        //TODO это должно зависеть от запроса
         if (response.startsWith("CURR")) return parseCurrent(response)
         if (response.startsWith("BRI")) return parseBrightness(response, previousState)
         if (response.startsWith("SCA")) return parseScale(response, previousState)
@@ -71,11 +73,17 @@ class GyverLampProtocolImpl : GyverLampProtocol {
         return previousState.copy(speed = matcher.group(1)!!.toInt())
     }
 
+    //TODO добавить проверки на ошибки
     private fun parseCurrent(response: String): GyverLampState {
         val matcher = CURRENT_STATE_REGEXP.matcher(response)
         if (!matcher.matches()) throw GyverLampProtocol.BadResponseException()
+
+        val modeInt = matcher.group(1)!!.toInt()
+        val mode = GyverLampMode.values().find { it.id == modeInt }
+            ?: throw GyverLampProtocol.BadResponseException()
+
         return GyverLampState(
-            mode = matcher.group(1)!!.toInt(),
+            mode = mode,
             brightness = matcher.group(2)!!.toInt(),
             speed = matcher.group(3)!!.toInt(),
             scale = matcher.group(4)!!.toInt(),

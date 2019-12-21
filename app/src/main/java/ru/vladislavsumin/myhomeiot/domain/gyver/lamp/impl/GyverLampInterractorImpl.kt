@@ -3,13 +3,10 @@ package ru.vladislavsumin.myhomeiot.domain.gyver.lamp.impl
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
-import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampInterractor
-import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampManager
-import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampProtocol
+import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.*
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnection
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionFactory
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
-import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampState
 import ru.vladislavsumin.myhomeiot.network.NetworkConnectivityManager
 import ru.vladislavsumin.myhomeiot.utils.subscribeOnIo
 import ru.vladislavsumin.myhomeiot.utils.tag
@@ -70,11 +67,14 @@ class GyverLampInterractorImpl(
 
     override fun observeChangeScale(scale: Int): Completable {
         return observeRequest(mGyverLampProtocol.getScaleRequest(scale))
-
     }
 
     override fun observeChangeSpeed(speed: Int): Completable {
         return observeRequest(mGyverLampProtocol.getSpeedRequest(speed))
+    }
+
+    override fun observeChangeMode(mode: GyverLampMode): Completable {
+        return observeRequest(mGyverLampProtocol.getModeRequest(mode))
     }
 
     private fun observeRequest(request: String): Completable {

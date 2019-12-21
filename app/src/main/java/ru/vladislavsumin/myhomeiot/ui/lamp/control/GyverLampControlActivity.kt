@@ -24,6 +24,8 @@ import ru.vladislavsumin.myhomeiot.ui.core.ToolbarActivity
 class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
     companion object {
         private const val LAYOUT = R.layout.activity_gyver_lamp_control
+        private const val LAYOUT_LIST_ELEMENT = R.layout.list_mode_element
+
         private const val GYVER_LAMP_ID = "gyver_lamp_id"
 
         fun getLaunchIntent(context: Context, id: Long): Intent {
@@ -141,12 +143,18 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
         }
     }
 
+    private fun getViewHolderInstance(parent: ViewGroup): ModsViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val view = layoutInflater.inflate(LAYOUT_LIST_ELEMENT, parent, false)
+        return ModsViewHolder(view)
+    }
 
-    private class Adapter : RecyclerView.Adapter<ModsViewHolder>() {
+
+    private inner class Adapter : RecyclerView.Adapter<ModsViewHolder>() {
         var mMods: List<GyverLampMode> = GyverLampMode.values().toList()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModsViewHolder {
-            return ModsViewHolder.getInstance(parent)
+            return getViewHolderInstance(parent)
         }
 
         override fun getItemCount(): Int = mMods.size
@@ -156,25 +164,15 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
         }
     }
 
-    class ModsViewHolder private constructor(view: View) :
+    private inner class ModsViewHolder constructor(view: View) :
         RecyclerView.ViewHolder(view) {
-        companion object {
-
-            private const val LAYOUT = R.layout.list_mode_element
-
-            fun getInstance(parent: ViewGroup): ModsViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater.inflate(LAYOUT, parent, false)
-                return ModsViewHolder(view)
-            }
-        }
 
         private val name: TextView = view.findViewById(R.id.list_mode_element_name)
         private lateinit var mItem: GyverLampMode
 
         init {
             view.setOnClickListener {
-                //TODO
+                mPresenter.onChangeMode(mItem)
             }
         }
 

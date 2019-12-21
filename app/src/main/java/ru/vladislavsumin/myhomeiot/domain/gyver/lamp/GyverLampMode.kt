@@ -1,7 +1,7 @@
 package ru.vladislavsumin.myhomeiot.domain.gyver.lamp
 
 enum class GyverLampMode(
-    id: Int
+    val id: Int
 ) {
     sparklesRoutine(0),
     fireRoutine(1),
