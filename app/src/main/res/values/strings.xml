@@ -20,23 +20,23 @@
     <string name="name">Name</string>
 
     <string-array name="gyver_lamp_modes">
-        <item>sparklesRoutine</item>
-        <item>fireRoutine</item>
-        <item>rainbowVertical</item>
-        <item>rainbowHorizontal</item>
-        <item>colorsRoutine</item>
-        <item>madnessNoise</item>
-        <item>cloudNoise</item>
-        <item>lavaNoise</item>
-        <item>plasmaNoise</item>
-        <item>rainbowNoise</item>
-        <item>rainbowStripeNoise</item>
-        <item>zebraNoise</item>
-        <item>forestNoise</item>
-        <item>oceanNoise</item>
-        <item>colorRoutine</item>
-        <item>snowRoutine</item>
-        <item>matrixRoutine</item>
-        <item>lightersRoutine</item>
+        <item>Сonfetti</item>
+        <item>Fire</item>
+        <item>Rainbow vertical</item>
+        <item>Rainbow horizontal</item>
+        <item>Change color</item>
+        <item>Madness 3D</item>
+        <item>Сlouds 3D</item>
+        <item>Lava 3D</item>
+        <item>Plasma 3D</item>
+        <item>Rainbow 3D</item>
+        <item>Peacock 3D</item>
+        <item>Zebra 3D</item>
+        <item>Forest 3D</item>
+        <item>Ocean 3D</item>
+        <item>Color</item>
+        <item>Snow</item>
+        <item>Matrix</item>
+        <item>Fireflies</item>
     </string-array>
 </resources>

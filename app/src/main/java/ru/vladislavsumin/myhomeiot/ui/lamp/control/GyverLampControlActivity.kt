@@ -130,6 +130,7 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
             activity_gyver_lamp_control_scale.isEnabled = true
             activity_gyver_lamp_control_speed.isEnabled = true
             activity_gyver_lamp_control_brightness.isEnabled = true
+            activity_gyver_lamp_control_modes.isEnabled = true
 
             activity_gyver_lamp_control_scale.progress = state.scale
             activity_gyver_lamp_control_speed.progress = state.speed
@@ -140,6 +141,7 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
             activity_gyver_lamp_control_scale.isEnabled = false
             activity_gyver_lamp_control_speed.isEnabled = false
             activity_gyver_lamp_control_brightness.isEnabled = false
+            activity_gyver_lamp_control_modes.isEnabled = false
         }
     }
 
@@ -178,7 +180,8 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
 
         fun bind(item: GyverLampMode) {
             mItem = item
-            name.text = item.name
+            val names = itemView.resources.getStringArray(R.array.gyver_lamp_modes)
+            name.text = names[item.id]
         }
     }
 }

@@ -16,4 +16,25 @@
     <string name="app_version">Версия: %s</string>
     <string name="frw_accept_privacy_policy_link">https://sites.google.com/view/myhomeiot/%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9-%D1%8F%D0%B7%D1%8B%D0%BA-ru</string>
     <string name="privacy_policy_link">#link0(Политика конфиденциальности)</string>
+
+    <string-array name="gyver_lamp_modes">
+        <item>Конфетти</item>
+        <item>Огонь</item>
+        <item>Радуга вертикальная</item>
+        <item>Радуга горизонтальная</item>
+        <item>Смена цвета</item>
+        <item>Безумие 3D</item>
+        <item>Облака 3D</item>
+        <item>Лава 3D</item>
+        <item>Плазма 3D</item>
+        <item>Радуга 3D</item>
+        <item>Павлин 3D</item>
+        <item>Зебра 3D</item>
+        <item>Лес 3D</item>
+        <item>Океан 3D</item>
+        <item>Цвет</item>
+        <item>Снег</item>
+        <item>Матрица</item>
+        <item>Светлячки</item>
+    </string-array>
 </resources>

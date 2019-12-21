@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import moxy.MvpView
+import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.OneExecutionStateStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
@@ -16,4 +17,7 @@ interface BaseView : MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun finish()
+
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun setTitle(title: String)
 }

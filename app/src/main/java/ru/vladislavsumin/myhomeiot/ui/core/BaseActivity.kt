@@ -58,4 +58,8 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
     override fun startActivity(factory: (context: Context) -> Intent) {
         startActivity(factory(this))
     }
+
+    override fun setTitle(title: String) {
+        this.title = title
+    }
 }
