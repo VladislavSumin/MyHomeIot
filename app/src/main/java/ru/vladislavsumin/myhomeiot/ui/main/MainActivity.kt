@@ -34,7 +34,7 @@ class MainActivity : ToolbarActivity(), MainActivityView {
     @InjectPresenter
     lateinit var mPresenter: MainActivityPresenter
 
-    lateinit var mAdapter: Adapter
+    private lateinit var mAdapter: Adapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +77,7 @@ class MainActivity : ToolbarActivity(), MainActivityView {
         startActivity(browserIntent)
     }
 
-    class Adapter : RecyclerView.Adapter<GyverLampViewHolder>() {
+    private class Adapter : RecyclerView.Adapter<GyverLampViewHolder>() {
         var mLamps: List<GyverLampEntity> = emptyList()
             @UiThread
             set(value) {
@@ -96,7 +96,7 @@ class MainActivity : ToolbarActivity(), MainActivityView {
         }
     }
 
-    class GyverLampViewHolder private constructor(view: View) :
+    private class GyverLampViewHolder private constructor(view: View) :
         RecyclerView.ViewHolder(view) {
         companion object {
 

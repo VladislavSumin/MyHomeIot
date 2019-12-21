@@ -1,6 +1,5 @@
 package ru.vladislavsumin.myhomeiot.domain.gyver.lamp
 
-import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampState
 import java.lang.Exception
 import java.net.DatagramPacket
 
@@ -21,6 +20,7 @@ interface GyverLampProtocol {
     fun getBrightnessRequest(brightness: Int): String
     fun getScaleRequest(scale: Int): String
     fun getSpeedRequest(speed: Int): String
+    fun getModeRequest(mode: GyverLampMode): String
 
     @Throws(BadResponseException::class)
     fun parseCurrentStateResponse(response: String, previousState: GyverLampState?): GyverLampState?
@@ -30,7 +30,6 @@ interface GyverLampProtocol {
 
     @Throws(BadPacketException::class)
     fun datagramPacketToString(datagramPacket: DatagramPacket): String
-
 
 
     class BadPacketException : Exception()

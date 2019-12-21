@@ -2,8 +2,7 @@ package ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection
 
 import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.Single
-import java.lang.RuntimeException
+import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampState
 
 
 interface GyverLampConnection {

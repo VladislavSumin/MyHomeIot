@@ -1,7 +1,7 @@
-package ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection
+package ru.vladislavsumin.myhomeiot.domain.gyver.lamp
 
 data class GyverLampState(
-    val mode: Int, //TODO replace with enum
+    val mode: GyverLampMode,
     val brightness: Int,
     val speed: Int,
     val scale: Int,
