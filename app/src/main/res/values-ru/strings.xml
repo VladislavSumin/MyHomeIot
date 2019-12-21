@@ -37,4 +37,5 @@
         <item>Матрица</item>
         <item>Светлячки</item>
     </string-array>
+    <string name="settings">Настройки</string>
 </resources>
