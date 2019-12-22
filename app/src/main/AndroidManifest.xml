@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ru.vladislavsumin.myhomeiot">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".app.App"
@@ -15,7 +17,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".ui.frw.FrwActivity" />
-        <activity android:name=".ui.frw.privacy.PrivacyPolicyActivity"/>
+        <activity android:name=".ui.frw.privacy.PrivacyPolicyActivity" />
 
         <activity android:name=".ui.main.MainActivity">
             <intent-filter>
