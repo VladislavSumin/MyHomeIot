@@ -1,6 +1,7 @@
 package ru.vladislavsumin.myhomeiot.ui.lamp.manage
 
 import androidx.annotation.UiThread
+import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
 import moxy.InjectViewState
 import ru.vladislavsumin.myhomeiot.app.Injector
@@ -13,9 +14,8 @@ import java.net.InetAddress
 import javax.inject.Inject
 
 @InjectViewState
-//TODO добавить обработку id / переиминовать активити в ManageGyverLampActivity
 //TODO добавить проверку на дубликаты
-class ManageGyverLampPresenter(private val id: Long?) : BasePresenter<ManageGyverLampView>() {
+class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyverLampView>() {
     @Inject
     lateinit var mGyverLampsInterractor: GyverLampsInterractor
     @Inject
@@ -26,6 +26,23 @@ class ManageGyverLampPresenter(private val id: Long?) : BasePresenter<ManageGyve
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         Injector.inject(this)
+
+        if (id == 0L) {
+            viewState.showManageState(ManageGyverLampView.ManageState.ADD_NEW)
+        } else {
+            viewState.showManageState(ManageGyverLampView.ManageState.LOADING)
+            mGyverLampManager.observeLamp(id)
+                .observeOnMainThread()
+                .subscribe(
+                    {
+                        viewState.showGyverLampEntity(it)
+                        viewState.showManageState(ManageGyverLampView.ManageState.EDIT)
+                    }, {
+                        //TODO add error log
+                    }
+                )
+                .autoDispose()
+        }
     }
 
     @UiThread
@@ -73,15 +90,31 @@ class ManageGyverLampPresenter(private val id: Long?) : BasePresenter<ManageGyve
 
         viewState.showCheckingState(ManageGyverLampView.CheckingState.SAVING)
 
+
         val gyverLampEntity = GyverLampEntity(
+            id = id,
             name = if (name.isEmpty()) GyverLampEntity.DEFAULT_NAME else name,
             host = host,
             port = port
         )
 
-        mGyverLampManager.addLamp(gyverLampEntity)
+        val completable: Completable = if (id == 0L) {
+            viewState.showManageState(ManageGyverLampView.ManageState.SAVING_NEW)
+            mGyverLampManager.addLamp(gyverLampEntity)
+        } else {
+            viewState.showManageState(ManageGyverLampView.ManageState.SAVING_EXIST)
+            mGyverLampManager.updateLamp(gyverLampEntity)
+        }
+
+        completable
             .observeOnMainThread()
-            .subscribe { viewState.finish() }
+            .subscribe(
+                {
+                    viewState.finish()
+                }, {
+                    //TODO log error
+                }
+            )
             .autoDispose()
     }
 
@@ -102,5 +135,21 @@ class ManageGyverLampPresenter(private val id: Long?) : BasePresenter<ManageGyve
     override fun onDestroy() {
         mCheckStateDisposable?.dispose()
         super.onDestroy()
+    }
+
+    fun onClickSaveDelete() {
+        viewState.showCheckingState(ManageGyverLampView.CheckingState.SAVING)
+        viewState.showManageState(ManageGyverLampView.ManageState.SAVING_EXIST)
+
+        mGyverLampManager.deleteLamp(id)
+            .observeOnMainThread()
+            .subscribe(
+                {
+                    viewState.finish()
+                }, {
+                    //TODO log error
+                }
+            )
+            .autoDispose()
     }
 }

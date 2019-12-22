@@ -43,6 +43,9 @@ class GyverLampInterractorImpl(
             .startWith(mGyverLampConnectionFactory.createLoadingSate())
             .replay(1)
             .refCount()
+            .doOnError {
+                println("a")
+            }
 
     override fun observeConnectionState(): Observable<Pair<GyverLampConnectionState, GyverLampState?>> {
         return mConnectionObservable

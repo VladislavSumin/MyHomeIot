@@ -10,6 +10,21 @@ interface GyverLampManager {
      */
     fun addLamp(gyverLampEntity: GyverLampEntity): Completable
 
+    /**
+     * Async. Return data on internal thread
+     */
+    fun updateLamp(gyverLampEntity: GyverLampEntity): Completable
+
+    /**
+     * Async. Return data on internal thread
+     */
+    fun deleteLamp(gyverLampEntity: GyverLampEntity): Completable
+
+    /**
+     * Async. Return data on internal thread
+     */
+    fun deleteLamp(id: Long): Completable
+
     fun observeLamps(): Flowable<List<GyverLampEntity>>
 
     fun observeLamp(id: Long): Flowable<GyverLampEntity>
