@@ -12,6 +12,7 @@ import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampState
 import ru.vladislavsumin.myhomeiot.network.SocketProvider
 import ru.vladislavsumin.myhomeiot.utils.subscribeOnIo
 import ru.vladislavsumin.myhomeiot.utils.tag
+import java.io.IOException
 import java.lang.Exception
 import java.net.*
 import java.util.*
@@ -30,8 +31,7 @@ class GyverLampConnectionStateImpl(
 
         private const val DEFAULT_RECEIVE_PACKAGE_SIZE = 1000
         private const val DEFAULT_TIMEOUT = 4000
-        //TODO не плохо бы это реализовать, а то если нет сети будет активное ожидание
-        private const val DEFAULT_RECONNECT_TIMEOUT = 4000L
+        private const val DEFAULT_RECONNECT_TIMEOUT = 2500L
         private const val PING_INTERVAL = 1500L
     }
 
@@ -125,12 +125,13 @@ class GyverLampConnectionStateImpl(
                     )
                 } catch (e: Exception) {
                     request.first?.apply {
-                        if (!isDisposed) onError(GyverLampConnection.CannotConnectException())
+                        if (!isDisposed) onError(GyverLampConnection.ConnectionException())
                     }
 
                     clearQuery()
 
                     when (e) {
+                        is IOException,
                         is SocketException,
                         is SocketTimeoutException -> {
                             Log.d(TAG, "socket error")
@@ -138,6 +139,8 @@ class GyverLampConnectionStateImpl(
                             if (!emitter.isDisposed) {
                                 emitter.onNext(Pair(GyverLampConnectionState.DISCONNECTED, null))
                             }
+
+                            reconnectTimeout(emitter)
                             setupSocket(emitter)
                         }
                         else -> throw e
@@ -148,11 +151,30 @@ class GyverLampConnectionStateImpl(
         Log.d(TAG, "Connection closed")
     }
 
+    private fun reconnectTimeout(emitter: ObservableEmitter<*>) {
+        val startTime = System.currentTimeMillis()
+        mLock.withLock {
+            while (mIsRunning && !emitter.isDisposed && mMessageQueue.isEmpty() &&
+                (System.currentTimeMillis() - startTime < DEFAULT_RECONNECT_TIMEOUT)
+            ) {
+                mQueueNotEmpty.await(
+                    startTime + PING_INTERVAL - System.currentTimeMillis(),
+                    TimeUnit.MILLISECONDS
+                )
+
+                if (mMessageQueue.isNotEmpty()) {
+                    val request = mMessageQueue.poll()!!.first
+                    if (!request.isDisposed) request.onError(GyverLampConnection.ConnectionException())
+                }
+            }
+        }
+    }
+
     private fun clearQuery() {
         mLock.withLock {
             mMessageQueue.forEach {
                 if (!it.first.isDisposed)
-                    it.first.onError(GyverLampConnection.CannotConnectException())
+                    it.first.onError(GyverLampConnection.ConnectionException())
             }
             mMessageQueue.clear()
             mQueueNotEmpty.signal()
