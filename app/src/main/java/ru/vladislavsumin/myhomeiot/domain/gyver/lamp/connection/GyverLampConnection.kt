@@ -9,8 +9,8 @@ interface GyverLampConnection {
     fun observeConnectionStatus(): Observable<GyverLampConnectionState>
     fun observeConnection(): Observable<Pair<GyverLampConnectionState, GyverLampState?>>
 
-    @Throws(CannotConnectException::class)
+    @Throws(ConnectionException::class)
     fun addRequest(request: String): Completable
 
-    class CannotConnectException() : Exception()
+    class ConnectionException() : Exception()
 }

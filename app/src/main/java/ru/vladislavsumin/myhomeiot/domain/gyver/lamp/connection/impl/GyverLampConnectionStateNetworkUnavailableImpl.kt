@@ -12,6 +12,6 @@ class GyverLampConnectionStateNetworkUnavailableImpl : GyverLampConnectionAbstra
     }
 
     override fun addRequest(request: String): Completable {
-        return Completable.error(GyverLampConnection.CannotConnectException())
+        return Completable.error(GyverLampConnection.ConnectionException())
     }
 }
