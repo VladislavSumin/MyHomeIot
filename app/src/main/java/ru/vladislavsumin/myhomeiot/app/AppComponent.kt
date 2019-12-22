@@ -8,7 +8,7 @@ import ru.vladislavsumin.myhomeiot.strorage.StorageModule
 import ru.vladislavsumin.myhomeiot.ui.core.BaseActivity
 import ru.vladislavsumin.myhomeiot.ui.frw.FrwPresenter
 import ru.vladislavsumin.myhomeiot.ui.lamp.control.GyverLampControlPresenter
-import ru.vladislavsumin.myhomeiot.ui.lamp.manage.AddGyverLampPresenter
+import ru.vladislavsumin.myhomeiot.ui.lamp.manage.ManageGyverLampPresenter
 import ru.vladislavsumin.myhomeiot.ui.main.MainActivityPresenter
 import javax.inject.Singleton
 
@@ -31,6 +31,6 @@ interface AppComponent {
 
     fun inject(presenter: FrwPresenter)
     fun inject(presenter: MainActivityPresenter)
-    fun inject(presenter: AddGyverLampPresenter)
+    fun inject(presenter: ManageGyverLampPresenter)
     fun inject(presenter: GyverLampControlPresenter)
 }

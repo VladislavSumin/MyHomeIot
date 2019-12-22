@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import moxy.presenter.InjectPresenter
-import ru.vladislavsumin.myhomeiot.ui.lamp.manage.AddGyverLampActivity
+import ru.vladislavsumin.myhomeiot.ui.lamp.manage.ManageGyverLampActivity
 import ru.vladislavsumin.myhomeiot.ui.lamp.control.GyverLampControlActivity
 import ru.vladislavsumin.myhomeiot.R
 import ru.vladislavsumin.myhomeiot.app.AppConfig
@@ -64,7 +64,7 @@ class MainActivity : ToolbarActivity(), MainActivityView {
             mPresenter.onClickReadPrivacyPolicy()
         }
         activity_main_fab.setOnClickListener {
-            startActivity(AddGyverLampActivity.getLaunchIntent(this))
+            startActivity(ManageGyverLampActivity.getLaunchIntent(this))
         }
     }
 

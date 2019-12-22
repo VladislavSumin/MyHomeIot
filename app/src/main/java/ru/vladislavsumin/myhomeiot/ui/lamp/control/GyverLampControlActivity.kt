@@ -3,12 +3,9 @@ package ru.vladislavsumin.myhomeiot.ui.lamp.control
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.annotation.UiThread
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,9 +14,11 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import ru.vladislavsumin.myhomeiot.R
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampMode
-import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampState
+import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
 import ru.vladislavsumin.myhomeiot.ui.core.ToolbarActivity
+import ru.vladislavsumin.myhomeiot.ui.lamp.manage.ManageGyverLampActivity
+
 
 class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
     companion object {
@@ -76,6 +75,25 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
 
     private fun setupUx() {
         activity_gyver_lamp_control_on_off.setOnClickListener { mPresenter.onClickOnOffButton() }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.gyver_lamp_control, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.gyver_lamp_control_settings -> {
+                mPresenter.onClickSettingsButton()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun showSettingsScreen(id: Long) {
+        startActivity(ManageGyverLampActivity.getLaunchIntent(this, id))
     }
 
     override fun showGyverLampConnectionState(connectionState: GyverLampConnectionState) {

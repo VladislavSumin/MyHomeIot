@@ -1,6 +1,5 @@
 package ru.vladislavsumin.myhomeiot.domain.gyver.lamp.impl
 
-import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampManager
@@ -17,6 +16,22 @@ class GyverLampManagerImpl(
             .subscribeOnIo()
     }
 
+    override fun updateLamp(gyverLampEntity: GyverLampEntity): Completable {
+        return mGyverLampDao
+            .observeUpdate(gyverLampEntity)
+            .subscribeOnIo()
+    }
+
+    override fun deleteLamp(gyverLampEntity: GyverLampEntity): Completable {
+        return deleteLamp(gyverLampEntity.id)
+    }
+
+    override fun deleteLamp(id: Long): Completable {
+        return mGyverLampDao
+            .observeDeleteById(id)
+            .subscribeOnIo()
+    }
+
     override fun observeLamps(): Flowable<List<GyverLampEntity>> {
         return mGyverLampDao
             .observeAll()
@@ -25,7 +40,11 @@ class GyverLampManagerImpl(
 
     override fun observeLamp(id: Long): Flowable<GyverLampEntity> {
         return mGyverLampDao
-            .observerById(id)
+            .observeById(id)
+            .map {
+                if (it.isEmpty()) throw GyverLampManager.LampNotFoundException()
+                it[0]
+            }
             .subscribeOnIo()
     }
 }
