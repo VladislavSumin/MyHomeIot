@@ -3,10 +3,7 @@ package ru.vladislavsumin.myhomeiot.ui.lamp.control
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -20,14 +17,13 @@ import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampMode
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampState
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
 import ru.vladislavsumin.myhomeiot.ui.core.ToolbarActivity
+import ru.vladislavsumin.myhomeiot.ui.lamp.manage.ManageGyverLampActivity
 
 
 class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
     companion object {
         private const val LAYOUT = R.layout.activity_gyver_lamp_control
         private const val LAYOUT_LIST_ELEMENT = R.layout.list_mode_element
-
-        private const val MENU_ITEM_SETTINGS = 0
 
         private const val GYVER_LAMP_ID = "gyver_lamp_id"
 
@@ -82,9 +78,22 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-
         menuInflater.inflate(R.menu.gyver_lamp_control, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.gyver_lamp_control_settings -> {
+                mPresenter.onClickSettingsButton()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun showSettingsScreen(id: Long) {
+        startActivity(ManageGyverLampActivity.getLaunchIntent(this, id))
     }
 
     override fun showGyverLampConnectionState(connectionState: GyverLampConnectionState) {

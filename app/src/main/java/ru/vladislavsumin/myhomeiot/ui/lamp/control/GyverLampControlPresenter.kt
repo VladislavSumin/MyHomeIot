@@ -3,6 +3,7 @@ package ru.vladislavsumin.myhomeiot.ui.lamp.control
 import io.reactivex.disposables.Disposable
 import moxy.InjectViewState
 import ru.vladislavsumin.myhomeiot.app.Injector
+import ru.vladislavsumin.myhomeiot.database.entity.GyverLampEntity
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.*
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
 import ru.vladislavsumin.myhomeiot.ui.core.BasePresenter
@@ -22,6 +23,8 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
     lateinit var mGyverLampManager: GyverLampManager
 
     private lateinit var mGyverLampInterractor: GyverLampInterractor
+
+    private var mGyverLampEntity: GyverLampEntity? = null
 
     private var mGyverLampState: GyverLampState? = null
     private var mChangeBrightnessDisposable: Disposable? = null
@@ -44,6 +47,7 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
             .observeOnMainThread()
             .subscribe(
                 {
+                    mGyverLampEntity = it
                     viewState.setTitle(it.name)
                 }, {
                     //TODO add error handling
@@ -116,5 +120,10 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
         mChangeModeDisposable?.dispose()
         mChangeSpeedDisposable = mGyverLampInterractor.observeChangeMode(mode)
             .subscribe({}, {})
+    }
+
+    fun onClickSettingsButton() {
+        val gyverLampEntity = mGyverLampEntity ?: return
+        viewState.showSettingsScreen(gyverLampEntity.id)
     }
 }
