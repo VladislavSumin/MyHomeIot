@@ -129,6 +129,10 @@ class ManageGyverLampActivity : ToolbarActivity(),
         }!!
     }
 
+    override fun showManageState(state: ManageGyverLampView.ManageState) {
+        TODO("not implemented")
+    }
+
     private class ChangeTextWatcher(private val callback: () -> Unit) : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
         }
