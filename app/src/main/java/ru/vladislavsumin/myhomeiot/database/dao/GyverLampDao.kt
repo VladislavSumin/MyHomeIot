@@ -12,7 +12,7 @@ interface GyverLampDao : BaseDao<GyverLampEntity> {
     fun observeAll(): Flowable<List<GyverLampEntity>>
 
     @Query("SELECT * FROM iot_gyver_lamps WHERE id = :id")
-    fun observeById(id: Long): Flowable<GyverLampEntity>
+    fun observeById(id: Long): Flowable<List<GyverLampEntity>>
 
     @Query("DELETE FROM iot_gyver_lamps WHERE id = :id")
     fun observeDeleteById(id: Long): Completable

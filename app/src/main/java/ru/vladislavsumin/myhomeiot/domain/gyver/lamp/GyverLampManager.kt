@@ -3,6 +3,7 @@ package ru.vladislavsumin.myhomeiot.domain.gyver.lamp
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import ru.vladislavsumin.myhomeiot.database.entity.GyverLampEntity
+import java.lang.RuntimeException
 
 interface GyverLampManager {
     /**
@@ -28,4 +29,6 @@ interface GyverLampManager {
     fun observeLamps(): Flowable<List<GyverLampEntity>>
 
     fun observeLamp(id: Long): Flowable<GyverLampEntity>
+
+    class LampNotFoundException : RuntimeException()
 }

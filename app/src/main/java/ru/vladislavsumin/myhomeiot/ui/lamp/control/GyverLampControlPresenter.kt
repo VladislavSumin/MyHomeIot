@@ -8,6 +8,7 @@ import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.*
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
 import ru.vladislavsumin.myhomeiot.ui.core.BasePresenter
 import ru.vladislavsumin.myhomeiot.utils.observeOnMainThread
+import java.lang.Exception
 import javax.inject.Inject
 
 @InjectViewState
@@ -40,7 +41,7 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
         mGyverLampInterractor
             .observeConnectionState()
             .observeOnMainThread()
-            .subscribe(this::onGyverLampStateChange)
+            .subscribe(this::onGyverLampStateChange, this::onError)
             .autoDispose()
 
         mGyverLampManager.observeLamp(mGyverLampId)
@@ -49,11 +50,16 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
                 {
                     mGyverLampEntity = it
                     viewState.setTitle(it.name)
-                }, {
-                    //TODO add error handling
-                }
+                }, this::onError
             )
             .autoDispose()
+    }
+
+    private fun onError(t: Throwable) {
+        when (t) {
+            is GyverLampManager.LampNotFoundException -> viewState.finish()
+            else -> throw t
+        }
     }
 
     private fun onGyverLampStateChange(state: Pair<GyverLampConnectionState, GyverLampState?>) {

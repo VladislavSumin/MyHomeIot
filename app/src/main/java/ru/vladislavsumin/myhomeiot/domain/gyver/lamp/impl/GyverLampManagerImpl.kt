@@ -41,6 +41,10 @@ class GyverLampManagerImpl(
     override fun observeLamp(id: Long): Flowable<GyverLampEntity> {
         return mGyverLampDao
             .observeById(id)
+            .map {
+                if (it.isEmpty()) throw GyverLampManager.LampNotFoundException()
+                it[0]
+            }
             .subscribeOnIo()
     }
 }
