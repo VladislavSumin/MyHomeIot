@@ -140,6 +140,7 @@ class GyverLampConnectionStateImpl(
                                 emitter.onNext(Pair(GyverLampConnectionState.DISCONNECTED, null))
                             }
 
+                            clearQuery()
                             reconnectTimeout(emitter)
                             setupSocket(emitter)
                         }
@@ -161,11 +162,7 @@ class GyverLampConnectionStateImpl(
                     startTime + PING_INTERVAL - System.currentTimeMillis(),
                     TimeUnit.MILLISECONDS
                 )
-
-                if (mMessageQueue.isNotEmpty()) {
-                    val request = mMessageQueue.poll()!!.first
-                    if (!request.isDisposed) request.onError(GyverLampConnection.ConnectionException())
-                }
+                //Do not cancel message from query force reconnect
             }
         }
     }
