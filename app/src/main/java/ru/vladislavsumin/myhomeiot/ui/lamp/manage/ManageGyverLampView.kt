@@ -4,7 +4,7 @@ import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import ru.vladislavsumin.myhomeiot.ui.core.BaseView
 
-interface AddGyverLampView : BaseView {
+interface ManageGyverLampView : BaseView {
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun showCheckingState(state: CheckingState)
 

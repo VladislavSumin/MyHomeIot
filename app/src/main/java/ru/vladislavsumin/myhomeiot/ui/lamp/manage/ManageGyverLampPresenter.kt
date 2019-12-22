@@ -15,7 +15,7 @@ import javax.inject.Inject
 @InjectViewState
 //TODO добавить обработку id / переиминовать активити в ManageGyverLampActivity
 //TODO добавить проверку на дубликаты
-class AddGyverLampPresenter(private val id: Long?) : BasePresenter<AddGyverLampView>() {
+class ManageGyverLampPresenter(private val id: Long?) : BasePresenter<ManageGyverLampView>() {
     @Inject
     lateinit var mGyverLampsInterractor: GyverLampsInterractor
     @Inject
@@ -34,25 +34,25 @@ class AddGyverLampPresenter(private val id: Long?) : BasePresenter<AddGyverLampV
         try {
             inetAddress = InetAddress.getByName(host)
         } catch (_: Throwable) {
-            viewState.showCheckingState(AddGyverLampView.CheckingState.INCORRECT_INPUT_DATA)
+            viewState.showCheckingState(ManageGyverLampView.CheckingState.INCORRECT_INPUT_DATA)
             return
         }
 
         if (!checkPort(port)) {
-            viewState.showCheckingState(AddGyverLampView.CheckingState.INCORRECT_INPUT_DATA)
+            viewState.showCheckingState(ManageGyverLampView.CheckingState.INCORRECT_INPUT_DATA)
             return
         }
 
-        viewState.showCheckingState(AddGyverLampView.CheckingState.CHECKING)
+        viewState.showCheckingState(ManageGyverLampView.CheckingState.CHECKING)
         mCheckStateDisposable?.dispose()
         mCheckStateDisposable = mGyverLampsInterractor.checkConnection(inetAddress, port)
             .observeOnMainThread()
             .subscribe(
                 {
-                    viewState.showCheckingState(AddGyverLampView.CheckingState.CHECK_SUCCESS)
+                    viewState.showCheckingState(ManageGyverLampView.CheckingState.CHECK_SUCCESS)
                 },
                 {
-                    viewState.showCheckingState(AddGyverLampView.CheckingState.CHECK_FAILED)
+                    viewState.showCheckingState(ManageGyverLampView.CheckingState.CHECK_FAILED)
                 }
             )
     }
@@ -62,16 +62,16 @@ class AddGyverLampPresenter(private val id: Long?) : BasePresenter<AddGyverLampV
         try {
             InetAddress.getByName(host)
         } catch (_: Throwable) {
-            viewState.showCheckingState(AddGyverLampView.CheckingState.INCORRECT_INPUT_DATA)
+            viewState.showCheckingState(ManageGyverLampView.CheckingState.INCORRECT_INPUT_DATA)
             return
         }
 
         if (!checkPort(port)) {
-            viewState.showCheckingState(AddGyverLampView.CheckingState.INCORRECT_INPUT_DATA)
+            viewState.showCheckingState(ManageGyverLampView.CheckingState.INCORRECT_INPUT_DATA)
             return
         }
 
-        viewState.showCheckingState(AddGyverLampView.CheckingState.SAVING)
+        viewState.showCheckingState(ManageGyverLampView.CheckingState.SAVING)
 
         val gyverLampEntity = GyverLampEntity(
             name = if (name.isEmpty()) GyverLampEntity.DEFAULT_NAME else name,
@@ -87,7 +87,7 @@ class AddGyverLampPresenter(private val id: Long?) : BasePresenter<AddGyverLampV
 
     private fun checkPort(port: Int): Boolean {
         if (port < 0 || port > 65535) {
-            viewState.showCheckingState(AddGyverLampView.CheckingState.INCORRECT_INPUT_DATA)
+            viewState.showCheckingState(ManageGyverLampView.CheckingState.INCORRECT_INPUT_DATA)
             return false
         }
         return true
@@ -95,7 +95,7 @@ class AddGyverLampPresenter(private val id: Long?) : BasePresenter<AddGyverLampV
 
     @UiThread
     fun onTextChanged() {
-        viewState.showCheckingState(AddGyverLampView.CheckingState.NOT_CHECKED)
+        viewState.showCheckingState(ManageGyverLampView.CheckingState.NOT_CHECKED)
         mCheckStateDisposable?.dispose()
     }
 

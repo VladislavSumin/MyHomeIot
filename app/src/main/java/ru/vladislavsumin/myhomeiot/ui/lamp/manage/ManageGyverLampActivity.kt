@@ -6,36 +6,33 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import kotlinx.android.synthetic.main.activity_add_gyver_lamp.*
+import kotlinx.android.synthetic.main.activity_manage_gyver_lamp.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import ru.vladislavsumin.myhomeiot.R
 import ru.vladislavsumin.myhomeiot.ui.core.ToolbarActivity
 
-class AddGyverLampActivity : ToolbarActivity(),
-    AddGyverLampView {
+class ManageGyverLampActivity : ToolbarActivity(),
+    ManageGyverLampView {
     companion object {
-        private const val LAYOUT = R.layout.activity_add_gyver_lamp
+        private const val LAYOUT = R.layout.activity_manage_gyver_lamp
 
         private const val GYVER_LAMP_ID = "gyver_lamp_id"
 
         fun getLaunchIntent(context: Context): Intent {
-            return getLaunchIntent(
-                context,
-                0
-            )
+            return getLaunchIntent(context, 0)
         }
 
         fun getLaunchIntent(context: Context, id: Long): Intent {
-            return Intent(context, AddGyverLampActivity::class.java).apply {
+            return Intent(context, ManageGyverLampActivity::class.java).apply {
                 putExtra(GYVER_LAMP_ID, id)
             }
         }
     }
 
     @ProvidePresenter
-    fun providePresenter(): AddGyverLampPresenter {
-        return AddGyverLampPresenter(
+    fun providePresenter(): ManageGyverLampPresenter {
+        return ManageGyverLampPresenter(
             getLaunchIntent(
                 this
             ).getLongExtra(
@@ -46,7 +43,7 @@ class AddGyverLampActivity : ToolbarActivity(),
     }
 
     @InjectPresenter
-    lateinit var mPresenter: AddGyverLampPresenter
+    lateinit var mPresenter: ManageGyverLampPresenter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,14 +81,14 @@ class AddGyverLampActivity : ToolbarActivity(),
     }
 
     @Suppress("DEPRECATION")
-    override fun showCheckingState(state: AddGyverLampView.CheckingState) {
+    override fun showCheckingState(state: ManageGyverLampView.CheckingState) {
         //TODO добавить цветовою индикацию с цветами темы!
         when (state) {
-            AddGyverLampView.CheckingState.NOT_CHECKED -> {
+            ManageGyverLampView.CheckingState.NOT_CHECKED -> {
                 activity_add_gyver_lamp_check_connection.isEnabled = true
                 activity_add_gyver_lamp_status_text.visibility = View.GONE
             }
-            AddGyverLampView.CheckingState.CHECKING -> {
+            ManageGyverLampView.CheckingState.CHECKING -> {
                 activity_add_gyver_lamp_check_connection.isEnabled = false
                 activity_add_gyver_lamp_status_text.apply {
                     visibility = View.VISIBLE
@@ -99,7 +96,7 @@ class AddGyverLampActivity : ToolbarActivity(),
                     setTextColor(resources.getColor(android.R.color.black))
                 }
             }
-            AddGyverLampView.CheckingState.CHECK_FAILED -> {
+            ManageGyverLampView.CheckingState.CHECK_FAILED -> {
                 activity_add_gyver_lamp_check_connection.isEnabled = true
                 activity_add_gyver_lamp_status_text.apply {
                     visibility = View.VISIBLE
@@ -107,7 +104,7 @@ class AddGyverLampActivity : ToolbarActivity(),
                     setTextColor(resources.getColor(android.R.color.holo_red_dark))
                 }
             }
-            AddGyverLampView.CheckingState.CHECK_SUCCESS -> {
+            ManageGyverLampView.CheckingState.CHECK_SUCCESS -> {
                 activity_add_gyver_lamp_check_connection.isEnabled = true
                 activity_add_gyver_lamp_status_text.apply {
                     visibility = View.VISIBLE
@@ -115,7 +112,7 @@ class AddGyverLampActivity : ToolbarActivity(),
                     setTextColor(resources.getColor(android.R.color.holo_green_dark))
                 }
             }
-            AddGyverLampView.CheckingState.INCORRECT_INPUT_DATA -> {
+            ManageGyverLampView.CheckingState.INCORRECT_INPUT_DATA -> {
                 activity_add_gyver_lamp_check_connection.isEnabled = true
                 activity_add_gyver_lamp_status_text.apply {
                     visibility = View.VISIBLE
@@ -123,7 +120,7 @@ class AddGyverLampActivity : ToolbarActivity(),
                     setTextColor(resources.getColor(android.R.color.holo_red_dark))
                 }
             }
-            AddGyverLampView.CheckingState.SAVING -> {
+            ManageGyverLampView.CheckingState.SAVING -> {
                 //now this las state, we don`t need enable save button after that
                 activity_add_gyver_lamp_status_text.visibility = View.GONE
                 activity_add_gyver_lamp_check_connection.isEnabled = false
