@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.lamp.control.GyverLampControlActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.lamp.control.GyverLampControlActivity">
 
     <include layout="@layout/toolbar" />
 
@@ -17,10 +17,10 @@
             android:id="@+id/activity_gyver_lamp_control_modes"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintHeight_default="wrap"
             android:layout_marginBottom="@dimen/default_margin"
             app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_state"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="wrap"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0" />
@@ -46,38 +46,71 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:text="lamp status string" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/activity_gyver_lamp_control_scale_icon"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:src="@drawable/ic_open_with"
+            app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_speed_icon"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <SeekBar
             android:id="@+id/activity_gyver_lamp_control_scale"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
-            android:layout_marginBottom="@dimen/default_margin"
-            app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_speed"
+            app:layout_constraintBottom_toBottomOf="@id/activity_gyver_lamp_control_scale_icon"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/activity_gyver_lamp_control_scale_icon"
+            app:layout_constraintTop_toTopOf="@id/activity_gyver_lamp_control_scale_icon" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/activity_gyver_lamp_control_speed_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:src="@drawable/ic_fast_forward"
+            app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_brightness_icon"
             app:layout_constraintStart_toStartOf="parent" />
+
 
         <SeekBar
             android:id="@+id/activity_gyver_lamp_control_speed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
-            android:layout_marginBottom="@dimen/default_margin"
-            app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_brightness"
+            app:layout_constraintBottom_toBottomOf="@id/activity_gyver_lamp_control_speed_icon"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/activity_gyver_lamp_control_speed_icon"
+            app:layout_constraintTop_toTopOf="@id/activity_gyver_lamp_control_speed_icon" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/activity_gyver_lamp_control_brightness_icon"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:src="@drawable/ic_brightness"
+            app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_on_off"
             app:layout_constraintStart_toStartOf="parent" />
+
 
         <SeekBar
             android:id="@+id/activity_gyver_lamp_control_brightness"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
-            android:layout_marginBottom="@dimen/default_margin"
-            app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_on_off"
+            app:layout_constraintBottom_toBottomOf="@id/activity_gyver_lamp_control_brightness_icon"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/activity_gyver_lamp_control_brightness_icon"
+            app:layout_constraintTop_toTopOf="@id/activity_gyver_lamp_control_brightness_icon" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/activity_gyver_lamp_control_on_off"
