@@ -22,6 +22,7 @@
     <string name="loading_please_wait">Loading, please wait</string>
     <string name="save">save</string>
     <string name="delete">delete</string>
+    <string name="current_mode">Mode: %s</string>
 
     <string-array name="gyver_lamp_modes">
         <item>Сonfetti</item>

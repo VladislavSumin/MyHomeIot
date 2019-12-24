@@ -38,6 +38,7 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
     lateinit var mPresenter: GyverLampControlPresenter
 
     private lateinit var mAdapter: Adapter
+    private lateinit var mModeNames: Array<String>
 
     @ProvidePresenter
     fun providePresenter(): GyverLampControlPresenter {
@@ -57,6 +58,8 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
     }
 
     private fun setupUi() {
+        mModeNames = resources.getStringArray(R.array.gyver_lamp_modes)
+
         activity_gyver_lamp_control_scale.max = 100
         activity_gyver_lamp_control_speed.max = 100
         activity_gyver_lamp_control_brightness.max = 255
@@ -97,8 +100,6 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
     }
 
     override fun showGyverLampConnectionState(connectionState: GyverLampConnectionState) {
-        activity_gyver_lamp_control_status.text = connectionState.toString()
-
         //TODO rewrite
         activity_gyver_lamp_control_brightness.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
@@ -141,8 +142,6 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
     }
 
     override fun showGyverLampState(state: GyverLampState?) {
-        activity_gyver_lamp_control_state.text = state?.toString()
-
         if (state != null) {
             activity_gyver_lamp_control_on_off.isEnabled = true
             activity_gyver_lamp_control_scale.isEnabled = true
@@ -155,6 +154,8 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
             activity_gyver_lamp_control_brightness.progress = state.brightness
 
             activity_gyver_lamp_control_on_off.isOn = state.isOn
+            activity_gyver_lamp_control_mode.text = getString(R.string.current_mode)
+                .format(getModeString(state.mode))
         } else {
             activity_gyver_lamp_control_on_off.isEnabled = false
             activity_gyver_lamp_control_scale.isEnabled = false
@@ -162,6 +163,10 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
             activity_gyver_lamp_control_brightness.isEnabled = false
             activity_gyver_lamp_control_modes.isEnabled = false
         }
+    }
+
+    private fun getModeString(gyverLampMode: GyverLampMode): String {
+        return mModeNames[gyverLampMode.id]
     }
 
     private fun getViewHolderInstance(parent: ViewGroup): ModsViewHolder {
@@ -199,8 +204,7 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
 
         fun bind(item: GyverLampMode) {
             mItem = item
-            val names = itemView.resources.getStringArray(R.array.gyver_lamp_modes)
-            name.text = names[item.id]
+            name.text = mModeNames[item.id]
         }
     }
 }

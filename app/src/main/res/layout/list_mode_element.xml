@@ -11,6 +11,7 @@
     <!--TODO поправить багу с foreground ну или оставить так =)-->
     <TextView
         android:id="@+id/list_mode_element_name"
+        style="?uiCoreTextBody"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="GyverLamp" />
