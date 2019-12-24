@@ -41,4 +41,5 @@
     <string name="loading_please_wait">Загрузка, пожалуйста подождите</string>
     <string name="save">сохранить</string>
     <string name="delete">удалить</string>
+    <string name="current_mode">Режим: %s</string>
 </resources>

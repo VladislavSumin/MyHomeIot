@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/default_margin"
-            app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_state"
+            app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_mode"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="wrap"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,23 +26,15 @@
             app:layout_constraintVertical_bias="0" />
 
         <TextView
-            android:id="@+id/activity_gyver_lamp_control_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="status" />
-
-        <TextView
-            android:id="@+id/activity_gyver_lamp_control_state"
+            android:id="@+id/activity_gyver_lamp_control_mode"
+            style="?uiCoreTextSubhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
+            android:text="@string/current_mode"
             app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_scale"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="lamp status string" />
 

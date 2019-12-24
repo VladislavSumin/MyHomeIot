@@ -21,6 +21,9 @@
         <item name="uiCoreRippleAlpha">@color/uiCoreAlphaLight</item>
 
         <item name="uiCoreTextHuge">@style/Style.UiCore.Text.Huge</item>
+        <item name="uiCoreTextHead">@style/Style.UiCore.Text.Head</item>
+        <item name="uiCoreTextSubhead">@style/Style.UiCore.Text.Subhead</item>
+        <item name="uiCoreTextBody">@style/Style.UiCore.Text.Body</item>
 
         <item name="uiCoreButtonDefault">@style/Style.UiCore.Button.Default</item>
     </style>
@@ -37,6 +40,9 @@
         <item name="uiCoreRippleAlpha">@color/uiCoreAlphaDark</item>
 
         <item name="uiCoreTextHuge">@style/Style.UiCore.Text.Huge</item>
+        <item name="uiCoreTextHead">@style/Style.UiCore.Text.Head</item>
+        <item name="uiCoreTextSubhead">@style/Style.UiCore.Text.Subhead</item>
+        <item name="uiCoreTextBody">@style/Style.UiCore.Text.Body</item>
 
         <item name="uiCoreButtonDefault">@style/Style.UiCore.Button.Default</item>
     </style>

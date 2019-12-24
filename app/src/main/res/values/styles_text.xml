@@ -8,4 +8,16 @@
     <style name="Style.UiCore.Text.Huge">
         <item name="android:textSize">@dimen/sp30</item>
     </style>
+
+    <style name="Style.UiCore.Text.Head">
+        <item name="android:textSize">@dimen/sp20</item>
+    </style>
+
+    <style name="Style.UiCore.Text.Subhead">
+        <item name="android:textSize">@dimen/sp16</item>
+    </style>
+
+    <style name="Style.UiCore.Text.Body">
+        <item name="android:textSize">@dimen/sp14</item>
+    </style>
 </resources>

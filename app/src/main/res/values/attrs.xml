@@ -21,4 +21,7 @@
     <attr name="uiCoreButtonDefault" format="reference" />
 
     <attr name="uiCoreTextHuge" format="reference" />
+    <attr name="uiCoreTextHead" format="reference" />
+    <attr name="uiCoreTextSubhead" format="reference" />
+    <attr name="uiCoreTextBody" format="reference" />
 </resources>
