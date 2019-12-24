@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="OnOffButton">
+        <attr name="is_on" format="boolean"/>
+    </declare-styleable>
+
+
+    <!--UI CORE-->
     <attr name="uiCoreTextPrimaryColor" format="color" />
 
     <attr name="uiCoreNormalButtonColor" format="color" />
@@ -10,9 +16,9 @@
 
     <attr name="uiCoreRippleAlpha" format="color" />
 
-    <attr name="uiKitInternalEnabledButtonTextColor" format="reference"/>
+    <attr name="uiKitInternalEnabledButtonTextColor" format="reference" />
 
-    <attr name="uiCoreButtonDefault" format="reference"/>
+    <attr name="uiCoreButtonDefault" format="reference" />
 
     <attr name="uiCoreTextHuge" format="reference" />
 </resources>

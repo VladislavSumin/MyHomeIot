@@ -112,7 +112,7 @@
             app:layout_constraintStart_toEndOf="@id/activity_gyver_lamp_control_brightness_icon"
             app:layout_constraintTop_toTopOf="@id/activity_gyver_lamp_control_brightness_icon" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <ru.vladislavsumin.myhomeiot.ui.lamp.control.OnOffButton
             android:id="@+id/activity_gyver_lamp_control_on_off"
             android:layout_width="100dp"
             android:layout_height="100dp"

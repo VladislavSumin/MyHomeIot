@@ -3,14 +3,16 @@
     <color name="uiCoreWhite">#FFFFFF</color>
     <color name="uiCoreBlack">#000000</color>
 
-    <color name="uiCoreGreen">#006D5C</color>
-    <color name="uiCoreGreenNight">#00A88E</color>
+    <color name="uiCoreGreen">#006C5B</color>
+    <color name="uiCoreGreenNight">#00A98F</color>
 
-    <color name="uiCoreGreenDark">#005448</color>
+    <color name="uiCoreGreenDark">#005347</color>
 
     <color name="uiCoreGray">#CCCCCC</color>
     <color name="uiCoreGrayAlpha50">#80CCCCCC</color>
     <color name="uiCoreGrayDark">#999999</color>
+
+    <color name="uiCoreRed">#EC2839</color>
 
     <color name="uiCoreAlphaDark">#42000000</color>
     <color name="uiCoreAlphaLight">#42FFFFFF</color>

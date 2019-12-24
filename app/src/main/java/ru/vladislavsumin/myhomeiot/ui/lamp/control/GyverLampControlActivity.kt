@@ -154,6 +154,7 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
             activity_gyver_lamp_control_speed.progress = state.speed
             activity_gyver_lamp_control_brightness.progress = state.brightness
 
+            activity_gyver_lamp_control_on_off.isOn = state.isOn
         } else {
             activity_gyver_lamp_control_on_off.isEnabled = false
             activity_gyver_lamp_control_scale.isEnabled = false
