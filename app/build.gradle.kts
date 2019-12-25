@@ -28,6 +28,9 @@ android {
         versionCode = pVersionCode.toInt()
         versionName = "$pVersionNamePrefix.$pVersionCode-$pBuildAgent"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val pEnableFirebase: String by project
+        buildConfigField("boolean", "ENABLE_FIREBASE", pEnableFirebase)
     }
 
     signingConfigs {
@@ -57,6 +60,7 @@ android {
         getByName("release") {
             versionNameSuffix = "-release"
             isMinifyEnabled = true
+            isShrinkResources = true
             isDebuggable = false
             if (pUseUploadSignature.toBoolean()) signingConfig = signingConfigs.getByName("upload")
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")

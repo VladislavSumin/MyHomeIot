@@ -6,6 +6,7 @@ import android.util.Log
 import com.crashlytics.android.Crashlytics
 import com.google.firebase.FirebaseApp
 import io.fabric.sdk.android.Fabric
+import ru.vladislavsumin.myhomeiot.app.AppConfig
 import ru.vladislavsumin.myhomeiot.domain.firebase.FirebaseInterractor
 import ru.vladislavsumin.myhomeiot.domain.privacy.PrivacyPolicyInterractor
 import ru.vladislavsumin.myhomeiot.utils.observeOnIo
@@ -19,8 +20,14 @@ class FirebaseInterractorImpl(
         private val TAG = tag<FirebaseInterractorImpl>()
     }
 
+    @Suppress("ConstantConditionIf")
     @SuppressLint("CheckResult")
     override fun start() {
+        if (!AppConfig.ENABLE_FIREBASE) {
+            Log.i(TAG, "Firebase is disabled by build config, skipping initialization")
+            return
+        }
+
         mPrivacyPolicyInterractor.observerPrivacyPolicyAccepted()
             .filter { it }
             .firstOrError()
