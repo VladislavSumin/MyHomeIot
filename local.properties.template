@@ -1,0 +1,9 @@
+
+
+pEnableFirebase=false
+
+pUseUploadSignature=true
+pUploadSignaturePath=../keystore/shared.keystore
+pUploadSignaturePassword=Qwerty!@
+pUploadSignatureKeyName=shared
+pUploadSignatureKeyPassword=Qwerty!@
