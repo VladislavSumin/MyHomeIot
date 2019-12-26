@@ -1,5 +1,6 @@
 package ru.vladislavsumin.myhomeiot.ui.lamp.control
 
+import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import moxy.InjectViewState
 import ru.vladislavsumin.myhomeiot.app.Injector
@@ -8,7 +9,6 @@ import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.*
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
 import ru.vladislavsumin.myhomeiot.ui.core.BasePresenter
 import ru.vladislavsumin.myhomeiot.utils.observeOnMainThread
-import java.lang.Exception
 import javax.inject.Inject
 
 @InjectViewState
@@ -25,6 +25,7 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
 
     private lateinit var mGyverLampInterractor: GyverLampInterractor
 
+    private lateinit var mStateObservable: Observable<Pair<GyverLampConnectionState, GyverLampState?>>
     private var mGyverLampEntity: GyverLampEntity? = null
 
     private var mGyverLampState: GyverLampState? = null
@@ -38,11 +39,11 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
         Injector.inject(this)
         mGyverLampInterractor = mGyverLampsInterractor.getGyverLampInterractor(mGyverLampId)
 
-        mGyverLampInterractor
+        mStateObservable = mGyverLampInterractor
             .observeConnectionState()
             .observeOnMainThread()
-            .subscribe(this::onGyverLampStateChange, this::onError)
-            .autoDispose()
+            .doOnError(this::onError)
+            .doOnNext { mGyverLampState = it.second }
 
         mGyverLampManager.observeLamp(mGyverLampId)
             .observeOnMainThread()
@@ -55,17 +56,13 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
             .autoDispose()
     }
 
+    fun observeState() = mStateObservable
+
     private fun onError(t: Throwable) {
         when (t) {
             is GyverLampManager.LampNotFoundException -> viewState.finish()
             else -> throw t
         }
-    }
-
-    private fun onGyverLampStateChange(state: Pair<GyverLampConnectionState, GyverLampState?>) {
-        mGyverLampState = state.second
-        viewState.showGyverLampConnectionState(state.first)
-        viewState.showGyverLampState(state.second)
     }
 
     fun onClickOnOffButton() {
