@@ -131,6 +131,8 @@ class GyverLampConnectionStateImpl(
                     clearQuery()
 
                     when (e) {
+                        //TODO rewrite
+                        is GyverLampProtocol.BadResponseException,
                         is IOException,
                         is SocketException,
                         is SocketTimeoutException -> {
