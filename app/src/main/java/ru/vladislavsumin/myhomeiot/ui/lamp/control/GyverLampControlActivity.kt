@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_gyver_lamp_control.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
@@ -39,6 +40,7 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
 
     private lateinit var mAdapter: Adapter
     private lateinit var mModeNames: Array<String>
+    private var mStateDisposable: Disposable? = null
 
     @ProvidePresenter
     fun providePresenter(): GyverLampControlPresenter {
@@ -78,28 +80,7 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
 
     private fun setupUx() {
         activity_gyver_lamp_control_on_off.setOnClickListener { mPresenter.onClickOnOffButton() }
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.gyver_lamp_control, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.gyver_lamp_control_settings -> {
-                mPresenter.onClickSettingsButton()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun showSettingsScreen(id: Long) {
-        startActivity(ManageGyverLampActivity.getLaunchIntent(this, id))
-    }
-
-    override fun showGyverLampConnectionState(connectionState: GyverLampConnectionState) {
         //TODO rewrite
         activity_gyver_lamp_control_brightness.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
@@ -141,7 +122,39 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
         })
     }
 
-    override fun showGyverLampState(state: GyverLampState?) {
+    override fun onResume() {
+        super.onResume()
+        mStateDisposable?.dispose()
+        mStateDisposable =
+            mPresenter.observeState().subscribe({ showGyverLampState(it.second) }, {})
+    }
+
+    override fun onPause() {
+        super.onPause()
+        //TODO move to core
+        mStateDisposable?.dispose()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.gyver_lamp_control, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.gyver_lamp_control_settings -> {
+                mPresenter.onClickSettingsButton()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun showSettingsScreen(id: Long) {
+        startActivity(ManageGyverLampActivity.getLaunchIntent(this, id))
+    }
+
+    private fun showGyverLampState(state: GyverLampState?) {
         if (state != null) {
             activity_gyver_lamp_control_on_off.isEnabled = true
             activity_gyver_lamp_control_scale.isEnabled = true

@@ -10,6 +10,7 @@ import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnect
 import ru.vladislavsumin.myhomeiot.network.NetworkConnectivityManager
 import ru.vladislavsumin.myhomeiot.utils.subscribeOnIo
 import ru.vladislavsumin.myhomeiot.utils.tag
+import java.util.concurrent.TimeUnit
 
 class GyverLampInterractorImpl(
     gyverLampId: Long,
@@ -20,12 +21,13 @@ class GyverLampInterractorImpl(
 ) : GyverLampInterractor {
     companion object {
         private val TAG = tag<GyverLampInterractor>()
+        private const val CONNECTION_CLOSE_TIMEOUT = 10L //seconds
+
     }
 
     private val mConnectionObservable: Observable<GyverLampConnection> =
         Observables
             .combineLatest(
-                //TODO тут может быть ошибка если в бд нет такого id
                 mGyverLampManager.observeLamp(gyverLampId).toObservable(),
                 mNetworkConnectivityManager.observeNetworkConnected()
             ) { entity, connectivityStatus ->
@@ -43,13 +45,16 @@ class GyverLampInterractorImpl(
             .startWith(mGyverLampConnectionFactory.createLoadingSate())
             .replay(1)
             .refCount()
-            .doOnError {
-                println("a")
-            }
+
+    private val mConnectionStateObservable: Observable<Pair<GyverLampConnectionState, GyverLampState?>> =
+        mConnectionObservable
+            .switchMap { it.observeConnection() }
+            .replay(1)
+            .refCount(CONNECTION_CLOSE_TIMEOUT, TimeUnit.SECONDS)
+
 
     override fun observeConnectionState(): Observable<Pair<GyverLampConnectionState, GyverLampState?>> {
-        return mConnectionObservable
-            .switchMap { it.observeConnection() }
+        return mConnectionStateObservable
     }
 
     override fun observeChangeEnabledState(setEnabled: Boolean): Completable {
