@@ -33,10 +33,9 @@
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
-            android:text="@string/current_mode"
             app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_scale"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="lamp status string" />
+            tools:text="@string/current_mode" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/activity_gyver_lamp_control_scale_icon"
