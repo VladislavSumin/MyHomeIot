@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.loading.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import ru.vladislavsumin.myhomeiot.R
-import ru.vladislavsumin.myhomeiot.database.entity.GyverLampEntity
 import ru.vladislavsumin.myhomeiot.ui.core.ToolbarActivity
 
 //TODO поправить логику отображения, при добавлении проверки на дубликаты
@@ -47,26 +46,44 @@ class ManageGyverLampActivity : ToolbarActivity(),
 
     private var mMenuItemSave: MenuItem? = null
     private var mMenuItemDelete: MenuItem? = null
-    private var mManageState: ManageGyverLampView.ManageState =
-        ManageGyverLampView.ManageState.LOADING
+    private var mManageState: ManageGyverLampViewState.ManageState =
+        ManageGyverLampViewState.ManageState.LOADING
 
+    private var forceUpdate = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(LAYOUT)
 
         activity_manage_gyver_lamp_check_connection.setOnClickListener { onClickCheckConnection() }
-        activity_manage_gyver_lamp_save.setOnClickListener { onClickSave() }
+        activity_manage_gyver_lamp_save.setOnClickListener { mPresenter.onClickSave() }
+
+        activity_manage_gyver_lamp_name.editText!!.addTextChangedListener(
+            ChangeTextWatcher(this::onTextChanged)
+        )
         activity_manage_gyver_lamp_ip.editText!!.addTextChangedListener(
-            ChangeTextWatcher(
-                mPresenter::onTextChanged
-            )
+            ChangeTextWatcher(this::onTextChanged)
         )
         activity_manage_gyver_lamp_port.editText!!.addTextChangedListener(
-            ChangeTextWatcher(
-                mPresenter::onTextChanged
-            )
+            ChangeTextWatcher(this::onTextChanged)
         )
+
+        mPresenter.observeViewState()
+            .subscribe(this::onViewStateChanged)
+            .autoDispose()
+    }
+
+    private fun onViewStateChanged(state: ManageGyverLampViewState) {
+        showManageState(state.manageState)
+        showCheckingState(state.checkingState)
+
+        if (forceUpdate || state.forceUpdate) {
+            forceUpdate = false
+
+            activity_manage_gyver_lamp_name.editText!!.setText(state.name)
+            activity_manage_gyver_lamp_ip.editText!!.setText(state.ip)
+            activity_manage_gyver_lamp_port.editText!!.setText(state.port.toString())
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -80,7 +97,7 @@ class ManageGyverLampActivity : ToolbarActivity(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.gyver_lamp_manage_save -> {
-                onClickSave()
+                mPresenter.onClickSave()
                 true
             }
             R.id.gyver_lamp_manage_delete -> {
@@ -94,22 +111,22 @@ class ManageGyverLampActivity : ToolbarActivity(),
     /**
      * This need because onCreateOptionsMenu() call after mPresenter.onFirstViewAttach()
      */
-    private fun setMenuItemVisibility(state: ManageGyverLampView.ManageState) {
+    private fun setMenuItemVisibility(state: ManageGyverLampViewState.ManageState) {
         when (state) {
-            ManageGyverLampView.ManageState.LOADING,
-            ManageGyverLampView.ManageState.ADD_NEW,
-            ManageGyverLampView.ManageState.SAVING_NEW -> {
+            ManageGyverLampViewState.ManageState.LOADING,
+            ManageGyverLampViewState.ManageState.ADD_NEW,
+            ManageGyverLampViewState.ManageState.SAVING_NEW -> {
                 mMenuItemDelete?.isVisible = false
                 mMenuItemSave?.isVisible = false
             }
-            ManageGyverLampView.ManageState.EDIT -> {
+            ManageGyverLampViewState.ManageState.EDIT -> {
                 mMenuItemDelete?.isVisible = true
                 mMenuItemSave?.isVisible = true
 
                 mMenuItemDelete?.isEnabled = true
                 mMenuItemSave?.isEnabled = true
             }
-            ManageGyverLampView.ManageState.SAVING_EXIST -> {
+            ManageGyverLampViewState.ManageState.SAVING_EXIST -> {
                 mMenuItemDelete?.isVisible = true
                 mMenuItemSave?.isVisible = true
 
@@ -120,31 +137,22 @@ class ManageGyverLampActivity : ToolbarActivity(),
         }!!
     }
 
-    private fun onClickSave() {
-
-        val name = activity_manage_gyver_lamp_name.editText!!.text.toString()
-        val host = activity_manage_gyver_lamp_ip.editText!!.text.toString()
-        val port = activity_manage_gyver_lamp_port.editText!!.text.toString().toInt()
-
-        mPresenter.onClickSave(name, host, port)
-    }
-
     private fun onClickCheckConnection() {
         val host = activity_manage_gyver_lamp_ip.editText!!.text.toString()
         val port = activity_manage_gyver_lamp_port.editText!!.text.toString().toInt()
 
-        mPresenter.onClickCheckConnection(host, port)
+        mPresenter.onClickCheckConnection()
     }
 
     @Suppress("DEPRECATION")
-    override fun showCheckingState(state: ManageGyverLampView.CheckingState) {
+    private fun showCheckingState(state: ManageGyverLampViewState.CheckingState) {
         //TODO добавить цветовою индикацию с цветами темы!
         when (state) {
-            ManageGyverLampView.CheckingState.NOT_CHECKED -> {
+            ManageGyverLampViewState.CheckingState.NOT_CHECKED -> {
                 activity_manage_gyver_lamp_check_connection.isEnabled = true
                 activity_manage_gyver_lamp_status_text.visibility = View.GONE
             }
-            ManageGyverLampView.CheckingState.CHECKING -> {
+            ManageGyverLampViewState.CheckingState.CHECKING -> {
                 activity_manage_gyver_lamp_check_connection.isEnabled = false
                 activity_manage_gyver_lamp_status_text.apply {
                     visibility = View.VISIBLE
@@ -152,7 +160,7 @@ class ManageGyverLampActivity : ToolbarActivity(),
                     setTextColor(resources.getColor(android.R.color.black))
                 }
             }
-            ManageGyverLampView.CheckingState.CHECK_FAILED -> {
+            ManageGyverLampViewState.CheckingState.CHECK_FAILED -> {
                 activity_manage_gyver_lamp_check_connection.isEnabled = true
                 activity_manage_gyver_lamp_status_text.apply {
                     visibility = View.VISIBLE
@@ -160,7 +168,7 @@ class ManageGyverLampActivity : ToolbarActivity(),
                     setTextColor(resources.getColor(android.R.color.holo_red_dark))
                 }
             }
-            ManageGyverLampView.CheckingState.CHECK_SUCCESS -> {
+            ManageGyverLampViewState.CheckingState.CHECK_SUCCESS -> {
                 activity_manage_gyver_lamp_check_connection.isEnabled = true
                 activity_manage_gyver_lamp_status_text.apply {
                     visibility = View.VISIBLE
@@ -168,7 +176,7 @@ class ManageGyverLampActivity : ToolbarActivity(),
                     setTextColor(resources.getColor(android.R.color.holo_green_dark))
                 }
             }
-            ManageGyverLampView.CheckingState.INCORRECT_INPUT_DATA -> {
+            ManageGyverLampViewState.CheckingState.INCORRECT_INPUT_DATA -> {
                 activity_manage_gyver_lamp_check_connection.isEnabled = true
                 activity_manage_gyver_lamp_status_text.apply {
                     visibility = View.VISIBLE
@@ -176,7 +184,7 @@ class ManageGyverLampActivity : ToolbarActivity(),
                     setTextColor(resources.getColor(android.R.color.holo_red_dark))
                 }
             }
-            ManageGyverLampView.CheckingState.SAVING -> {
+            ManageGyverLampViewState.CheckingState.SAVING -> {
                 //now this las state, we don`t need enable save button after that
                 activity_manage_gyver_lamp_status_text.visibility = View.GONE
                 activity_manage_gyver_lamp_check_connection.isEnabled = false
@@ -185,35 +193,37 @@ class ManageGyverLampActivity : ToolbarActivity(),
         }!!
     }
 
-    override fun showManageState(state: ManageGyverLampView.ManageState) {
+    private fun showManageState(state: ManageGyverLampViewState.ManageState) {
         mManageState = state
         when (state) {
-            ManageGyverLampView.ManageState.LOADING -> {
+            ManageGyverLampViewState.ManageState.LOADING -> {
                 loading_layout.visibility = View.VISIBLE
                 activity_manage_gyver_lamp_layout.visibility = View.GONE
             }
-            ManageGyverLampView.ManageState.ADD_NEW -> {
+            ManageGyverLampViewState.ManageState.ADD_NEW -> {
                 loading_layout.visibility = View.GONE
                 activity_manage_gyver_lamp_layout.visibility = View.VISIBLE
                 activity_manage_gyver_lamp_save.visibility = View.VISIBLE
             }
-            ManageGyverLampView.ManageState.EDIT -> {
+            ManageGyverLampViewState.ManageState.EDIT -> {
                 loading_layout.visibility = View.GONE
                 activity_manage_gyver_lamp_layout.visibility = View.VISIBLE
                 activity_manage_gyver_lamp_save.visibility = View.GONE
             }
-            ManageGyverLampView.ManageState.SAVING_NEW,
-            ManageGyverLampView.ManageState.SAVING_EXIST -> {
+            ManageGyverLampViewState.ManageState.SAVING_NEW,
+            ManageGyverLampViewState.ManageState.SAVING_EXIST -> {
                 // no actions
             }
         }!!
         setMenuItemVisibility(state)
     }
 
-    override fun showGyverLampEntity(gyverLampEntity: GyverLampEntity) {
-        activity_manage_gyver_lamp_name.editText!!.setText(gyverLampEntity.name)
-        activity_manage_gyver_lamp_ip.editText!!.setText(gyverLampEntity.host)
-        activity_manage_gyver_lamp_port.editText!!.setText(gyverLampEntity.port.toString())
+    private fun onTextChanged() {
+        val name = activity_manage_gyver_lamp_name.editText!!.text.toString()
+        val host = activity_manage_gyver_lamp_ip.editText!!.text.toString()
+        val port = activity_manage_gyver_lamp_port.editText!!.text.toString().toInt()
+
+        mPresenter.onTextChanged(name, host, port)
     }
 
     private class ChangeTextWatcher(private val callback: () -> Unit) : TextWatcher {
