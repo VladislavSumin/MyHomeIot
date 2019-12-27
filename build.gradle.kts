@@ -16,6 +16,12 @@ buildscript {
     }
 }
 
+plugins {
+    idea
+    jacoco
+    id("com.github.ben-manes.versions") version ("0.27.0")
+}
+
 allprojects {
     repositories {
         mavenCentral()
@@ -23,16 +29,10 @@ allprojects {
         jcenter()
         maven(url = "https://jitpack.io")
     }
-}
 
-
-plugins {
-    idea
-    /**
-     * Check plugin && library versions
-     * Use task "dependencyUpdates" to check updates
-     */
-    id("com.github.ben-manes.versions") version ("0.27.0")
+    apply {
+        plugin("org.gradle.jacoco")
+    }
 }
 
 tasks.named<DependencyUpdatesTask>("dependencyUpdates") {
