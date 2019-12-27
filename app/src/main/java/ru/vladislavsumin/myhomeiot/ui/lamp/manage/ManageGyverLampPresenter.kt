@@ -10,9 +10,9 @@ import ru.vladislavsumin.myhomeiot.app.Injector
 import ru.vladislavsumin.myhomeiot.database.entity.GyverLampEntity
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampManager
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampsInterractor
+import ru.vladislavsumin.myhomeiot.network.NetworkAddressVerifier
 import ru.vladislavsumin.myhomeiot.ui.core.BasePresenter
 import ru.vladislavsumin.myhomeiot.utils.observeOnMainThread
-import java.net.InetAddress
 import javax.inject.Inject
 
 @InjectViewState
@@ -22,6 +22,8 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
     lateinit var mGyverLampsInterractor: GyverLampsInterractor
     @Inject
     lateinit var mGyverLampManager: GyverLampManager
+    @Inject
+    lateinit var mNetworkAddressVerifier: NetworkAddressVerifier
 
     private val mViewState: BehaviorSubject<ManageGyverLampViewState> = BehaviorSubject.create()
 
@@ -52,10 +54,9 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
 
         val state = mViewState.value!!
 
-        val inetAddress = InetAddress.getByName(state.ip)
         showCheckingState(ManageGyverLampViewState.CheckingState.CHECKING)
         mCheckStateDisposable?.dispose()
-        mCheckStateDisposable = mGyverLampsInterractor.checkConnection(inetAddress, state.port)
+        mCheckStateDisposable = mGyverLampsInterractor.checkConnection(state.host, state.port)
             .observeOnMainThread()
             .subscribe(
                 { showCheckingState(ManageGyverLampViewState.CheckingState.CHECK_SUCCESS) },
@@ -73,7 +74,7 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
         val gyverLampEntity = GyverLampEntity(
             id = id,
             name = if (state.name.isEmpty()) GyverLampEntity.DEFAULT_NAME else state.name,
-            host = state.ip,
+            host = state.host,
             port = state.port
         )
 
@@ -103,11 +104,7 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
         val state = mViewState.value!!
 
         // validate ip
-        try {
-            InetAddress.getByName(state.ip)
-        } catch (_: Throwable) {
-            return false
-        }
+        if (!mNetworkAddressVerifier.verifyIsHostOrIp(state.host)) return false
 
         // validate port
         if (state.port < 0 || state.port > 65535) return false
@@ -118,7 +115,7 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
     @UiThread
     fun onTextChanged(name: String, host: String, port: Int) {
         val state = mViewState.value!!
-        val checkedDataChanged = host != state.ip || port != state.port
+        val checkedDataChanged = host != state.host || port != state.port
 
         mViewState.onNext(
             state.copy(
@@ -127,7 +124,7 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
                 else state.checkingState,
 
                 name = name,
-                ip = host,
+                host = host,
                 port = port,
                 forceUpdate = false
             )

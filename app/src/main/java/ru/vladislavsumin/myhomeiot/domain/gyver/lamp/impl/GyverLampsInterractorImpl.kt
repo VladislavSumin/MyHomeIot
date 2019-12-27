@@ -61,12 +61,12 @@ class GyverLampsInterractorImpl(
     //                          check connection                             //
     //***********************************************************************//
 
-    override fun checkConnection(host: InetAddress, port: Int, timeout: Int): Completable {
+    override fun checkConnection(host: String, port: Int, timeout: Int): Completable {
         return Completable.create { emitter ->
             mSocketProvider.createDatagramSocket().use { socket ->
                 // Send hello package
                 val helloPacket = mGyverLampProtocol.getCurrentStateRequest().toDatagramPacket()
-                helloPacket.address = host
+                helloPacket.address = InetAddress.getByName(host)
                 helloPacket.port = port
                 socket.send(helloPacket)
 
@@ -81,7 +81,7 @@ class GyverLampsInterractorImpl(
                 emitter.onComplete()
             }
         }
-            .subscribeOnIo()
+            .subscribeOnIo()//TODO new thread
     }
 
     private fun String.toDatagramPacket(): DatagramPacket {

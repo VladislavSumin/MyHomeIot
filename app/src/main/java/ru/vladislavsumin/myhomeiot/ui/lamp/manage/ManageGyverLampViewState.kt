@@ -5,7 +5,7 @@ data class ManageGyverLampViewState(
     val checkingState: CheckingState,
 
     val name: String,
-    val ip: String,
+    val host: String,
     val port: Int,
     val forceUpdate: Boolean
 ) {
