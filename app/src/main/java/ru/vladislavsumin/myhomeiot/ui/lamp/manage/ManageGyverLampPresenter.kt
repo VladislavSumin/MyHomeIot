@@ -2,7 +2,9 @@ package ru.vladislavsumin.myhomeiot.ui.lamp.manage
 
 import androidx.annotation.UiThread
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
 import moxy.InjectViewState
 import ru.vladislavsumin.myhomeiot.app.Injector
 import ru.vladislavsumin.myhomeiot.database.entity.GyverLampEntity
@@ -21,6 +23,8 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
     @Inject
     lateinit var mGyverLampManager: GyverLampManager
 
+    private val mViewState: BehaviorSubject<ManageGyverLampViewState> = BehaviorSubject.create()
+
     private var mCheckStateDisposable: Disposable? = null
 
     override fun onFirstViewAttach() {
@@ -28,83 +32,58 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
         Injector.inject(this)
 
         if (id == 0L) {
-            viewState.showManageState(ManageGyverLampView.ManageState.ADD_NEW)
+            showAddNewState()
         } else {
-            viewState.showManageState(ManageGyverLampView.ManageState.LOADING)
-            mGyverLampManager.observeLamp(id)
+            showLoadingState()
+            mGyverLampManager.getLamp(id)
                 .observeOnMainThread()
-                .subscribe(
-                    {
-                        viewState.showGyverLampEntity(it)
-                        viewState.showManageState(ManageGyverLampView.ManageState.EDIT)
-                    }, {
-                        //TODO add error log
-                    }
-                )
+                .subscribe(this::showLoadedState, this::onError)
                 .autoDispose()
         }
     }
 
+    fun observeViewState(): Observable<ManageGyverLampViewState> = mViewState
+
     @UiThread
-    fun onClickCheckConnection(host: String, port: Int) {
-        val inetAddress: InetAddress
-        try {
-            inetAddress = InetAddress.getByName(host)
-        } catch (_: Throwable) {
-            viewState.showCheckingState(ManageGyverLampView.CheckingState.INCORRECT_INPUT_DATA)
-            return
+    fun onClickCheckConnection() {
+        if (!validate()) {
+            showCheckingState(ManageGyverLampViewState.CheckingState.INCORRECT_INPUT_DATA)
         }
 
-        if (!checkPort(port)) {
-            viewState.showCheckingState(ManageGyverLampView.CheckingState.INCORRECT_INPUT_DATA)
-            return
-        }
+        val state = mViewState.value!!
 
-        viewState.showCheckingState(ManageGyverLampView.CheckingState.CHECKING)
+        val inetAddress = InetAddress.getByName(state.ip)
+        showCheckingState(ManageGyverLampViewState.CheckingState.CHECKING)
         mCheckStateDisposable?.dispose()
-        mCheckStateDisposable = mGyverLampsInterractor.checkConnection(inetAddress, port)
+        mCheckStateDisposable = mGyverLampsInterractor.checkConnection(inetAddress, state.port)
             .observeOnMainThread()
             .subscribe(
-                {
-                    viewState.showCheckingState(ManageGyverLampView.CheckingState.CHECK_SUCCESS)
-                },
-                {
-                    viewState.showCheckingState(ManageGyverLampView.CheckingState.CHECK_FAILED)
-                }
+                { showCheckingState(ManageGyverLampViewState.CheckingState.CHECK_SUCCESS) },
+                { showCheckingState(ManageGyverLampViewState.CheckingState.CHECK_FAILED) }
             )
     }
 
-    fun onClickSave(name: String, host: String, port: Int) {
-        //TODO убрать эту копипасту! (см код выше), добавить проверку на пустой хост
-        try {
-            InetAddress.getByName(host)
-        } catch (_: Throwable) {
-            viewState.showCheckingState(ManageGyverLampView.CheckingState.INCORRECT_INPUT_DATA)
-            return
+    fun onClickSave() {
+        if (!validate()) {
+            showCheckingState(ManageGyverLampViewState.CheckingState.INCORRECT_INPUT_DATA)
         }
 
-        if (!checkPort(port)) {
-            viewState.showCheckingState(ManageGyverLampView.CheckingState.INCORRECT_INPUT_DATA)
-            return
-        }
-
-        viewState.showCheckingState(ManageGyverLampView.CheckingState.SAVING)
-
+        val state = mViewState.value!!
 
         val gyverLampEntity = GyverLampEntity(
             id = id,
-            name = if (name.isEmpty()) GyverLampEntity.DEFAULT_NAME else name,
-            host = host,
-            port = port
+            name = if (state.name.isEmpty()) GyverLampEntity.DEFAULT_NAME else state.name,
+            host = state.ip,
+            port = state.port
         )
 
         val completable: Completable = if (id == 0L) {
-            viewState.showManageState(ManageGyverLampView.ManageState.SAVING_NEW)
             mGyverLampManager.addLamp(gyverLampEntity)
         } else {
-            viewState.showManageState(ManageGyverLampView.ManageState.SAVING_EXIST)
             mGyverLampManager.updateLamp(gyverLampEntity)
         }
+
+        showSavingState()
 
         completable
             .observeOnMainThread()
@@ -118,18 +97,43 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
             .autoDispose()
     }
 
-    private fun checkPort(port: Int): Boolean {
-        if (port < 0 || port > 65535) {
-            viewState.showCheckingState(ManageGyverLampView.CheckingState.INCORRECT_INPUT_DATA)
+
+    @UiThread
+    private fun validate(): Boolean {
+        val state = mViewState.value!!
+
+        // validate ip
+        try {
+            InetAddress.getByName(state.ip)
+        } catch (_: Throwable) {
             return false
         }
+
+        // validate port
+        if (state.port < 0 || state.port > 65535) return false
+
         return true
     }
 
     @UiThread
-    fun onTextChanged() {
-        viewState.showCheckingState(ManageGyverLampView.CheckingState.NOT_CHECKED)
-        mCheckStateDisposable?.dispose()
+    fun onTextChanged(name: String, host: String, port: Int) {
+        val state = mViewState.value!!
+        val checkedDataChanged = host != state.ip || port != state.port
+
+        mViewState.onNext(
+            state.copy(
+                checkingState = if (checkedDataChanged)
+                    ManageGyverLampViewState.CheckingState.NOT_CHECKED
+                else state.checkingState,
+
+                name = name,
+                ip = host,
+                port = port,
+                forceUpdate = false
+            )
+        )
+
+        if (checkedDataChanged) mCheckStateDisposable?.dispose()
     }
 
     override fun onDestroy() {
@@ -138,9 +142,7 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
     }
 
     fun onClickSaveDelete() {
-        viewState.showCheckingState(ManageGyverLampView.CheckingState.SAVING)
-        viewState.showManageState(ManageGyverLampView.ManageState.SAVING_EXIST)
-
+        showSavingState()//TODO add delete state
         mGyverLampManager.deleteLamp(id)
             .observeOnMainThread()
             .subscribe(
@@ -151,5 +153,70 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
                 }
             )
             .autoDispose()
+    }
+
+    private fun onError(t: Throwable) {
+//TODO
+    }
+
+    @UiThread
+    private fun showAddNewState() {
+        mViewState.onNext(
+            ManageGyverLampViewState(
+                ManageGyverLampViewState.ManageState.ADD_NEW,
+                ManageGyverLampViewState.CheckingState.NOT_CHECKED,
+                "",
+                "",
+                8888,
+                true
+            )
+        )
+    }
+
+    @UiThread
+    private fun showLoadingState() {
+        mViewState.onNext(
+            ManageGyverLampViewState(
+                ManageGyverLampViewState.ManageState.LOADING,
+                ManageGyverLampViewState.CheckingState.NOT_CHECKED,
+                "",
+                "",
+                0,
+                true
+            )
+        )
+    }
+
+    @UiThread
+    private fun showLoadedState(gyverLampEntity: GyverLampEntity) {
+        mViewState.onNext(
+            ManageGyverLampViewState(
+                ManageGyverLampViewState.ManageState.EDIT,
+                ManageGyverLampViewState.CheckingState.NOT_CHECKED,
+                gyverLampEntity.name,
+                gyverLampEntity.host,
+                gyverLampEntity.port,
+                true
+            )
+        )
+    }
+
+    @UiThread
+    private fun showSavingState() {
+        mViewState.onNext(
+            mViewState.value!!.copy(
+                manageState = if (id == 0L) ManageGyverLampViewState.ManageState.SAVING_NEW
+                else ManageGyverLampViewState.ManageState.SAVING_EXIST,
+                checkingState = ManageGyverLampViewState.CheckingState.SAVING,
+                forceUpdate = false
+            )
+        )
+    }
+
+    @UiThread
+    private fun showCheckingState(checkingState: ManageGyverLampViewState.CheckingState) {
+        mViewState.onNext(
+            mViewState.value!!.copy(checkingState = checkingState, forceUpdate = false)
+        )
     }
 }

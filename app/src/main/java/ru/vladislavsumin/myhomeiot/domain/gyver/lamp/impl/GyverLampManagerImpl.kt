@@ -2,6 +2,7 @@ package ru.vladislavsumin.myhomeiot.domain.gyver.lamp.impl
 
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampManager
 import ru.vladislavsumin.myhomeiot.database.dao.GyverLampDao
 import ru.vladislavsumin.myhomeiot.database.entity.GyverLampEntity
@@ -46,5 +47,9 @@ class GyverLampManagerImpl(
                 it[0]
             }
             .subscribeOnIo()
+    }
+
+    override fun getLamp(id: Long): Single<GyverLampEntity> {
+        return observeLamp(id).firstOrError()
     }
 }
