@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import ru.vladislavsumin.build.Dependencies
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import ru.vladislavsumin.build.helpers.JacocoHelper
 
 plugins {
     id("com.android.application")
@@ -67,6 +68,7 @@ android {
         }
 
         getByName("debug") {
+            isTestCoverageEnabled = true
             versionNameSuffix = "-debug"
             signingConfig = signingConfigs.getByName("shared")
         }
@@ -166,3 +168,5 @@ apply {
     plugin("com.google.gms.google-services")
     plugin("io.fabric")
 }
+
+JacocoHelper.setupJacocoTasks(project)
