@@ -81,7 +81,7 @@ class ManageGyverLampActivity : ToolbarActivity(),
             forceUpdate = false
 
             activity_manage_gyver_lamp_name.editText!!.setText(state.name)
-            activity_manage_gyver_lamp_ip.editText!!.setText(state.ip)
+            activity_manage_gyver_lamp_ip.editText!!.setText(state.host)
             activity_manage_gyver_lamp_port.editText!!.setText(state.port.toString())
         }
     }
