@@ -31,13 +31,17 @@ abstract class ToolbarActivity : BaseActivity() {
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
 
-        toolbar = findViewById(TOOLBAR)
-            ?: throw NoSuchElementException("Check include toolbar layout with id layout")
+        //TODO fix this
+        if (supportActionBar == null) {
+            toolbar = findViewById(TOOLBAR)
+                ?: throw NoSuchElementException("Check include toolbar layout with id layout")
 
-        setSupportActionBar(toolbar)
 
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
+            setSupportActionBar(toolbar)
+
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            supportActionBar!!.setDisplayShowHomeEnabled(true)
+        }
     }
 
     protected fun setToolbarVisibility(isVisible: Boolean) {
