@@ -10,6 +10,7 @@ import ru.vladislavsumin.myhomeiot.ui.frw.FrwPresenter
 import ru.vladislavsumin.myhomeiot.ui.lamp.control.GyverLampControlPresenter
 import ru.vladislavsumin.myhomeiot.ui.lamp.manage.ManageGyverLampPresenter
 import ru.vladislavsumin.myhomeiot.ui.main.MainActivityPresenter
+import ru.vladislavsumin.myhomeiot.ui.main.MainFragmentPresenter
 import javax.inject.Singleton
 
 
@@ -33,4 +34,5 @@ interface AppComponent {
     fun inject(presenter: MainActivityPresenter)
     fun inject(presenter: ManageGyverLampPresenter)
     fun inject(presenter: GyverLampControlPresenter)
+    fun inject(presenter: MainFragmentPresenter)
 }

@@ -9,16 +9,20 @@ import ru.vladislavsumin.myhomeiot.utils.observeOnMainThread
 import javax.inject.Inject
 
 @InjectViewState
-class MainActivityPresenter : BasePresenter<MainActivityView>() {
+class MainFragmentPresenter : BasePresenter<MainFragmentView>() {
     @Inject
-    lateinit var mProPolicyInterractor: PrivacyPolicyInterractor
+    lateinit var mGyverLampManager: GyverLampManager
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         Injector.inject(this)
-    }
 
-    fun onClickReadPrivacyPolicy() {
-        viewState.showPrivacyPolicyScreen(mProPolicyInterractor.getPrivacyPolicyUri())
+        mGyverLampManager
+            .observeLamps()
+            .observeOnMainThread()
+            .subscribe {
+                viewState.setGyverLamsList(it)
+            }
+            .autoDispose()
     }
 }
