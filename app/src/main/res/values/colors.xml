@@ -11,19 +11,20 @@
     <color name="uiCoreGray">#CCCCCC</color>
     <color name="uiCoreGrayAlpha50">#80CCCCCC</color>
     <color name="uiCoreGrayDark">#999999</color>
+    <color name="uiCoreGrayNight">#3D3D40</color>
+    <color name="uiCoreGrayDarkNight">#131313</color>
 
     <color name="uiCoreRed">#EC2839</color>
 
     <color name="uiCoreAlphaDark">#42000000</color>
     <color name="uiCoreAlphaLight">#42FFFFFF</color>
-    <!--    <color name="uiCore_dark_gray_text">#666666</color>-->
+
+    <!--        <color name="uiCore_dark_gray_text">#666666</color>-->
     <!--    <color name="uiCore_light_gray_text">#8d8d93</color>-->
 
-    <!--    <color name="uiCore_black">#333333</color>-->
-    <!--    <color name="uiCore_contrast_green">#009982</color>-->
-    <!--    <color name="uiCore_rest_red">#ED2939</color>-->
-    <!--    <color name="uiCore_active_red">#DA1F2E</color>-->
-    <!--    <color name="uiCore_rest_orange">#FFAA00</color>-->
-    <!--    <color name="uiCore_active_orange">#E9980A</color>-->
-    <!--    <color name="uiCore_background_disabled_dark">#3D3D40</color>-->
+    <!--        <color name="uiCore_contrast_green">#009982</color>-->
+    <!--        <color name="uiCore_rest_red">#ED2939</color>-->
+    <!--        <color name="uiCore_active_red">#DA1F2E</color>-->
+    <!--        <color name="uiCore_rest_orange">#FFAA00</color>-->
+    <!--        <color name="uiCore_active_orange">#E9980A</color>-->
 </resources>

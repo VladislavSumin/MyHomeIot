@@ -1,16 +1,18 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.UiCore.Light">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.UiCore.DayNight"/>
+
+    <style name="Theme.UiCore.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/uiCoreGreen</item>
         <item name="colorPrimaryDark">@color/uiCoreGreenDark</item>
         <item name="colorAccent">@color/uiCoreGreen</item>
-    </style>
 
+        <item name="android:windowBackground">@color/uiCoreWhite</item>
 
-    <style name="Theme.UiCore.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="uiCoreTextPrimaryColor">@color/uiCoreBlack</item>
+        <item name="uiCoreLinkTextColor">@color/uiCoreGreen</item>
+        <item name="uiCoreToolbarBackgroundColor">@color/uiCoreGreen</item>
 
         <item name="uiCoreNormalButtonColor">@color/uiCoreGreen</item>
 
@@ -29,12 +31,20 @@
     </style>
 
     <style name="Theme.UiCore.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/uiCoreBlack</item>
+        <item name="colorPrimaryDark">@color/uiCoreBlack</item>
+        <item name="colorAccent">@color/uiCoreGreenNight</item>
+
+        <item name="android:windowBackground">@color/uiCoreBlack</item>
+
         <item name="uiCoreTextPrimaryColor">@color/uiCoreWhite</item>
+        <item name="uiCoreLinkTextColor">@color/uiCoreGreenNight</item>
+        <item name="uiCoreToolbarBackgroundColor">@color/uiCoreGrayDarkNight</item>
 
         <item name="uiCoreNormalButtonColor">@color/uiCoreGreenNight</item>
 
         <item name="uiCoreButtonSecondColor">@color/uiCoreWhite</item>
-        <item name="uiCoreDisabledButtonBackgroundColor">@color/uiCoreGrayAlpha50</item>
+        <item name="uiCoreDisabledButtonBackgroundColor">@color/uiCoreGrayNight</item>
         <item name="uiCoreDisabledButtonTextColor">@color/uiCoreGrayDark</item>
 
         <item name="uiCoreRippleAlpha">@color/uiCoreAlphaDark</item>
