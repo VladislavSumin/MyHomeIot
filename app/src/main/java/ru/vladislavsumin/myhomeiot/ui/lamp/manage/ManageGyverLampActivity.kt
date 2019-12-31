@@ -53,7 +53,6 @@ class ManageGyverLampActivity : ToolbarActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(LAYOUT)
 
         activity_manage_gyver_lamp_check_connection.setOnClickListener { onClickCheckConnection() }
         activity_manage_gyver_lamp_save.setOnClickListener { mPresenter.onClickSave() }
@@ -72,6 +71,9 @@ class ManageGyverLampActivity : ToolbarActivity(),
             .subscribe(this::onViewStateChanged)
             .autoDispose()
     }
+
+    override fun getLayoutResId(): Int = LAYOUT
+
 
     private fun onViewStateChanged(state: ManageGyverLampViewState) {
         showManageState(state.manageState)

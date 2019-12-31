@@ -28,20 +28,15 @@ abstract class ToolbarActivity : BaseActivity() {
         }
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        toolbar = findViewById(TOOLBAR)
+            ?: throw NoSuchElementException("Check include toolbar layout with id layout")
 
-        //TODO fix this
-        if (supportActionBar == null) {
-            toolbar = findViewById(TOOLBAR)
-                ?: throw NoSuchElementException("Check include toolbar layout with id layout")
+        setSupportActionBar(toolbar)
 
-
-            setSupportActionBar(toolbar)
-
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-            supportActionBar!!.setDisplayShowHomeEnabled(true)
-        }
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
     }
 
     protected fun setToolbarVisibility(isVisible: Boolean) {

@@ -47,19 +47,14 @@ class MainActivity : ToolbarActivity(), MainActivityView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(LAYOUT)
-
         setupNavigation()
         setupUi()
         setupUx()
     }
 
+    override fun getLayoutResId(): Int = LAYOUT
+
     private fun setupNavigation() {
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-            ?: throw NoSuchElementException("Check include toolbar layout with id layout")
-        setSupportActionBar(toolbar)
-
-
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
