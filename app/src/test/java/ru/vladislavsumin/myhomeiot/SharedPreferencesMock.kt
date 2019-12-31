@@ -1,6 +1,7 @@
 package ru.vladislavsumin.myhomeiot
 
 import android.content.SharedPreferences
+import java.lang.RuntimeException
 
 class SharedPreferencesMock : SharedPreferences {
     private val mData: MutableMap<String, Any> = HashMap()
@@ -12,11 +13,23 @@ class SharedPreferencesMock : SharedPreferences {
         return mData[key] as Boolean? ?: defValue
     }
 
-    override fun unregisterOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getInt(key: String, defValue: Int): Int {
+        return mData[key] as Int? ?: defValue
     }
 
-    override fun getInt(key: String?, defValue: Int): Int {
+    override fun getLong(key: String, defValue: Long): Long {
+        return mData[key] as Long? ?: defValue
+    }
+
+    override fun getFloat(key: String, defValue: Float): Float {
+        return mData[key] as Float? ?: defValue
+    }
+
+    override fun getString(key: String, defValue: String?): String? {
+        return mData[key] as String? ?: defValue
+    }
+
+    override fun getStringSet(key: String?, defValues: MutableSet<String>?): MutableSet<String> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -24,45 +37,34 @@ class SharedPreferencesMock : SharedPreferences {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun edit(): SharedPreferences.Editor {
-        return Editor()
-    }
-
-    override fun getLong(key: String?, defValue: Long): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getFloat(key: String?, defValue: Float): Float {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getStringSet(key: String?, defValues: MutableSet<String>?): MutableSet<String> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getString(key: String?, defValue: String?): String? {
+    override fun unregisterOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun edit(): SharedPreferences.Editor {
+        return Editor()
     }
 
     inner class Editor : SharedPreferences.Editor {
         private val mEditorData: MutableMap<String, Any> = HashMap()
-
 
         override fun clear(): SharedPreferences.Editor {
             mData.clear()
             return this
         }
 
-        override fun putLong(key: String?, value: Long): SharedPreferences.Editor {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        override fun putLong(key: String, value: Long): SharedPreferences.Editor {
+            mEditorData[key] = value
+            return this
         }
 
-        override fun putInt(key: String?, value: Int): SharedPreferences.Editor {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        override fun putInt(key: String, value: Int): SharedPreferences.Editor {
+            mEditorData[key] = value
+            return this
         }
 
         override fun remove(key: String?): SharedPreferences.Editor {
@@ -86,8 +88,9 @@ class SharedPreferencesMock : SharedPreferences {
             return true
         }
 
-        override fun putFloat(key: String?, value: Float): SharedPreferences.Editor {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        override fun putFloat(key: String, value: Float): SharedPreferences.Editor {
+            mEditorData[key] = value
+            return this
         }
 
         override fun apply() {
@@ -96,9 +99,10 @@ class SharedPreferencesMock : SharedPreferences {
             }
         }
 
-        override fun putString(key: String?, value: String?): SharedPreferences.Editor {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        override fun putString(key: String, value: String?): SharedPreferences.Editor {
+            if (value == null) throw RuntimeException("Mock not check this situaction")
+            mEditorData[key] = value
+            return this
         }
-
     }
 }
