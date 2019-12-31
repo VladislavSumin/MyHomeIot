@@ -9,10 +9,12 @@
         <item name="colorAccent">@color/uiCoreGreen</item>
 
         <item name="android:windowBackground">@color/uiCoreWhite</item>
+        <item name="android:textColorPrimary">@color/uiCoreWhite</item>
 
         <item name="uiCoreTextPrimaryColor">@color/uiCoreBlack</item>
         <item name="uiCoreLinkTextColor">@color/uiCoreGreen</item>
         <item name="uiCoreToolbarBackgroundColor">@color/uiCoreGreen</item>
+        <item name="uiCoreToolbarTextColor">@color/uiCoreWhite</item>
 
         <item name="uiCoreNormalButtonColor">@color/uiCoreGreen</item>
 
@@ -36,14 +38,17 @@
         <item name="colorAccent">@color/uiCoreGreenNight</item>
 
         <item name="android:windowBackground">@color/uiCoreBlack</item>
+        <item name="android:textColorPrimary">@color/uiCoreWhiteNight</item>
+<!--        <item name="android:textColorSecondary">@color/uiCoreGreenNight</item>-->
 
-        <item name="uiCoreTextPrimaryColor">@color/uiCoreWhite</item>
+        <item name="uiCoreTextPrimaryColor">@color/uiCoreWhiteNight</item>
         <item name="uiCoreLinkTextColor">@color/uiCoreGreenNight</item>
         <item name="uiCoreToolbarBackgroundColor">@color/uiCoreGrayDarkNight</item>
+        <item name="uiCoreToolbarTextColor">@color/uiCoreWhiteNight</item>
 
         <item name="uiCoreNormalButtonColor">@color/uiCoreGreenNight</item>
 
-        <item name="uiCoreButtonSecondColor">@color/uiCoreWhite</item>
+        <item name="uiCoreButtonSecondColor">@color/uiCoreBlack</item>
         <item name="uiCoreDisabledButtonBackgroundColor">@color/uiCoreGrayNight</item>
         <item name="uiCoreDisabledButtonTextColor">@color/uiCoreGrayDark</item>
 

@@ -9,6 +9,7 @@
     <attr name="uiCoreTextPrimaryColor" format="color" />
     <attr name="uiCoreLinkTextColor" format="color" />
     <attr name="uiCoreToolbarBackgroundColor" format="color" />
+    <attr name="uiCoreToolbarTextColor" format="color" />
 
     <attr name="uiCoreNormalButtonColor" format="color" />
 
