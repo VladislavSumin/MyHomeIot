@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main_content.*
 import moxy.presenter.InjectPresenter
 import ru.vladislavsumin.myhomeiot.ui.lamp.manage.ManageGyverLampActivity
 import ru.vladislavsumin.myhomeiot.ui.lamp.control.GyverLampControlActivity
