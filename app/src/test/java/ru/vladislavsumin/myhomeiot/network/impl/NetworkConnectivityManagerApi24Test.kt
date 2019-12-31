@@ -89,5 +89,7 @@ class NetworkConnectivityManagerApi24Test {
 
         testObserver1.dispose()
         testObserver2.dispose()
+
+        assertNull(mCallback)
     }
 }
