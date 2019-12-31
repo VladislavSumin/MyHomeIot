@@ -21,6 +21,7 @@
         android:layout_marginStart="@dimen/dp16"
         android:layout_marginEnd="@dimen/dp16"
         android:layout_marginBottom="@dimen/dp16"
+        android:textColorLink="?uiCoreLinkTextColor"
         android:text="@string/frw_accept_privacy_policy_text"
         app:layout_constraintBottom_toTopOf="@id/activity_frw_next_btn"
         app:layout_constraintEnd_toEndOf="parent"

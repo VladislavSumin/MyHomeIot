@@ -55,7 +55,7 @@ object ClickableLinks {
 
         override fun updateDrawState(ds: TextPaint) {
             super.updateDrawState(ds)
-            ds.isUnderlineText = false
+            ds.isUnderlineText = true
         }
     }
 }

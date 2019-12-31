@@ -66,16 +66,15 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
     }
 
     fun onClickOnOffButton() {
-        //TODO add error handling!
         val lampState = mGyverLampState
         if (lampState != null) {
             if (lampState.isOn) {
                 mGyverLampInterractor.observeTurnOff()
-                    .subscribe()
+                    .subscribe({}, {})
                     .autoDispose()
             } else {
                 mGyverLampInterractor.observeTurnOn()
-                    .subscribe()
+                    .subscribe({}, {})
                     .autoDispose()
             }
         }
