@@ -1,5 +1,5 @@
 package ru.vladislavsumin.myhomeiot.ui.lamp.manage
 
-import ru.vladislavsumin.myhomeiot.ui.core.BaseView
+import ru.vladislavsumin.myhomeiot.ui.core.BaseActivityView
 
-interface ManageGyverLampView : BaseView
+interface ManageGyverLampView : BaseActivityView

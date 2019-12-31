@@ -1,7 +1,5 @@
 package ru.vladislavsumin.myhomeiot.ui.main
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -68,11 +66,6 @@ class MainFragment : BaseFragment(), MainFragmentView {
 
     override fun setGyverLamsList(list: List<GyverLampEntity>) {
         mAdapter.mLamps = list
-    }
-
-    override fun finish() {
-        //TODO УБРАТЬ ДЛЯ ФРАГМЕНТОВ
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private class Adapter : RecyclerView.Adapter<GyverLampViewHolder>() {
