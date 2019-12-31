@@ -42,4 +42,5 @@
     <string name="save">сохранить</string>
     <string name="delete">удалить</string>
     <string name="current_mode">Режим: %s</string>
+    <string name="menu_home">Главная</string>
 </resources>
