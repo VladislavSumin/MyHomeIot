@@ -45,6 +45,7 @@
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
             android:src="@drawable/ic_open_with"
+            android:tint="?uiCoreTextPrimaryColor"
             app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_speed_icon"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -66,6 +67,7 @@
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
             android:src="@drawable/ic_fast_forward"
+            android:tint="?uiCoreTextPrimaryColor"
             app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_brightness_icon"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -89,6 +91,7 @@
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
             android:src="@drawable/ic_brightness"
+            android:tint="?uiCoreTextPrimaryColor"
             app:layout_constraintBottom_toTopOf="@id/activity_gyver_lamp_control_on_off"
             app:layout_constraintStart_toStartOf="parent" />
 
