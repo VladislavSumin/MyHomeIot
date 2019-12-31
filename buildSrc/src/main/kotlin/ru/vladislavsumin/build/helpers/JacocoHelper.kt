@@ -19,17 +19,25 @@ object JacocoHelper {
         "**/Dagger*.class"
     )
 
+    private val EXCLUDED_CODE = arrayListOf(
+        "**/*Module.class"
+    )
+
     fun setupJacocoTasks(project: Project) {
         project.tasks.create("jacocoTestReport", JacocoReport::class) {
             group = "Reporting"
             dependsOn("testDebugUnitTest")
 
             val javaClassDirs =
-                project.fileTree("${project.buildDir}/intermediates/javac/debug/classes/")
-                    .exclude(GENERATED_CODE)
+                project.fileTree("${project.buildDir}/intermediates/javac/debug/classes/").apply {
+                    exclude(GENERATED_CODE)
+                    exclude(EXCLUDED_CODE)
+                }
             val kotlinClassDirs =
-                project.fileTree("${project.buildDir}/tmp/kotlin-classes/debug/")
-                    .exclude(GENERATED_CODE)
+                project.fileTree("${project.buildDir}/tmp/kotlin-classes/debug/").apply {
+                    exclude(GENERATED_CODE)
+                    exclude(EXCLUDED_CODE)
+                }
 
             val srcDir = "${project.projectDir}/src/main/java"
 
