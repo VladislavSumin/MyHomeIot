@@ -14,7 +14,7 @@ import ru.vladislavsumin.myhomeiot.strorage.StorageConstants
 
 
 @RunWith(AndroidJUnit4::class)
-class PrivacyPolicyStorageImplTest {
+class PrivacyPolicyStorageImplAndroidTest {
     private lateinit var mStorage: PrivacyPolicyStorage
     private lateinit var mContext: Context
 

@@ -1,7 +1,11 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.UiCore.DayNight"/>
+    <style name="AppTheme" parent="Theme.UiCore.DayNight" />
+
+    <style name="Theme.UiCore.DayNight" parent="Theme.UiCore.Light" />
+
+    <style name="Style.UiCore" parent="" />
 
     <style name="Theme.UiCore.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/uiCoreGreen</item>
@@ -9,16 +13,20 @@
         <item name="colorAccent">@color/uiCoreGreen</item>
 
         <item name="android:windowBackground">@color/uiCoreWhite</item>
+        <item name="android:textColorPrimary">@color/uiCoreBlack</item>
 
         <item name="uiCoreTextPrimaryColor">@color/uiCoreBlack</item>
         <item name="uiCoreLinkTextColor">@color/uiCoreGreen</item>
         <item name="uiCoreToolbarBackgroundColor">@color/uiCoreGreen</item>
+        <item name="uiCoreToolbarTextColor">@color/uiCoreWhite</item>
 
         <item name="uiCoreNormalButtonColor">@color/uiCoreGreen</item>
 
         <item name="uiCoreButtonSecondColor">@color/uiCoreWhite</item>
         <item name="uiCoreDisabledButtonBackgroundColor">@color/uiCoreGrayAlpha50</item>
         <item name="uiCoreDisabledButtonTextColor">@color/uiCoreGrayDark</item>
+
+        <item name="uiCoreOffStateButtonColor">@color/uiCoreRed</item>
 
         <item name="uiCoreRippleAlpha">@color/uiCoreAlphaLight</item>
 
@@ -36,16 +44,20 @@
         <item name="colorAccent">@color/uiCoreGreenNight</item>
 
         <item name="android:windowBackground">@color/uiCoreBlack</item>
+        <item name="android:textColorPrimary">@color/uiCoreWhiteNight</item>
 
-        <item name="uiCoreTextPrimaryColor">@color/uiCoreWhite</item>
+        <item name="uiCoreTextPrimaryColor">@color/uiCoreWhiteNight</item>
         <item name="uiCoreLinkTextColor">@color/uiCoreGreenNight</item>
         <item name="uiCoreToolbarBackgroundColor">@color/uiCoreGrayDarkNight</item>
+        <item name="uiCoreToolbarTextColor">@color/uiCoreWhiteNight</item>
 
         <item name="uiCoreNormalButtonColor">@color/uiCoreGreenNight</item>
 
-        <item name="uiCoreButtonSecondColor">@color/uiCoreWhite</item>
+        <item name="uiCoreButtonSecondColor">@color/uiCoreBlack</item>
         <item name="uiCoreDisabledButtonBackgroundColor">@color/uiCoreGrayNight</item>
         <item name="uiCoreDisabledButtonTextColor">@color/uiCoreGrayDark</item>
+
+        <item name="uiCoreOffStateButtonColor">@color/uiCoreRedNight</item>
 
         <item name="uiCoreRippleAlpha">@color/uiCoreAlphaDark</item>
 
@@ -56,9 +68,5 @@
 
         <item name="uiCoreButtonDefault">@style/Style.UiCore.Button.Default</item>
     </style>
-
-    <style name="Theme.UiCore.DayNight" parent="Theme.UiCore.Light" />
-
-    <style name="Style.UiCore" parent="" />
 
 </resources>
