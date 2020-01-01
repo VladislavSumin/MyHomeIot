@@ -12,12 +12,11 @@
         </ripple>
     </item>
 
-    <!-- TODO replace red to reference   -->
     <item android:state_enabled="true" app:is_on="false">
         <ripple android:color="?uiCoreRippleAlpha">
             <item>
                 <shape android:shape="oval">
-                    <solid android:color="@color/uiCoreRed" />
+                    <solid android:color="?uiCoreOffStateButtonColor" />
                     <corners android:radius="@dimen/corner_radius" />
                 </shape>
             </item>

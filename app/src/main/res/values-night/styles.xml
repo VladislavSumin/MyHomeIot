@@ -2,4 +2,5 @@
 <resources>
 
     <style name="Theme.UiCore.DayNight" parent="Theme.UiCore.Dark" />
+
 </resources>
