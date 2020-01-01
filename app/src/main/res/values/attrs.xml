@@ -17,6 +17,8 @@
     <attr name="uiCoreDisabledButtonBackgroundColor" format="color" />
     <attr name="uiCoreDisabledButtonTextColor" format="color" />
 
+    <attr name="uiCoreOffStateButtonColor" format="color" />
+
     <attr name="uiCoreRippleAlpha" format="color" />
 
     <attr name="uiKitInternalEnabledButtonTextColor" format="reference" />
