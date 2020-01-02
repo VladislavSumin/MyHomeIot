@@ -10,10 +10,6 @@ import ru.vladislavsumin.myhomeiot.R
 class SettingsFragment : Fragment() {
     companion object {
         private const val LAYOUT = R.layout.fragment_settings
-
-        fun getInstance(): SettingsFragment {
-            return SettingsFragment()
-        }
     }
 
     override fun onCreateView(

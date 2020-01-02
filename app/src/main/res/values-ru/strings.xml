@@ -45,4 +45,20 @@
     <string name="menu_home">Главная</string>
     <string name="nav_bar_item_home_desc">Домой</string>
     <string name="nav_bar_item_settings_desc">Настройки</string>
+
+    <string name="title_activity_settings">Настройки</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Сообщения</string>
+    <string name="sync_header">Синхронизация</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Ваша подпись</string>
+    <string name="reply_title">Стандартное сообщение ответа</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Синхронизировать email периодически</string>
+    <string name="attachment_title">Загружать входящие прикрепленные файлы</string>
+    <string name="attachment_summary_on">Автоматически загружать входящие прикрепленные файлы для входящих сообщений</string>
+    <string name="attachment_summary_off">Загружать прикрепленные файлы только вручную</string>
 </resources>
