@@ -64,7 +64,7 @@ class MainFragment : BaseFragment(), MainFragmentView {
         }
     }
 
-    override fun setGyverLamsList(list: List<GyverLampEntity>) {
+    override fun setGyverLampList(list: List<GyverLampEntity>) {
         mAdapter.mLamps = list
     }
 

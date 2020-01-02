@@ -115,6 +115,7 @@ dependencies {
         implementation("androidx.navigation:navigation-fragment-ktx:2.0.0")
         implementation("androidx.navigation:navigation-ui:2.0.0")
         implementation("androidx.navigation:navigation-ui-ktx:2.0.0")
+        implementation("androidx.preference:preference:1.1.0-alpha05")
 
         implementation(dagger)
         kapt(daggerCompiler)

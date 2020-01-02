@@ -43,4 +43,6 @@
     <string name="delete">удалить</string>
     <string name="current_mode">Режим: %s</string>
     <string name="menu_home">Главная</string>
+    <string name="nav_bar_item_home_desc">Домой</string>
+    <string name="nav_bar_item_settings_desc">Настройки</string>
 </resources>

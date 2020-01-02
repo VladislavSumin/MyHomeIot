@@ -8,5 +8,5 @@ import ru.vladislavsumin.myhomeiot.ui.core.BaseView
 
 interface MainFragmentView : BaseFragmentView {
     @StateStrategyType(AddToEndSingleStrategy::class)
-    fun setGyverLamsList(list: List<GyverLampEntity>)
+    fun setGyverLampList(list: List<GyverLampEntity>)
 }
