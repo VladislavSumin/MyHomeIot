@@ -14,4 +14,8 @@ class SettingsFragmentPresenter : BasePresenter<SettingsFragmentView>() {
         super.onFirstViewAttach()
         Injector.inject(this)
     }
+
+    fun onClickReadPrivacyPolicy() {
+        viewState.showPrivacyPolicyScreen(mProPolicyInterractor.getPrivacyPolicyUri())
+    }
 }
