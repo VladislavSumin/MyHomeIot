@@ -19,7 +19,7 @@
         <item name="uiCoreLinkTextColor">@color/uiCoreGreen</item>
         <item name="uiCoreToolbarBackgroundColor">@color/uiCoreGreen</item>
         <item name="uiCoreToolbarTextColor">@color/uiCoreWhite</item>
-        <item name="uiCoreNavigationDrawerBackgroundColor">@color/uiCoreWhite</item>
+        <item name="uiCoreNavigationBarBackgroundColor">@color/uiCoreWhite</item>
 
         <item name="uiCoreNormalButtonColor">@color/uiCoreGreen</item>
 
@@ -37,7 +37,7 @@
         <item name="uiCoreTextBody">@style/Style.UiCore.Text.Body</item>
 
         <item name="uiCoreButtonDefault">@style/Style.UiCore.Button.Default</item>
-        <item name="uiCoreNavigationDrawer">@style/Style.UiCore.NavigationDrawer</item>
+        <item name="uiCoreNavigationBar">@style/Style.UiCore.NavigationBar</item>
     </style>
 
     <style name="Theme.UiCore.Dark" parent="Theme.AppCompat.NoActionBar">
@@ -52,7 +52,7 @@
         <item name="uiCoreLinkTextColor">@color/uiCoreGreenNight</item>
         <item name="uiCoreToolbarBackgroundColor">@color/uiCoreGrayDarkNight</item>
         <item name="uiCoreToolbarTextColor">@color/uiCoreWhiteNight</item>
-        <item name="uiCoreNavigationDrawerBackgroundColor">@color/uiCoreGrayNight</item>
+        <item name="uiCoreNavigationBarBackgroundColor">@color/uiCoreGrayDarkNight</item>
 
         <item name="uiCoreNormalButtonColor">@color/uiCoreGreenNight</item>
 
@@ -70,7 +70,7 @@
         <item name="uiCoreTextBody">@style/Style.UiCore.Text.Body</item>
 
         <item name="uiCoreButtonDefault">@style/Style.UiCore.Button.Default</item>
-        <item name="uiCoreNavigationDrawer">@style/Style.UiCore.NavigationDrawer</item>
+        <item name="uiCoreNavigationBar">@style/Style.UiCore.NavigationBar</item>
     </style>
 
 </resources>

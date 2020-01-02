@@ -10,7 +10,7 @@
     <attr name="uiCoreLinkTextColor" format="color" />
     <attr name="uiCoreToolbarBackgroundColor" format="color" />
     <attr name="uiCoreToolbarTextColor" format="color" />
-    <attr name="uiCoreNavigationDrawerBackgroundColor" format="color" />
+    <attr name="uiCoreNavigationBarBackgroundColor" format="color" />
 
     <attr name="uiCoreNormalButtonColor" format="color" />
 
@@ -31,5 +31,5 @@
     <attr name="uiCoreTextSubhead" format="reference" />
     <attr name="uiCoreTextBody" format="reference" />
 
-    <attr name="uiCoreNavigationDrawer" format="reference" />
+    <attr name="uiCoreNavigationBar" format="reference" />
 </resources>

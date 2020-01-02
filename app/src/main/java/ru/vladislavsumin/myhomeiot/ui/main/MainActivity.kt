@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -16,7 +15,6 @@ import moxy.presenter.InjectPresenter
 import ru.vladislavsumin.myhomeiot.R
 import ru.vladislavsumin.myhomeiot.app.AppConfig
 import ru.vladislavsumin.myhomeiot.ui.core.ToolbarActivity
-import ru.vladislavsumin.myhomeiot.ui.settings.SettingsFragment
 import ru.vladislavsumin.myhomeiot.ui.utils.setClickableLinkListener
 
 class MainActivity : ToolbarActivity(), MainActivityView {
@@ -36,7 +34,7 @@ class MainActivity : ToolbarActivity(), MainActivityView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        wtf()
+        setupNavigation()
 
         setupUi()
         setupUx()
@@ -53,34 +51,13 @@ class MainActivity : ToolbarActivity(), MainActivityView {
         activity_main_privacy_policy.setClickableLinkListener {
             mPresenter.onClickReadPrivacyPolicy()
         }
-
-        findViewById<BottomNavigationView>(R.id.bottom_nav_view)
-            .setOnNavigationItemSelectedListener { menuItem: MenuItem ->
-                return@setOnNavigationItemSelectedListener when (menuItem.itemId) {
-                    R.id.nav_bar_item_home -> {
-                        supportFragmentManager.beginTransaction().apply {
-                            replace(R.id.nav_host_fragment, MainFragment())
-                        }.commit()
-                        true
-                    }
-                    R.id.nav_bar_item_settings -> {
-                        supportFragmentManager.beginTransaction().apply {
-                            replace(R.id.nav_host_fragment, SettingsFragment())
-                        }.commit()
-                        true
-                    }
-                    else -> false
-                }
-            }
     }
 
-    private fun wtf() {
+    private fun setupNavigation() {
         val navView: BottomNavigationView = findViewById(R.id.bottom_nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_bar_item_home, R.id.nav_bar_item_settings
-            )
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.nav_home, R.id.nav_settings)
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
