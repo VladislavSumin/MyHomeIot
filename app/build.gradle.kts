@@ -1,6 +1,6 @@
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import ru.vladislavsumin.build.Dependencies
-import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import ru.vladislavsumin.build.helpers.JacocoHelper
 
 plugins {

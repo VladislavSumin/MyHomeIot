@@ -11,19 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_main.*
 import moxy.presenter.InjectPresenter
-import ru.vladislavsumin.myhomeiot.ui.lamp.manage.ManageGyverLampActivity
-import ru.vladislavsumin.myhomeiot.ui.lamp.control.GyverLampControlActivity
 import ru.vladislavsumin.myhomeiot.R
 import ru.vladislavsumin.myhomeiot.database.entity.GyverLampEntity
 import ru.vladislavsumin.myhomeiot.ui.core.BaseFragment
+import ru.vladislavsumin.myhomeiot.ui.lamp.control.GyverLampControlActivity
+import ru.vladislavsumin.myhomeiot.ui.lamp.manage.ManageGyverLampActivity
 
 class MainFragment : BaseFragment(), MainFragmentView {
     companion object {
         private const val LAYOUT = R.layout.fragment_main
-
-        fun getInstance(): MainFragment {
-            return MainFragment()
-        }
     }
 
     @InjectPresenter
@@ -64,7 +60,7 @@ class MainFragment : BaseFragment(), MainFragmentView {
         }
     }
 
-    override fun setGyverLamsList(list: List<GyverLampEntity>) {
+    override fun setGyverLampList(list: List<GyverLampEntity>) {
         mAdapter.mLamps = list
     }
 

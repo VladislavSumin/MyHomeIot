@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android" android:enterFadeDuration="@integer/animationShort" android:exitFadeDuration="@integer/animationShort">
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:enterFadeDuration="@integer/animationShort"
+    android:exitFadeDuration="@integer/animationShort" >
+
     <item android:color="?uiCoreButtonSecondColor" android:state_enabled="true" />
     <item android:color="?uiCoreDisabledButtonTextColor" android:state_enabled="false" />
+
 </selector>

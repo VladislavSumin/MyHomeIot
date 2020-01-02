@@ -4,30 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.annotation.UiThread
-import androidx.appcompat.widget.Toolbar
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.activity_main.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main_content.*
 import moxy.presenter.InjectPresenter
-import ru.vladislavsumin.myhomeiot.ui.lamp.manage.ManageGyverLampActivity
-import ru.vladislavsumin.myhomeiot.ui.lamp.control.GyverLampControlActivity
 import ru.vladislavsumin.myhomeiot.R
 import ru.vladislavsumin.myhomeiot.app.AppConfig
-import ru.vladislavsumin.myhomeiot.database.entity.GyverLampEntity
 import ru.vladislavsumin.myhomeiot.ui.core.ToolbarActivity
 import ru.vladislavsumin.myhomeiot.ui.utils.setClickableLinkListener
 
@@ -47,25 +33,14 @@ class MainActivity : ToolbarActivity(), MainActivityView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setupNavigation()
+
         setupUi()
         setupUx()
     }
 
     override fun getLayoutResId(): Int = LAYOUT
-
-    private fun setupNavigation() {
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
-        val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_home), drawerLayout
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
-    }
 
     private fun setupUi() {
         val appVersion = getString(R.string.app_version).format(AppConfig.VERSION_NAME)
@@ -76,6 +51,16 @@ class MainActivity : ToolbarActivity(), MainActivityView {
         activity_main_privacy_policy.setClickableLinkListener {
             mPresenter.onClickReadPrivacyPolicy()
         }
+    }
+
+    private fun setupNavigation() {
+        val navView: BottomNavigationView = findViewById(R.id.bottom_nav_view)
+        val navController = findNavController(R.id.nav_host_fragment)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.nav_home, R.id.nav_settings)
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
     }
 
     override fun showPrivacyPolicyScreen(privacyPolicyUri: Uri) {
