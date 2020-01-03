@@ -11,7 +11,7 @@ import ru.vladislavsumin.myhomeiot.utils.tag
 @androidx.room.Database(
     entities = [
         GyverLampEntity::class
-    ], exportSchema = false, version = 1
+    ], exportSchema = true, version = 1
 )
 abstract class Database : RoomDatabase() {
     companion object {

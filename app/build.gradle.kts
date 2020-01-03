@@ -32,6 +32,14 @@ android {
 
         val pEnableFirebase: String by project
         buildConfigField("boolean", "ENABLE_FIREBASE", pEnableFirebase)
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = mapOf(
+                    "room.schemaLocation" to "$projectDir/schemas"
+                )
+            }
+        }
     }
 
     signingConfigs {
