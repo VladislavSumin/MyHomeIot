@@ -14,7 +14,7 @@ class GyverLampProtocolImpl : GyverLampProtocol {
         private val CURRENT_STATE_REGEXP =
             Pattern.compile(
 //                "^CURR (?<mode>[0-2]?[0-9]{1,2}) (?<brightness>[0-2]?[0-9]{1,2}) (?<speed>[0-2]?[0-9]{1,2}) (?<scale>[0-2]?[0-9]{1,2}) (?<onFlag>[0-1]*)\$"
-                "^CURR ([0-2]?[0-9]{1,2}) ([0-2]?[0-9]{1,2}) ([0-2]?[0-9]{1,2}) ([0-2]?[0-9]{1,2}) ([0-1]*)\$"
+                "^CURR ([0-2]?[0-9]{1,2}) ([0-2]?[0-9]{1,2}) ([0-2]?[0-9]{1,2}) ([0-2]?[0-9]{1,2}) ([0-1]*).*\$"
             )
         private val BRIGHTNESS_STATE_REGEXP =
             Pattern.compile(
@@ -80,7 +80,7 @@ class GyverLampProtocolImpl : GyverLampProtocol {
 
         val modeInt = matcher.group(1)!!.toInt()
         val mode = GyverLampMode.values().find { it.id == modeInt }
-            ?: throw GyverLampProtocol.BadResponseException()
+            ?: GyverLampMode.UNKNOWN
 
         return GyverLampState(
             mode = mode,

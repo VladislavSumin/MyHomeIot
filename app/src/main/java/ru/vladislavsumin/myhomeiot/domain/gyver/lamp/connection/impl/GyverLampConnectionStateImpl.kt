@@ -136,7 +136,7 @@ class GyverLampConnectionStateImpl(
                         is IOException,
                         is SocketException,
                         is SocketTimeoutException -> {
-                            Log.d(TAG, "socket error")
+                            Log.d(TAG, "socket error (${e.javaClass.simpleName})")
                             mSocket.close()
                             if (!emitter.isDisposed) {
                                 emitter.onNext(Pair(GyverLampConnectionState.DISCONNECTED, null))

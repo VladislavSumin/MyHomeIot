@@ -43,5 +43,6 @@
         <item>Snow</item>
         <item>Matrix</item>
         <item>Fireflies</item>
+        <item>Unknown</item>
     </string-array>
 </resources>
