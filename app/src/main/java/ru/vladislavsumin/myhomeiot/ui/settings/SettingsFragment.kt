@@ -26,7 +26,7 @@ class SettingsFragment : BaseFragment(), SettingsFragmentView{
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        return inflater.inflate(LAYOUT, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
