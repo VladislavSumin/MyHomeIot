@@ -75,7 +75,8 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
             id = id,
             name = if (state.name.isEmpty()) GyverLampEntity.DEFAULT_NAME else state.name,
             host = state.host,
-            port = state.port
+            port = state.port,
+            deviceType = GyverLampEntity.DeviceType.GYVER_LAMP_ORIGIN
         )
 
         val completable: Completable = if (id == 0L) {

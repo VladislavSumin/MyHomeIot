@@ -6,12 +6,15 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import ru.vladislavsumin.myhomeiot.database.entity.GyverLampEntity
 import ru.vladislavsumin.myhomeiot.database.dao.GyverLampDao
+import ru.vladislavsumin.myhomeiot.database.migration.Migration1to2
 import ru.vladislavsumin.myhomeiot.utils.tag
 
 @androidx.room.Database(
     entities = [
         GyverLampEntity::class
-    ], exportSchema = true, version = 1
+    ],
+    exportSchema = true,
+    version = 2
 )
 abstract class Database : RoomDatabase() {
     companion object {
@@ -22,6 +25,7 @@ abstract class Database : RoomDatabase() {
             Log.i(TAG, "creating database instance")
             val database =
                 Room.databaseBuilder<Database>(context, Database::class.java, DATABASE_FILE)
+                    .addMigrations(Migration1to2())
                     .build()
             Log.i(TAG, "database created")
             return database
