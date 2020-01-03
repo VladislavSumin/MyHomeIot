@@ -82,8 +82,7 @@ class ManageGyverLampActivity : ToolbarActivity(),
 
             activity_manage_gyver_lamp_name.editText!!.setText(state.name)
             activity_manage_gyver_lamp_ip.editText!!.setText(state.host)
-            activity_manage_gyver_lamp_port.editText!!
-                .setText(if (state.port == -1) "" else state.port.toString())
+            activity_manage_gyver_lamp_port.editText!!.setText(state.port)
         }
     }
 
@@ -215,9 +214,7 @@ class ManageGyverLampActivity : ToolbarActivity(),
     private fun onTextChanged() {
         val name = activity_manage_gyver_lamp_name.editText!!.text.toString()
         val host = activity_manage_gyver_lamp_ip.editText!!.text.toString()
-
-        val portString = activity_manage_gyver_lamp_port.editText!!.text.toString()
-        val port = if (portString.isEmpty()) -1 else portString.toInt()
+        val port = activity_manage_gyver_lamp_port.editText!!.text.toString()
 
         mPresenter.onTextChanged(name, host, port)
     }
