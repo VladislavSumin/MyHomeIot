@@ -1,20 +1,19 @@
 package ru.vladislavsumin.myhomeiot.ui.settings
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_settings.*
 import moxy.presenter.InjectPresenter
 import ru.vladislavsumin.myhomeiot.R
 import ru.vladislavsumin.myhomeiot.app.AppConfig
+import ru.vladislavsumin.myhomeiot.ui.core.BaseFragment
 import ru.vladislavsumin.myhomeiot.ui.utils.setClickableLinkListener
 
-class SettingsFragment : Fragment(), SettingsFragmentView{
+class SettingsFragment : BaseFragment(), SettingsFragmentView{
     companion object {
         private const val LAYOUT = R.layout.fragment_settings
     }
@@ -51,17 +50,5 @@ class SettingsFragment : Fragment(), SettingsFragmentView{
     override fun showPrivacyPolicyScreen(privacyPolicyUri: Uri) {
         val browserIntent = Intent(Intent.ACTION_VIEW, privacyPolicyUri)
         startActivity(browserIntent)
-    }
-
-    override fun showToast(text: String, duration: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun startActivity(factory: (context: Context) -> Intent) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun setTitle(title: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
