@@ -116,6 +116,8 @@ dependencies {
         implementation("androidx.navigation:navigation-ui:2.0.0")
         implementation("androidx.navigation:navigation-ui-ktx:2.0.0")
 
+        implementation ("androidx.preference:preference:1.1.0")
+
         implementation(dagger)
         kapt(daggerCompiler)
         implementation("javax.annotation:javax.annotation-api:1.3.2")

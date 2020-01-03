@@ -63,4 +63,23 @@
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+    <!-- Preferences Screen -->
+    <string-array name="pref_dark_mode_items">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>System default</item>
+    </string-array>
+
+    <string-array name="pref_dark_mode_items_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string name="pref_build_number">Build number</string>
+    <string name="pref_privacy">Privacy Policy</string>
+    <string name="pref_privacy_summary">Read in browser</string>
+    <string name="pref_app_theme">Theme of application</string>
+
 </resources>

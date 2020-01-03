@@ -62,4 +62,23 @@
     <string name="attachment_title">Загружать входящие прикрепленные файлы</string>
     <string name="attachment_summary_on">Автоматически загружать входящие прикрепленные файлы для входящих сообщений</string>
     <string name="attachment_summary_off">Загружать прикрепленные файлы только вручную</string>
+
+    <!-- Preferences Screen -->
+    <string-array name="pref_dark_mode_items">
+        <item>Светлая</item>
+        <item>Тёмная</item>
+        <item>Системная настройка по умолчанию</item>
+    </string-array>
+
+    <string-array name="pref_dark_mode_items_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string name="pref_build_number">Номер сборки</string>
+    <string name="pref_privacy">Политика Конфиденциальности</string>
+    <string name="pref_privacy_summary">Читать в браузере</string>
+    <string name="pref_app_theme">Тема приложения</string>
+
 </resources>

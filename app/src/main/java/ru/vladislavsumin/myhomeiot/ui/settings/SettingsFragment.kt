@@ -13,6 +13,7 @@ import ru.vladislavsumin.myhomeiot.app.AppConfig
 import ru.vladislavsumin.myhomeiot.ui.core.BaseFragment
 import ru.vladislavsumin.myhomeiot.ui.utils.setClickableLinkListener
 
+// TODO поменять содержимое на то, которое представлено в PreferenceFragment
 class SettingsFragment : BaseFragment(), SettingsFragmentView{
     companion object {
         private const val LAYOUT = R.layout.fragment_settings
