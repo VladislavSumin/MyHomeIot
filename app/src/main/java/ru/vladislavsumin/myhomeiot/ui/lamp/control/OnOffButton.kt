@@ -2,10 +2,8 @@ package ru.vladislavsumin.myhomeiot.ui.lamp.control
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import androidx.appcompat.widget.AppCompatImageButton
 import ru.vladislavsumin.myhomeiot.R
-
 
 class OnOffButton : AppCompatImageButton {
     constructor(context: Context) : this(context, null)
