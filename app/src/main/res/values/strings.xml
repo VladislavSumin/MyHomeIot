@@ -46,6 +46,7 @@
         <item>Snow</item>
         <item>Matrix</item>
         <item>Fireflies</item>
+        <item>Unknown</item>
     </string-array>
     <string name="title_activity_settings">Settings</string>
 

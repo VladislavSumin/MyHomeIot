@@ -192,7 +192,14 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
 
 
     private inner class Adapter : RecyclerView.Adapter<ModsViewHolder>() {
-        var mMods: List<GyverLampMode> = GyverLampMode.values().toList()
+        var mMods: List<GyverLampMode>
+
+        init {
+            //TODO убрать костыль
+            //remove UNKNOWN mode
+            val list = GyverLampMode.values().toList()
+            mMods = list.subList(0, list.size - 1)
+        }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModsViewHolder {
             return getViewHolderInstance(parent)

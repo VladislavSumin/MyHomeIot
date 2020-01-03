@@ -20,5 +20,7 @@ enum class GyverLampMode(
     colorRoutine(14),
     snowRoutine(15),
     matrixRoutine(16),
-    lightersRoutine(17);
+    lightersRoutine(17),
+
+    UNKNOWN(18);
 }
