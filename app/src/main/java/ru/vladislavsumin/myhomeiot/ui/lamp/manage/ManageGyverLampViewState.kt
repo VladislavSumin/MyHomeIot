@@ -6,7 +6,7 @@ data class ManageGyverLampViewState(
 
     val name: String,
     val host: String,
-    val port: Int,
+    val port: String,
     val forceUpdate: Boolean
 ) {
     // Default state NOT_CHECKED

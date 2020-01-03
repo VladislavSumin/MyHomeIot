@@ -56,7 +56,7 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
 
         showCheckingState(ManageGyverLampViewState.CheckingState.CHECKING)
         mCheckStateDisposable?.dispose()
-        mCheckStateDisposable = mGyverLampsInterractor.checkConnection(state.host, state.port)
+        mCheckStateDisposable = mGyverLampsInterractor.checkConnection(state.host, state.port.toInt())
             .observeOnMainThread()
             .subscribe(
                 { showCheckingState(ManageGyverLampViewState.CheckingState.CHECK_SUCCESS) },
@@ -67,6 +67,7 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
     fun onClickSave() {
         if (!validate()) {
             showCheckingState(ManageGyverLampViewState.CheckingState.INCORRECT_INPUT_DATA)
+            return
         }
 
         val state = mViewState.value!!
@@ -75,7 +76,7 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
             id = id,
             name = if (state.name.isEmpty()) GyverLampEntity.DEFAULT_NAME else state.name,
             host = state.host,
-            port = state.port
+            port = state.port.toInt()
         )
 
         val completable: Completable = if (id == 0L) {
@@ -107,13 +108,14 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
         if (!mNetworkAddressVerifier.verifyIsHostOrIp(state.host)) return false
 
         // validate port
-        if (state.port < 0 || state.port > 65535) return false
+        val port = state.port.toIntOrNull() ?: return false
+        if (port < 0 || port > 65535) return false
 
         return true
     }
 
     @UiThread
-    fun onTextChanged(name: String, host: String, port: Int) {
+    fun onTextChanged(name: String, host: String, port: String) {
         val state = mViewState.value!!
         val checkedDataChanged = host != state.host || port != state.port
 
@@ -153,7 +155,7 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
     }
 
     private fun onError(t: Throwable) {
-//TODO
+        //TODO
     }
 
     @UiThread
@@ -164,7 +166,7 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
                 ManageGyverLampViewState.CheckingState.NOT_CHECKED,
                 "",
                 "",
-                8888,
+                "8888",
                 true
             )
         )
@@ -178,7 +180,7 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
                 ManageGyverLampViewState.CheckingState.NOT_CHECKED,
                 "",
                 "",
-                0,
+                "0",
                 true
             )
         )
@@ -192,7 +194,7 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
                 ManageGyverLampViewState.CheckingState.NOT_CHECKED,
                 gyverLampEntity.name,
                 gyverLampEntity.host,
-                gyverLampEntity.port,
+                gyverLampEntity.port.toString(),
                 true
             )
         )
