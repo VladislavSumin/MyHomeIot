@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="OnOffButton">
-        <attr name="is_on" format="boolean"/>
+        <attr name="is_on" format="boolean" />
     </declare-styleable>
 
 
@@ -10,6 +10,7 @@
     <attr name="uiCoreLinkTextColor" format="color" />
     <attr name="uiCoreToolbarBackgroundColor" format="color" />
     <attr name="uiCoreToolbarTextColor" format="color" />
+    <attr name="uiCoreNavigationBarBackgroundColor" format="color" />
 
     <attr name="uiCoreNormalButtonColor" format="color" />
 
@@ -29,4 +30,6 @@
     <attr name="uiCoreTextHead" format="reference" />
     <attr name="uiCoreTextSubhead" format="reference" />
     <attr name="uiCoreTextBody" format="reference" />
+
+    <attr name="uiCoreNavigationBar" format="reference" />
 </resources>

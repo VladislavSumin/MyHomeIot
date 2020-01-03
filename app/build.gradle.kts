@@ -1,6 +1,6 @@
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import ru.vladislavsumin.build.Dependencies
-import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import ru.vladislavsumin.build.helpers.JacocoHelper
 
 plugins {
@@ -110,6 +110,11 @@ dependencies {
 //        implementation(swipeLayout)
 //        implementation(loadingButton)
 
+        implementation("androidx.core:core-ktx:1.0.2")
+        implementation("androidx.navigation:navigation-fragment:2.0.0")
+        implementation("androidx.navigation:navigation-fragment-ktx:2.0.0")
+        implementation("androidx.navigation:navigation-ui:2.0.0")
+        implementation("androidx.navigation:navigation-ui-ktx:2.0.0")
 
         implementation(dagger)
         kapt(daggerCompiler)

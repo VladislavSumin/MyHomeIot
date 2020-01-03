@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.CallSuper
+import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -30,7 +31,12 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
             startActivity(FrwActivity.getLaunchIntent(this))
             finish()
         }
+
+        setContentView(getLayoutResId())
     }
+
+    @LayoutRes
+    abstract fun getLayoutResId(): Int
 
     @UiThread
     protected fun addDisposable(disposable: Disposable) {

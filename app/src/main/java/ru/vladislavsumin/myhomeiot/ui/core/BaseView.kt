@@ -15,9 +15,6 @@ interface BaseView : MvpView {
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun startActivity(factory: (context: Context) -> Intent)
 
-    @StateStrategyType(OneExecutionStateStrategy::class)
-    fun finish()
-
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun setTitle(title: String)
 }

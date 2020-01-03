@@ -26,7 +26,6 @@ class FrwActivity : BaseActivity(), FrwView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(LAYOUT)
         activity_frw_privacy_policy_checkbox.setClickableLinkListener {
             mPresenter.onClickReadPrivacyPolicy()
         }
@@ -37,6 +36,9 @@ class FrwActivity : BaseActivity(), FrwView {
         activity_frw_next_btn.setOnClickListener { mPresenter.onClickNextButton() }
 
     }
+
+    override fun getLayoutResId(): Int = LAYOUT
+
 
     override fun goToMainScreen() {
         startActivity(MainActivity.getLaunchIntent(this))

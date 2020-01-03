@@ -54,10 +54,12 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(LAYOUT)
         setupUi()
         setupUx()
     }
+
+    override fun getLayoutResId(): Int = LAYOUT
+
 
     private fun setupUi() {
         mModeNames = resources.getStringArray(R.array.gyver_lamp_modes)

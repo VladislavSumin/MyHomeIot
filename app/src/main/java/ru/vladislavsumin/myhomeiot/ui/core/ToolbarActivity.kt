@@ -28,9 +28,8 @@ abstract class ToolbarActivity : BaseActivity() {
         }
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         toolbar = findViewById(TOOLBAR)
             ?: throw NoSuchElementException("Check include toolbar layout with id layout")
 
