@@ -55,7 +55,7 @@ class ManageGyverLampActivity : ToolbarActivity(),
         super.onCreate(savedInstanceState)
         setContentView(LAYOUT)
 
-        activity_manage_gyver_lamp_check_connection.setOnClickListener { onClickCheckConnection() }
+        activity_manage_gyver_lamp_check_connection.setOnClickListener { mPresenter.onClickCheckConnection() }
         activity_manage_gyver_lamp_save.setOnClickListener { mPresenter.onClickSave() }
 
         activity_manage_gyver_lamp_name.editText!!.addTextChangedListener(
@@ -82,7 +82,8 @@ class ManageGyverLampActivity : ToolbarActivity(),
 
             activity_manage_gyver_lamp_name.editText!!.setText(state.name)
             activity_manage_gyver_lamp_ip.editText!!.setText(state.host)
-            activity_manage_gyver_lamp_port.editText!!.setText(state.port.toString())
+            activity_manage_gyver_lamp_port.editText!!
+                .setText(if (state.port == -1) "" else state.port.toString())
         }
     }
 
@@ -135,13 +136,6 @@ class ManageGyverLampActivity : ToolbarActivity(),
                 mMenuItemSave?.isEnabled = false
             }
         }!!
-    }
-
-    private fun onClickCheckConnection() {
-        val host = activity_manage_gyver_lamp_ip.editText!!.text.toString()
-        val port = activity_manage_gyver_lamp_port.editText!!.text.toString().toInt()
-
-        mPresenter.onClickCheckConnection()
     }
 
     @Suppress("DEPRECATION")
@@ -221,7 +215,9 @@ class ManageGyverLampActivity : ToolbarActivity(),
     private fun onTextChanged() {
         val name = activity_manage_gyver_lamp_name.editText!!.text.toString()
         val host = activity_manage_gyver_lamp_ip.editText!!.text.toString()
-        val port = activity_manage_gyver_lamp_port.editText!!.text.toString().toInt()
+
+        val portString = activity_manage_gyver_lamp_port.editText!!.text.toString()
+        val port = if (portString.isEmpty()) -1 else portString.toInt()
 
         mPresenter.onTextChanged(name, host, port)
     }

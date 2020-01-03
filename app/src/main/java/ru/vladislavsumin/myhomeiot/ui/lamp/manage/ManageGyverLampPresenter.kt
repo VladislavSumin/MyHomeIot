@@ -67,6 +67,7 @@ class ManageGyverLampPresenter(private val id: Long) : BasePresenter<ManageGyver
     fun onClickSave() {
         if (!validate()) {
             showCheckingState(ManageGyverLampViewState.CheckingState.INCORRECT_INPUT_DATA)
+            return
         }
 
         val state = mViewState.value!!
