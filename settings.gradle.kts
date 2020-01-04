@@ -2,7 +2,7 @@ import java.util.Properties
 import java.io.File
 
 rootProject.name = "MyHomeIot"
-include(":app")
+include(":app", ":core")
 injectLocalProperties("local.properties")
 
 

@@ -100,6 +100,7 @@ dependencies {
         //        implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
         implementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
 
+        implementation(project(":core"))
         // design
         implementation(appCompat)
         implementation(material)
