@@ -18,6 +18,7 @@ import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampMode
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampState
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
 import ru.vladislavsumin.myhomeiot.ui.core.ToolbarActivity
+import ru.vladislavsumin.myhomeiot.ui.lamp.alarms.GyverLampAlarmsActivity
 import ru.vladislavsumin.myhomeiot.ui.lamp.manage.ManageGyverLampActivity
 
 
@@ -148,12 +149,20 @@ class GyverLampControlActivity : ToolbarActivity(), GyverLampControlView {
                 mPresenter.onClickSettingsButton()
                 true
             }
+            R.id.gyver_lamp_control_alarms -> {
+                mPresenter.onClickAlarmsButton()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
     override fun showSettingsScreen(id: Long) {
         startActivity(ManageGyverLampActivity.getLaunchIntent(this, id))
+    }
+
+    override fun showAlarmsScreen(id: Long) {
+        startActivity(GyverLampAlarmsActivity.getLaunchIntent(this, id))
     }
 
     private fun showGyverLampState(state: GyverLampState?) {

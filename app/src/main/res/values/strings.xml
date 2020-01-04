@@ -26,6 +26,7 @@
     <string name="menu_home">Home</string>
     <string name="nav_bar_item_home_desc">Home</string>
     <string name="nav_bar_item_settings_desc">Settings</string>
+    <string name="alarms">Alarms</string>
 
     <string-array name="gyver_lamp_modes">
         <item>Сonfetti</item>

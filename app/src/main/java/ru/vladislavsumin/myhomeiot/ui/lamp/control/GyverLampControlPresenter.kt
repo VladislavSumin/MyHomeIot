@@ -128,4 +128,9 @@ class GyverLampControlPresenter(private val mGyverLampId: Long) :
         val gyverLampEntity = mGyverLampEntity ?: return
         viewState.showSettingsScreen(gyverLampEntity.id)
     }
+
+    fun onClickAlarmsButton() {
+        val gyverLampEntity = mGyverLampEntity ?: return
+        viewState.showAlarmsScreen(gyverLampEntity.id)
+    }
 }

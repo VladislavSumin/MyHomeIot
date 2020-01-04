@@ -9,4 +9,7 @@ import ru.vladislavsumin.myhomeiot.ui.core.BaseView
 interface GyverLampControlView : BaseActivityView {
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showSettingsScreen(id: Long)
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun showAlarmsScreen(id: Long)
 }
