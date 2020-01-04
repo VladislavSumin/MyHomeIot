@@ -74,13 +74,15 @@ class DomainModule {
         gyverLampManager: GyverLampManager,
         connectivityManager: NetworkConnectivityManager,
         gyverLampConnectionFactory: GyverLampConnectionFactory,
-        gyverLampProtocol: GyverLampProtocol
+        gyverLampProtocol: GyverLampProtocol,
+        socketProvider: SocketProvider
     ): GyverLampInterractorFactory {
         return GyverLampInterractorFactoryImpl(
             gyverLampManager,
             connectivityManager,
             gyverLampConnectionFactory,
-            gyverLampProtocol
+            gyverLampProtocol,
+            socketProvider
         )
     }
 

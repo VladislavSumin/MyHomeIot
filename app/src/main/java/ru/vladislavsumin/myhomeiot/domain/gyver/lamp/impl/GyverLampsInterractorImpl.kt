@@ -8,6 +8,7 @@ import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampProtocol
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampsInterractor
 import ru.vladislavsumin.myhomeiot.network.SocketProvider
 import ru.vladislavsumin.myhomeiot.utils.subscribeOnIo
+import ru.vladislavsumin.myhomeiot.utils.subscribeOnNewThread
 import ru.vladislavsumin.myhomeiot.utils.tag
 import java.lang.ref.WeakReference
 import java.net.DatagramPacket
@@ -81,7 +82,7 @@ class GyverLampsInterractorImpl(
                 emitter.onComplete()
             }
         }
-            .subscribeOnIo()//TODO new thread
+            .subscribeOnNewThread()
     }
 
     private fun String.toDatagramPacket(): DatagramPacket {

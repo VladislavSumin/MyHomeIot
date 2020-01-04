@@ -39,6 +39,7 @@ class GyverLampProtocolImpl : GyverLampProtocol {
     override fun getScaleRequest(scale: Int): String = "SCA%03d".format(scale)
     override fun getSpeedRequest(speed: Int): String = "SPD%03d".format(speed)
     override fun getModeRequest(mode: GyverLampMode): String = "EFF%03d".format(mode.id)
+    override fun getAlarmRequest(): String = "ALM_GET"
 
     override fun parseCurrentStateResponse(
         response: String,

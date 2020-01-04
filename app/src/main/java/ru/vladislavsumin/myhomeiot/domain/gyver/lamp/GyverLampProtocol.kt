@@ -21,6 +21,7 @@ interface GyverLampProtocol {
     fun getScaleRequest(scale: Int): String
     fun getSpeedRequest(speed: Int): String
     fun getModeRequest(mode: GyverLampMode): String
+    fun getAlarmRequest():String
 
     @Throws(BadResponseException::class)
     fun parseCurrentStateResponse(response: String, previousState: GyverLampState?): GyverLampState?
