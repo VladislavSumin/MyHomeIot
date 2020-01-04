@@ -1,4 +1,4 @@
-package ru.vladislavsumin.myhomeiot.app
+package ru.vladislavsumin.core.dagger
 
 import android.content.Context
 import dagger.Module

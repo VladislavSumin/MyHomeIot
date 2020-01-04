@@ -1,6 +1,7 @@
 package ru.vladislavsumin.myhomeiot.app
 
 import dagger.Component
+import ru.vladislavsumin.core.dagger.CoreComponent
 import ru.vladislavsumin.myhomeiot.database.DatabaseModule
 import ru.vladislavsumin.myhomeiot.domain.DomainModule
 import ru.vladislavsumin.myhomeiot.network.NetworkModule
@@ -15,8 +16,8 @@ import ru.vladislavsumin.myhomeiot.ui.settings.SettingsFragmentPresenter
 import javax.inject.Singleton
 
 @Component(
+    dependencies = [CoreComponent::class],
     modules = [
-        AppModule::class,
         AndroidServiceModule::class,
         DatabaseModule::class,
         DomainModule::class,

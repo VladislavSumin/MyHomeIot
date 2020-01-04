@@ -4,6 +4,8 @@ import android.app.Application
 import android.util.Log
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
+import ru.vladislavsumin.core.dagger.AppModule
+import ru.vladislavsumin.core.dagger.DaggerCoreComponent
 import ru.vladislavsumin.myhomeiot.domain.firebase.FirebaseInterractor
 import javax.inject.Inject
 
@@ -41,9 +43,15 @@ class App : Application() {
 
     private fun initDagger() {
         Log.i(TAG, "Initializing Dagger")
-        Injector = DaggerAppComponent.builder()
+
+        val coreComponent = DaggerCoreComponent.builder()
             .appModule(AppModule(applicationContext))
             .build()
+
+        Injector = DaggerAppComponent.builder()
+            .coreComponent(coreComponent)
+            .build()
+
         Log.i(TAG, "Dagger initialized")
     }
 
