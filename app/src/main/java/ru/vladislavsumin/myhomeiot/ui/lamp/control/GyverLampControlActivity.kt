@@ -16,7 +16,6 @@ import moxy.presenter.ProvidePresenter
 import ru.vladislavsumin.myhomeiot.R
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampMode
 import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.GyverLampState
-import ru.vladislavsumin.myhomeiot.domain.gyver.lamp.connection.GyverLampConnectionState
 import ru.vladislavsumin.myhomeiot.ui.core.ToolbarActivity
 import ru.vladislavsumin.myhomeiot.ui.lamp.alarms.GyverLampAlarmsActivity
 import ru.vladislavsumin.myhomeiot.ui.lamp.manage.ManageGyverLampActivity
